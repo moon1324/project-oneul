@@ -1,7 +1,7 @@
 import React from "react";
 
-const Input = () => {
-    return <div></div>;
+const Input = ({ children, ...rest }) => {
+    return <Input {...rest}>{children}</Input>;
 };
 
 export default Input;

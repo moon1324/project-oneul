@@ -11,8 +11,8 @@ theme.PALETTE = {
     disbled: "#BEC1C5",
     hover: {
         skyblue: "#EDF3FA",
-        red: "#FDEFEF",
         indigo: "#EDEDF3",
+        red: "#FDEFEF",
     },
     background: "#EDF3FA",
     white: "#FFFFFF",
@@ -21,6 +21,7 @@ theme.PALETTE = {
         yellow: "#FFB342",
     },
     success: "#6CCA4B",
+    successGreenInput: "#EDF3FA",
 };
 
 theme.FONT_SIZE = {
