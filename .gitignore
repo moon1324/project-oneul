@@ -1,0 +1,18 @@
+# Visual Studio Code settings
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+# node_modules of 'client' in react folder
+client/node_modules
+# node_modules of 'server' in react folder
+# server/node_modules
