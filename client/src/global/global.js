@@ -29,6 +29,12 @@ const GlobalStyle = createGlobalStyle`
         color: #142146;
     }
 
+    button, input {
+        height: 44px;
+        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 20px
+    }
+
 `;
 
 export default GlobalStyle;
