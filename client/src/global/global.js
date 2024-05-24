@@ -27,13 +27,24 @@ const GlobalStyle = createGlobalStyle`
         font-weight: 400;
         text-decoration: none;
         color: #142146;
+        margin: 0;
+        padding: 0;
+        letter-spacing: 1;
+        line-height: 1;
+    }
+    
+    body {
+        /* font-size: 16px 의미 */
+        font-size: 1rem;
     }
 
     button, input {
-        height: 44px;
+        height: 2.75rem;
         box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
         border-radius: 20px
     }
+
+    
 
 `;
 
