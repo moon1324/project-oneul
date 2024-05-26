@@ -25,6 +25,8 @@ const sizeCSS = {
 const Input = styled.input`
     ${({ variant }) => variantCSS[variant]}
     ${({ size }) => sizeCSS[size]}
+    border: none;
+    padding: 0 10px;
 `;
 
 export default Input;

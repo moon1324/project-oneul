@@ -4,10 +4,7 @@ theme.PALETTE = {
     skyblue: "#5487D3",
     pink: "#C080BC",
     indigo: "#4D4E89",
-    text: {
-        black: "#142146",
-        gray: "#555657",
-    },
+    black: "#142146",
     disbled: "#BEC1C5",
     hover: {
         skyblue: "#EDF3FA",
@@ -22,6 +19,8 @@ theme.PALETTE = {
     },
     success: "#6CCA4B",
     successGreenInput: "#EDF3FA",
+    // 아이콘 색 추가
+    expression: {},
 };
 
 theme.FONT_SIZE = {
