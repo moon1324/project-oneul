@@ -25,7 +25,7 @@ const variantCSS = {
 };
 
 const borderCSS = {
-    defalut: css`
+    default: css`
         border: none;
     `,
     hoverSkyblue: css`
