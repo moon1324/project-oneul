@@ -1,0 +1,224 @@
+import styled from "styled-components";
+
+const S={};
+
+S.Form=styled.form`
+    width:100%;
+    height:100%
+`
+
+
+S.Wrapper = styled.div`
+    width: 360px;
+    /* height: 640px; */
+    background-color: #edf3fa;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+`;
+
+S.TitleWrapper=styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    & p {
+        font-size:26px;
+        color:#142146;
+        font-family: 'NanumSquareRound' ;
+        padding-top:50px;
+    }
+`
+
+S.DivNumberButtonWrapper=styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding-top:12px;
+    
+    & .active{
+        & button{
+            color:white;
+            background-color: #C080BC;
+            box-shadow: 0px 1px 2px 0.5px gray;
+        }
+        
+    }
+    & button{
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        border:none;
+        font-size: 14px;
+        color:#C080BC;
+        background-color: white;
+        box-shadow: none;
+        cursor: pointer;
+     }
+    
+`
+
+S.DivWrapper=styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & div{
+        height: 2.5px;
+        width: 20px;
+        border:none;
+        background-color: white;
+        box-shadow: none;
+        
+     }
+`
+
+S.QuestionWrapper=styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding-top:50px;
+    padding-bottom:10px;
+    .cloudMoonIcon{
+        path{
+            color: #5487d3;
+        }
+    }
+    & p {
+        font-size:16px;
+        color:#142146;
+        
+    }
+
+`
+
+S.TextAreaWrapper=styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 320px;
+    height:270px;
+
+    & textarea{
+        /* display:block; */
+        width:100%;
+        height:100%;
+        resize:none;
+        border:none;
+        /* box-sizing: border-box; */
+        border-radius: 0.8rem;
+        box-shadow: 0 8px 5px -5px gray,
+                    -5px 0 5px -5px gray, 
+                    5px 0 5px -5px gray;
+    }
+    & textarea:focus {
+        outline-color: #5487d3;
+    }
+    & textarea::placeholder {
+        line-height: 270px;
+        text-align: center;
+        
+    }
+`
+
+S.LastTextAreaWrapper=styled.div`
+    display:flex;
+    position:relative;
+    top:30px;
+    justify-content: center;
+    align-items: center;
+    width: 320px;
+    height:120px;
+
+    & textarea{
+        /* display:block; */
+        width:100%;
+        height:100%;
+        resize:none;
+        border:none;
+        /* box-sizing: border-box; */
+        border-radius: 0.8rem;
+        box-shadow: 0 8px 5px -5px gray,
+                    -5px 0 5px -5px gray, 
+                    5px 0 5px -5px gray;
+    }
+    & textarea:focus {
+        outline-color: #5487d3;
+    }
+    & textarea::placeholder {
+        line-height: 120px;
+        text-align: center;
+        
+    }
+`
+
+S.FaceIconWrapper=styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 320px;
+    height:120px;
+    
+    background-color:white;
+    border:none;
+    border-radius: 0.8rem;
+    box-shadow: 0 8px 5px -5px gray,
+                -5px 0 5px -5px gray, 
+                5px 0 5px -5px gray;
+
+    
+    & textarea:focus {
+        outline-color: #5487d3;
+    }
+    
+`
+S.FaceTextWrapper=styled.div`
+    display: flex;
+    flex-direction:column;
+    /* justify-content: space-between; */
+    /* align-items:space-between; */
+    width:100%;
+    height:100%;
+    & .faceIcon{
+            width:25px;
+            height:25px;
+            padding-bottom: 3px;
+            
+        path{
+            /* display: block; */
+            width:25px;
+            height:25px;
+            color: #5487d3;
+        }
+    }
+    
+    & div{
+        font-size:12px;
+        font-family: 'NanumSquareRound' ;
+
+    }
+`
+
+S.NextButtonWrapper=styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding-top:35px;
+    
+`
+S.SaveButtonWrapper=styled.div`
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding-top:35px;
+    position:relative;
+    top:30px;
+
+    
+`
+
+S.p_text=styled.p`
+    padding:30px;
+`
+export default S;
+
