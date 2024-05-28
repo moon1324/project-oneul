@@ -19,5 +19,6 @@ const S = {}
             border-radius:50%;
         }
     `
+    
 
 export default S;
