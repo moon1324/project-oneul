@@ -87,8 +87,8 @@ S.SearchButtonWrapper = styled.div`
 
 // main
 S.Main = styled.main`
-    flex: 1;
-    overflow: hidden;
+    height: calc(100% - 70px);
+    overflow: scroll;
 `;
 
 // navigation
