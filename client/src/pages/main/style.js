@@ -57,6 +57,7 @@ const S = {}
     `
     S.IconBox = styled.div`
         text-align: right;
+
         & svg{
                 & path{
                     color :#fff;
@@ -79,9 +80,11 @@ const S = {}
 //box for our today
 
     S.BoxForOurToday = styled.div`
+
         & h4, p { 
             font-weight: bold;
         }
+        
         & .header p{
             font-size: 14px;
         }
