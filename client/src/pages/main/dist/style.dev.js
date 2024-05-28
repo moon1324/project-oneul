@@ -7,10 +7,12 @@ exports["default"] = void 0;
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
+var _theme = _interopRequireDefault(require("../../global/theme"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n\n        & h4, p { \n            font-weight: bold;\n        }\n        \n        & .header p{\n            font-size: 14px;\n        }\n    "]);
+  var data = _taggedTemplateLiteral(["\n        & h4, p { \n            font-weight: bold;\n        }\n        & .header p{\n            font-size: ", "\n        }\n    "]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -30,7 +32,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["\n        text-align: right;\n\n        & svg{\n                & path{\n                    color :#fff;\n                }\n            }\n    "]);
+  var data = _taggedTemplateLiteral(["\n        text-align: right;\n\n        & svg{\n                & path{\n                    color : ", ";\n                    }\n            }\n    "]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -60,7 +62,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n        position: relative;\n        border-radius: 1.25rem;\n        background: linear-gradient(#5587D3, #C080BC);\n        font-family:  'NanumSquareRound';\n        color: #fff;\n        box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.25);\n        \n        & p {\n                color: #fff;\n            }\n    "]);
+  var data = _taggedTemplateLiteral(["\n        position: relative;\n        border-radius: 1.25rem;\n        background: linear-gradient(#5587D3, #C080BC);\n        font-family:  'NanumSquareRound';\n        color: ", ";\n        box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.25);\n        \n        & p {\n                color: ", ";\n            }\n    "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -84,12 +86,12 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 var S = {};
 S.Wrapper = _styledComponents["default"].div(_templateObject()); // Box writing mymind
 
-S.BoxWritingMymind = _styledComponents["default"].div(_templateObject2());
+S.BoxWritingMymind = _styledComponents["default"].div(_templateObject2(), _theme["default"].PALETTE.white, _theme["default"].PALETTE.white);
 S.Contents = _styledComponents["default"].div(_templateObject3());
 S.DateBox = _styledComponents["default"].div(_templateObject4());
-S.IconBox = _styledComponents["default"].div(_templateObject5());
+S.IconBox = _styledComponents["default"].div(_templateObject5(), _theme["default"].PALETTE.white);
 S.DialogBox = _styledComponents["default"].div(_templateObject6()); //box for our today
 
-S.BoxForOurToday = _styledComponents["default"].div(_templateObject7());
+S.BoxForOurToday = _styledComponents["default"].div(_templateObject7(), _theme["default"].FONT_SIZE.p);
 var _default = S;
 exports["default"] = _default;

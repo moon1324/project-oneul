@@ -1,5 +1,5 @@
 import React from 'react';
-import S from './style'
+import S from './style';
 import OneulInput from '../../components/input/OneulInput';
 import OneulButton from '../../components/button/OneulButton';
 
@@ -38,6 +38,7 @@ const MyPageEdit = () => {
                 <OneulButton variant="indigo" color="white" border="default">수정완료</OneulButton>
             </S.InputContainer>
         </>
+
     );
 };
 

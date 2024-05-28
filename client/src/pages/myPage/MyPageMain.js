@@ -66,6 +66,7 @@ const MyPageMain = () => {
                     </Link>
                 </S.ServiceWrapper>
             </S.ServiceContainer>
+
         </>
     );
 };

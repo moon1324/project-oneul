@@ -16,6 +16,7 @@ import TermsOfUse from "../pages/myPage/TermsOfUse";
 import PrivacyPolicy from "../pages/myPage/PrivacyPolicy";
 import Secession from "../pages/myPage/Secession";
 
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -64,6 +65,7 @@ const router = createBrowserRouter([
                     {
                         path:"/myPage/secession",
                         element:<Secession/>
+
                     }
                 ]
             },

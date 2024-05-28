@@ -13,12 +13,10 @@ const S = {}
             font-size: 1.5rem;
         }
     `
-
     S.ProfileContaier = styled.div`
         width: 100%;
         padding: 1.5rem 1.25rem;
     `
-
     S.ProfilePictureWrapper = styled.div`
         display: flex;
         justify-content: center;
@@ -146,6 +144,5 @@ const S = {}
         `
 
 /* termsOfUse.js */
-
 
 export default S;
