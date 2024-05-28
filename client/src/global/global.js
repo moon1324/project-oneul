@@ -23,7 +23,6 @@ const GlobalStyle = createGlobalStyle`
 
     * {
         box-sizing: border-box;
-        font-family: 'Pretendard-Regular';
         font-weight: 400;
         text-decoration: none;
         color: #142146;
@@ -36,6 +35,7 @@ const GlobalStyle = createGlobalStyle`
     body {
         /* font-size: 16px 의미 */
         font-size: 1rem;
+        font-family: 'Pretendard-Regular';
     }
 
     button, input {
