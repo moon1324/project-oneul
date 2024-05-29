@@ -60,14 +60,12 @@ S.ThumbnailWrapper = styled.div`
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: white;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    overflow: hidden;
 
     & img {
         width: 100%;
-        border-radius: 50%;
+        height: 100%;
+        object-fit: cover;
     }
 `;
 
@@ -87,8 +85,8 @@ S.SearchButtonWrapper = styled.div`
 
 // main
 S.Main = styled.main`
-    flex: 1;
-    overflow: hidden;
+    height: calc(100% - 70px);
+    overflow: scroll;
 `;
 
 // navigation

@@ -1,21 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-    Link,
-    NavLink,
-    Outlet,
-    useLocation,
-    useNavigate,
-} from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import S from "./style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faHeartCircleCheck,
-    faCalendarDays,
-    faHouse,
-    faUsers,
-    faUser,
-    faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeartCircleCheck, faCalendarDays, faHouse, faUsers, faUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import OneulInput from "../../components/input/OneulInput";
 import useInput from "../../hooks/useInput";
 
@@ -24,8 +11,7 @@ const Layout = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const path = location.pathname;
-    const showHeader =
-        path === "/" || path === "/ourToday" || path === `/search`;
+    const showHeader = path === "/" || path === "/ourToday" || path === `/search`;
 
     // 검색버튼 눌렀을 시 검색 인풋 활성화
     const [isSearchActive, setIsSearchActive] = useState(false);
@@ -72,21 +58,15 @@ const Layout = () => {
             <S.Wrapper>
                 {showHeader && (
                     <S.Header ref={searchRef}>
-                        <S.HeaderContainer
-                            className={isSearchActive ? "active" : ""}
-                        >
+                        <S.HeaderContainer className={isSearchActive ? "active" : ""}>
                             <S.ProfileContainer>
                                 <S.ThumbnailWrapper>
                                     <Link to={"/myPage"}>
-                                        <img src="#" alt="profile-img" />
+                                        <img src={process.env.PUBLIC_URL + "global/images/profile.jpg"} alt="profile-img" />
                                     </Link>
                                 </S.ThumbnailWrapper>
                             </S.ProfileContainer>
-                            <S.WelcomeMessage
-                                className={isSearchActive ? "display-none" : ""}
-                            >
-                                michael님, 반가워요!
-                            </S.WelcomeMessage>
+                            <S.WelcomeMessage className={isSearchActive ? "display-none" : ""}>michael님, 반가워요!</S.WelcomeMessage>
                             <OneulInput
                                 variant={"active"}
                                 size={"default"}
@@ -95,14 +75,7 @@ const Layout = () => {
                                 onChange={handleSearchChange}
                                 onKeyPress={handleKeyPress}
                             />
-                            <S.SearchButtonWrapper
-                                className={isSearchActive ? "active" : ""}
-                                onClick={
-                                    isSearchActive
-                                        ? handleSearchSubmit
-                                        : toggleSearch
-                                }
-                            >
+                            <S.SearchButtonWrapper className={isSearchActive ? "active" : ""} onClick={isSearchActive ? handleSearchSubmit : toggleSearch}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </S.SearchButtonWrapper>
                         </S.HeaderContainer>
@@ -114,19 +87,13 @@ const Layout = () => {
                 <S.Nav>
                     <NavLink to={"/myMind"}>
                         <S.NavWrap>
-                            <FontAwesomeIcon
-                                icon={faHeartCircleCheck}
-                                className="icon"
-                            />
+                            <FontAwesomeIcon icon={faHeartCircleCheck} className="icon" />
                             <p>나의 마음보기</p>
                         </S.NavWrap>
                     </NavLink>
                     <NavLink to={"/calendar"}>
                         <S.NavWrap>
-                            <FontAwesomeIcon
-                                icon={faCalendarDays}
-                                className="icon"
-                            />
+                            <FontAwesomeIcon icon={faCalendarDays} className="icon" />
                             <p>캘린더</p>
                         </S.NavWrap>
                     </NavLink>
