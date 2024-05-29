@@ -3,8 +3,9 @@ import S from "./style"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCloudMoon} from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/button/style";
-import { Link} from "react-router-dom";
 import TitleStep from "./TitleStep";
+import { Link } from "react-router-dom";
+
 
 const InMyMind01 = () => {
     const [value, setValue] = useState("");
@@ -12,7 +13,6 @@ const InMyMind01 = () => {
         setValue(e.target.value);
         console.log(value);
     };
-
 
     return (
         <>
@@ -27,13 +27,16 @@ const InMyMind01 = () => {
  
                  <form action="" method="post">
                      <S.TextAreaWrapper >
-                         <textarea value={value} onChange={onChangeValue} placeholder="구체적이고 다양하게 감정들을 표현해봐!"></textarea>
+                         <textarea value={value} onChange={onChangeValue} placeholder="하루 동안 내가 느낀 감정을 되돌아보자~"></textarea>
                      </S.TextAreaWrapper>
                  </form>
                  
                  <S.NextButtonWrapper>
-                     <Link to={'/myMind/InMyMind02'}><Button size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button></Link>
+                    <Link to={'/myMind/inMyMind02'}>
+                        <Button size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button>
+                    </Link>
                  </S.NextButtonWrapper>
+                 
             
              </S.Wrapper>
             

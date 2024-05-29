@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 const S={};
 
-S.Form=styled.form`
-    width:100%;
-    height:100%
-`
+// S.Form=styled.form`
+//     width:100%;
+//     height:100%
+// `
 
 
 S.Wrapper = styled.div`
@@ -93,9 +93,9 @@ S.QuestionWrapper=styled.div`
 `
 
 S.TextAreaWrapper=styled.div`
-    display:flex;
+    /* display:flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
     width: 320px;
     height:270px;
 
@@ -154,11 +154,8 @@ S.LastTextAreaWrapper=styled.div`
 
 S.FaceIconWrapper=styled.div`
     display:flex;
-    justify-content: center;
-    align-items: center;
     width: 320px;
     height:120px;
-    
     background-color:white;
     border:none;
     border-radius: 0.8rem;
@@ -166,7 +163,6 @@ S.FaceIconWrapper=styled.div`
                 -5px 0 5px -5px gray, 
                 5px 0 5px -5px gray;
 
-    
     & textarea:focus {
         outline-color: #5487d3;
     }
@@ -175,8 +171,14 @@ S.FaceIconWrapper=styled.div`
 S.FaceTextWrapper=styled.div`
     display: flex;
     flex-direction:column;
-    /* justify-content: space-between; */
-    /* align-items:space-between; */
+    justify-content: center;
+    align-items: center;
+    
+    /* 텍스트를 줄 바꿈하지 않고 한 줄에 계속 표시 */
+    white-space:noWrap;
+    
+    margin-right:13px;
+    margin-left: 13px;
     width:100%;
     height:100%;
     & .faceIcon{
@@ -195,10 +197,22 @@ S.FaceTextWrapper=styled.div`
     & div{
         font-size:12px;
         font-family: 'NanumSquareRound' ;
+        
 
     }
 `
-
+S.GroupA=styled.div`
+    display:flex;
+    position: relative;
+    bottom:3px;
+    right:-25px;
+`
+S.GroupB=styled.div`
+    display:flex;
+    position: relative;
+    top:50px;
+    right:200px;
+`
 S.NextButtonWrapper=styled.div`
     display:flex;
     justify-content: center;
@@ -216,7 +230,6 @@ S.SaveButtonWrapper=styled.div`
 
     
 `
-
 S.p_text=styled.p`
     padding:30px;
 `

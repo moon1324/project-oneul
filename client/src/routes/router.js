@@ -10,13 +10,13 @@ import MyMind from "../pages/myMind/MyMind";
 import Calendar from "../pages/calendar/Calendar";
 import MyPage from "../pages/myPage/MyPage";
 import PageNotFound from "../pages/error/PageNotFound";
-import InMyMind01 from "../pages/myMind/InMyMind01";
-import InMyMind02 from "../pages/myMind/InMyMind02";
-import InMyMind03 from "../pages/myMind/InMyMind03";
-import InMyMind04 from "../pages/myMind/InMyMind04";
-import InMyMind05 from "../pages/myMind/InMyMind05";
-import InMyMind06 from "../pages/myMind/InMyMind06";
 
+import InMyMind01 from "../pages/myMind/InMyMind01";
+import InMyMind02 from "../pages/myMind/InMyMind02"
+import InMyMind03 from "../pages/myMind/InMyMind03"
+import InMyMind04 from "../pages/myMind/InMyMind04"
+import InMyMind05 from "../pages/myMind/InMyMind05"
+import InMyMind06 from "../pages/myMind/InMyMind06"
 
 const router = createBrowserRouter([
     {
@@ -38,32 +38,6 @@ const router = createBrowserRouter([
             {
                 path: "/myMind",
                 element: <MyMind />,
-                children: [
-                    {
-                        path:"/myMind",
-                        element:<InMyMind01/>
-                    },
-                    {
-                        path:"/myMind/inMyMind02",
-                        element:<InMyMind02/>
-                    },
-                    {
-                        path:"/myMind/inMyMind03",
-                        element:<InMyMind03/>
-                    },
-                    {
-                        path:"/myMind/inMyMind04",
-                        element:<InMyMind04/>
-                    },
-                    {
-                        path:"/myMind/inMyMind05",
-                        element:<InMyMind05/>
-                    }, 
-                    {
-                        path:"/myMind/inMyMind06",
-                        element:<InMyMind06/>
-                    },
-                ]
             },
             {
                 path: "/calendar",
@@ -72,6 +46,30 @@ const router = createBrowserRouter([
             {
                 path: "/myPage",
                 element: <MyPage />,
+            },
+            {
+                path:"/myMind/inMyMind01",
+                element:<InMyMind01/>
+            },
+            {
+                path:"/myMind/inMyMind02",
+                element:<InMyMind02/>
+            },
+            {
+                path:"/myMind/inMyMind03",
+                element:<InMyMind03/>
+            },
+            {
+                path:"/myMind/inMyMind04",
+                element:<InMyMind04/>
+            },
+            {
+                path:"/myMind/inMyMind05",
+                element:<InMyMind05/>
+            }, 
+            {
+                path:"/myMind/inMyMind06",
+                element:<InMyMind06/>
             },
             
         ],
@@ -92,7 +90,12 @@ const router = createBrowserRouter([
         path: "*",
         element: <PageNotFound />,
     },
+
     
+   
 ]);
 
 export default router;
+
+    
+

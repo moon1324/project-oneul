@@ -22,55 +22,59 @@ const InMyMind06 = () => {
  
                 <form action="" method="post">
                     <S.FaceIconWrapper>
-                        <S.FaceTextWrapper>
-                            <FontAwesomeIcon className="faceIcon" icon={faFaceSmile} />
-                            <div>평온해</div>
-                        </S.FaceTextWrapper>
+                        <S.GroupA>
+                            <S.FaceTextWrapper>
+                                <FontAwesomeIcon className="faceIcon" icon={faFaceSmile} />
+                                <div>평온해</div>
+                            </S.FaceTextWrapper>
 
-                        <S.FaceTextWrapper>
-                            <FontAwesomeIcon className="faceIcon" icon={faFaceGrinSquint} />
-                            <div>즐거워</div>
-                        </S.FaceTextWrapper>
+                            <S.FaceTextWrapper>
+                                <FontAwesomeIcon className="faceIcon" icon={faFaceGrinSquint} />
+                                <div>즐거워</div>
+                            </S.FaceTextWrapper>
 
-                        <S.FaceTextWrapper>
-                            <FontAwesomeIcon className="faceIcon" icon={faFaceKissBeam} />
-                            <div>기대돼</div>
-                        </S.FaceTextWrapper>
+                            <S.FaceTextWrapper>
+                                <FontAwesomeIcon className="faceIcon" icon={faFaceKissBeam} />
+                                <div>기대돼</div>
+                            </S.FaceTextWrapper>
 
-                        <S.FaceTextWrapper>
-                            <FontAwesomeIcon className="faceIcon" id="#laughSad" icon={faFaceGrinWink} />
-                            <div>뿌듯해</div>
-                        </S.FaceTextWrapper>
+                            <S.FaceTextWrapper>
+                                <FontAwesomeIcon className="faceIcon" id="#laughSad" icon={faFaceGrinWink} />
+                                <div>뿌듯해</div>
+                            </S.FaceTextWrapper>
 
-                        <S.FaceTextWrapper>
-                            <FontAwesomeIcon className="faceIcon" icon={faFaceMehBlank} />
-                            <div>...</div>
-                        </S.FaceTextWrapper>
+                            <S.FaceTextWrapper>
+                                <FontAwesomeIcon className="faceIcon" icon={faFaceMehBlank} />
+                                <div>...</div>
+                            </S.FaceTextWrapper>
+                        </S.GroupA>
 
-                        <S.FaceTextWrapper>
-                            <FontAwesomeIcon className="faceIcon" icon={faFaceSadTear} />
-                            <div>슬퍼</div>
-                        </S.FaceTextWrapper>
+                        <S.GroupB>
+                            <S.FaceTextWrapper>
+                                <FontAwesomeIcon className="faceIcon" icon={faFaceSadTear} />
+                                <div>슬퍼</div>
+                            </S.FaceTextWrapper>
 
-                        <S.FaceTextWrapper>
-                            <FontAwesomeIcon className="faceIcon" icon={faFaceFrown} />
-                            <div>속상해</div> 
-                        </S.FaceTextWrapper>
+                            <S.FaceTextWrapper>
+                                <FontAwesomeIcon className="faceIcon" icon={faFaceFrown} />
+                                <div>속상해</div> 
+                            </S.FaceTextWrapper>
 
-                        <S.FaceTextWrapper>
-                            <FontAwesomeIcon className="faceIcon" icon={faFaceGrimace} />
-                            <div>불편해</div>
-                        </S.FaceTextWrapper>
+                            <S.FaceTextWrapper>
+                                <FontAwesomeIcon className="faceIcon" icon={faFaceGrimace} />
+                                <div>불편해</div>
+                            </S.FaceTextWrapper>
 
-                        <S.FaceTextWrapper>
-                            <FontAwesomeIcon className="faceIcon" id="#laughSad" icon={faFaceTired } />
-                            <div>짜증나</div>
-                        </S.FaceTextWrapper>
+                            <S.FaceTextWrapper>
+                                <FontAwesomeIcon className="faceIcon" id="#laughSad" icon={faFaceTired } />
+                                <div>짜증나</div>
+                            </S.FaceTextWrapper>
 
-                        <S.FaceTextWrapper>
-                            <FontAwesomeIcon className="faceIcon" icon={faFaceAngry} />
-                            <div>화나</div>
-                        </S.FaceTextWrapper>
+                            <S.FaceTextWrapper>
+                                <FontAwesomeIcon className="faceIcon" icon={faFaceAngry} />
+                                <div>화나</div>
+                            </S.FaceTextWrapper>
+                        </S.GroupB>
                     </S.FaceIconWrapper>
                     
                     <S.LastTextAreaWrapper >

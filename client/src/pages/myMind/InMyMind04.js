@@ -25,7 +25,7 @@ const InMyMind04 = () => {
                  </form>
                  
                  <S.NextButtonWrapper>
-                     <Link to={'/myMind/InMyMind05'}><Button size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button></Link>
+                     <Link to={'/myMind/inMyMind05'}><Button size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button></Link>
                  </S.NextButtonWrapper>
             
              </S.Wrapper>

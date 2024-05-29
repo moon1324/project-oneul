@@ -15,19 +15,17 @@ const InMyMind03 = () => {
                  
                  <S.QuestionWrapper>
                      <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-                     <p>
-                        그럼 마크(이)는 그 상황에서 무엇을 바랐어?
-                     </p>
+                     <p>그럼 마크(이)는 그 상황에서 무엇을 바랐어?</p>
                  </S.QuestionWrapper>
  
                  <form action="" method="post">
                      <S.TextAreaWrapper >
-                         <textarea placeholder="바람이 없었다면 그때 했던 생각을 적어도 괜찮아! "></textarea>
+                         <textarea placeholder="네가 편안해지길 바래"></textarea>
                      </S.TextAreaWrapper>
                  </form>
                  
                  <S.NextButtonWrapper>
-                     <Link to={'/myMind/InMyMind04'}><Button size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button></Link>
+                     <Link to={'/myMind/inMyMind04'}><Button size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button></Link>
                  </S.NextButtonWrapper>
             
              </S.Wrapper>
