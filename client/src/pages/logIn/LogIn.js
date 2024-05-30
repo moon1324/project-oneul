@@ -61,7 +61,7 @@ const LogIn = () => {
                     </S.LoginLabel>
                     <S.LoginLabel htmlFor="password">
                         <p>비밀번호</p>
-                        <Input {...register("password", { required: true })} variant={"active"} size={"default"} />
+                        <Input {...register("password", { required: true })} variant={"active"} size={"default"} type="password" />
                         <S.ConfirmMessageWrapper>
                             {errors?.password?.type === "required" && (
                                 <S.ConfirmMessage>
