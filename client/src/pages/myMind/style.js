@@ -1,16 +1,19 @@
 import styled from "styled-components";
+import { flexCenter, flexCenterColumn } from "../../global/common";
+import theme from "../../global/theme";
+
 
 const S={};
 
-// S.Form=styled.form`
-//     width:100%;
-//     height:100%
-// `
+S.Form=styled.form`
+    width:100%;
+    height:100%
+`
 
 
 S.Wrapper = styled.div`
-    width: 360px;
-    /* height: 640px; */
+    width: 100%;
+    height: 640px;
     background-color: #edf3fa;
     display: flex;
     flex-direction: column;
@@ -19,15 +22,31 @@ S.Wrapper = styled.div`
     align-items: center;
 `;
 
+S.Background = styled.div `    
+    width: 100%;
+    height: 100vh;     
+    background-color: ${theme.PALETTE.white};     
+    ${flexCenter} ;
+`  
+    
+S.ImageWrapper = styled.div`     
+    width: 100%;     
+    height: 100%;     
+    background-image: url(${process.env.PUBLIC_URL}/global/images/background.png);     
+    /* ${flexCenterColumn} ; */
+    text-align: center;
+    `
 S.TitleWrapper=styled.div`
     display:flex;
     justify-content: center;
     align-items: center;
+    padding-top:40px;
+    
     & p {
         font-size:26px;
         color:#142146;
         font-family: 'NanumSquareRound' ;
-        padding-top:50px;
+        /* padding-top:50px; */
     }
 `
 
@@ -153,6 +172,7 @@ S.LastTextAreaWrapper=styled.div`
 `
 
 S.FaceIconWrapper=styled.div`
+position:relative;
     display:flex;
     width: 320px;
     height:120px;
@@ -173,12 +193,10 @@ S.FaceTextWrapper=styled.div`
     flex-direction:column;
     justify-content: center;
     align-items: center;
-    
     /* 텍스트를 줄 바꿈하지 않고 한 줄에 계속 표시 */
     white-space:noWrap;
-    
-    margin-right:13px;
-    margin-left: 13px;
+    padding-right:14px;
+    padding-left: 14px;
     width:100%;
     height:100%;
     & .faceIcon{
@@ -186,8 +204,9 @@ S.FaceTextWrapper=styled.div`
             height:25px;
             padding-bottom: 3px;
             
+            
         path{
-            /* display: block; */
+            
             width:25px;
             height:25px;
             color: #5487d3;
@@ -203,15 +222,29 @@ S.FaceTextWrapper=styled.div`
 `
 S.GroupA=styled.div`
     display:flex;
-    position: relative;
-    bottom:3px;
-    right:-25px;
+    /* position: relative;
+    top:-25px;
+    right:-7px; */
+    position: absolute;
+    top:14px;
+    left:7px;
 `
 S.GroupB=styled.div`
     display:flex;
+    /* position: relative;
+    top:30px;
+    right:293px; */
+    justify-content: space-evenly;
+    align-items: space-evenly;
+    position: absolute;
+    top:70px;
+    left:12px;
+    
+`
+
+S.GoToWriteButtonWrapper=styled.div`
     position: relative;
-    top:50px;
-    right:200px;
+    top:337px;
 `
 S.NextButtonWrapper=styled.div`
     display:flex;
@@ -227,11 +260,21 @@ S.SaveButtonWrapper=styled.div`
     padding-top:35px;
     position:relative;
     top:30px;
-
-    
 `
+
 S.p_text=styled.p`
     padding:30px;
+    position: relative;
+    z-index: 3;
 `
+
+/* const BackgroundImage=styled.div`
+    /* background-image:url(../../../public/global/images/background.png) ; */
+    /* background-image: url('./background.png'); */
+    /* background-repeat: no-repeat; */
+    /* background-position: top center; */
+    /* background-size: cover; */
+    /* background-attachment:fixed; */
+     
 export default S;
 

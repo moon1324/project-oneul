@@ -27,13 +27,13 @@ const InMyMind01 = () => {
  
                  <form action="" method="post">
                      <S.TextAreaWrapper >
-                         <textarea value={value} onChange={onChangeValue} placeholder="하루 동안 내가 느낀 감정을 되돌아보자~"></textarea>
+                         <textarea value={value} onChange={onChangeValue} placeholder="하루 동안 내가 느낀 감정을 되돌아보자~!"></textarea>
                      </S.TextAreaWrapper>
                  </form>
                  
                  <S.NextButtonWrapper>
                     <Link to={'/myMind/inMyMind02'}>
-                        <Button size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button>
+                        <Button value={value} onClick={onsubmit} size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button>
                     </Link>
                  </S.NextButtonWrapper>
                  
