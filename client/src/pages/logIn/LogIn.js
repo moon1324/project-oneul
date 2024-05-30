@@ -6,13 +6,14 @@ import { useForm } from "react-hook-form";
 import Input from "../../components/input/style";
 import OneulButton from "../../components/button/OneulButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const LogIn = () => {
     const {
         register,
         handleSubmit,
         formState: { isSubmitting, isSubmitted, errors },
-    } = useForm({ mode: "onChange" });
+    } = useForm({ mode: "onSubmit" });
 
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -29,7 +30,7 @@ const LogIn = () => {
                         console.log(data);
                     })}
                 >
-                    <S.LoginLabel>
+                    <S.LoginLabel htmlFor="email">
                         <p>이메일</p>
                         {/* OneulInput쓰면 OneulInput에서 forwardRef를 써야해서 */}
                         {/* 쌤 코드처럼 스타일만 import */}
@@ -44,18 +45,33 @@ const LogIn = () => {
                             size={"default"}
                         />
                         <S.ConfirmMessageWrapper>
-                            {errors?.email?.type === "required" && <S.ConfirmMessage>이메일을 입력해주세요.</S.ConfirmMessage>}
+                            {errors?.email?.type === "pattern" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    이메일 양식에 맞게 입력해주세요.
+                                </S.ConfirmMessage>
+                            )}
+                            {errors?.email?.type === "required" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    이메일을 입력해주세요.
+                                </S.ConfirmMessage>
+                            )}
                         </S.ConfirmMessageWrapper>
                     </S.LoginLabel>
-
-                    <S.LoginLabel>
+                    <S.LoginLabel htmlFor="password">
                         <p>비밀번호</p>
-                        <Input {...register("password")} variant={"active"} size={"default"} />
+                        <Input {...register("password", { required: true })} variant={"active"} size={"default"} />
                         <S.ConfirmMessageWrapper>
-                            {errors?.email?.type === "required" && <S.ConfirmMessage>이메일을 입력해주세요.</S.ConfirmMessage>}
+                            {errors?.password?.type === "required" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    비밀번호 입력해주세요.
+                                </S.ConfirmMessage>
+                            )}
                         </S.ConfirmMessageWrapper>
                     </S.LoginLabel>
-                    <OneulButton variant={"skyblue"} border={"default"} size={"large"} color={"white"}>
+                    <OneulButton variant={"skyblue"} border={"default"} size={"large"} color={"white"} disabled={isSubmitting}>
                         로그인
                     </OneulButton>
                 </S.LoginForm>

@@ -46,7 +46,7 @@ S.LoginLabel = styled.label`
         margin-left: 4px;
         margin-bottom: 4px;
         color: ${theme.PALETTE.white};
-        font-weight: 100;
+        font-family: "NanumSquareRound";
     }
 `;
 
@@ -58,7 +58,14 @@ S.ConfirmMessageWrapper = styled.div`
 
 S.ConfirmMessage = styled.span`
     font-size: 12px;
-    color: ${theme.PALETTE.error.red};
+    color: ${theme.PALETTE.error.yellow};
+    .icon {
+        font-size: 12px;
+        margin-right: 4px;
+        path {
+            color: ${theme.PALETTE.error.yellow};
+        }
+    }
 `;
 
 S.ToSignUp = styled.div`
