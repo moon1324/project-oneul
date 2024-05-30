@@ -86,7 +86,11 @@ S.SearchButtonWrapper = styled.div`
 // main
 S.Main = styled.main`
     height: calc(100% - 70px);
-    overflow: scroll;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    & :-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 // navigation

@@ -124,7 +124,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n    "]);
+  var data = _taggedTemplateLiteral(["\n        border: none;\n    "]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -236,7 +236,7 @@ var variantCSS = {
   })
 };
 var borderCSS = {
-  defalut: (0, _styledComponents.css)(_templateObject8()),
+  "default": (0, _styledComponents.css)(_templateObject8()),
   hoverSkyblue: (0, _styledComponents.css)(_templateObject9()),
   hoverIndigo: (0, _styledComponents.css)(_templateObject10()),
   hoverRed: (0, _styledComponents.css)(_templateObject11())

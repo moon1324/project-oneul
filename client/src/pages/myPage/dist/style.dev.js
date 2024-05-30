@@ -11,8 +11,28 @@ var _theme = _interopRequireDefault(require("../../global/theme"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _templateObject13() {
+  var data = _taggedTemplateLiteral(["\n        width: 320px;\n        height: 320px;\n        margin: 0 auto;\n        padding: 24px;\n        border-radius: 20px;\n        overflow-y: scroll;\n        background-color: ", ";\n\n        & p {\n            line-height: 1.5;\n        }\n    "]);
+
+  _templateObject13 = function _templateObject13() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject12() {
+  var data = _taggedTemplateLiteral(["\n            width: 100%;\n            text-align: center;\n            padding: 0 0 4rem 0;\n        "]);
+
+  _templateObject12 = function _templateObject12() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject11() {
-  var data = _taggedTemplateLiteral(["\n            width: 100%;\n            padding: 0 0 1.25rem 0;\n            \n            & p { \n                padding: 0 0 0.5rem 0;\n            }\n\n            & input{\n                width: 100%;\n            }\n\n            & button { \n                width: 100%;\n            }\n        "]);
+  var data = _taggedTemplateLiteral(["\n            width: 100%;\n            padding: 0 0 1.25rem 0;\n            \n            & p { \n                padding: 0 0 0.5rem 0;\n            }\n\n            & input{\n                width: 100%;\n            }\n        "]);
 
   _templateObject11 = function _templateObject11() {
     return data;
@@ -22,7 +42,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["\n            width: 100%;\n            padding: 2.5rem 1.25rem ;\n        "]);
+  var data = _taggedTemplateLiteral(["\n            width: 100%;\n            padding: 2.5rem 50px;\n        "]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -139,7 +159,9 @@ S.ServiceWrapper = _styledComponents["default"].div(_templateObject8(), _theme["
 S.PageTitle = _styledComponents["default"].div(_templateObject9(), _theme["default"].FONT_SIZE.h2);
 S.InputContainer = _styledComponents["default"].div(_templateObject10());
 S.InputWrapper = _styledComponents["default"].div(_templateObject11());
+S.buttonWrapper = _styledComponents["default"].div(_templateObject12());
 /* termsOfUse.js */
 
+S.ScrollContainer = _styledComponents["default"].div(_templateObject13(), _theme["default"].PALETTE.white);
 var _default = S;
 exports["default"] = _default;

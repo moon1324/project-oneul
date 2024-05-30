@@ -35,8 +35,10 @@ const MyPageEdit = () => {
                     <p>상태메세지을 변경해주세요</p>
                     <OneulInput name="statu-message" id="statu-message"/> 
                 </S.InputWrapper>
-                <OneulButton variant="indigo" color="white" border="default">수정완료</OneulButton>
             </S.InputContainer>
+            <S.buttonWrapper>
+                <OneulButton variant="indigo" color="white" size="large" border="default">수정완료</OneulButton>
+            </S.buttonWrapper>
         </>
 
     );

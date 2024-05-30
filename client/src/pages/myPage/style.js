@@ -124,7 +124,7 @@ const S = {}
 
         S.InputContainer = styled.div`
             width: 100%;
-            padding: 2.5rem 1.25rem ;
+            padding: 2.5rem 50px;
         `
         S.InputWrapper = styled.div`
             width: 100%;
@@ -137,12 +137,26 @@ const S = {}
             & input{
                 width: 100%;
             }
-
-            & button { 
-                width: 100%;
-            }
+        `
+        S.buttonWrapper = styled.div`
+            width: 100%;
+            text-align: center;
+            padding: 0 0 4rem 0;
         `
 
 /* termsOfUse.js */
 
+    S.ScrollContainer = styled.div`
+        width: 320px;
+        height: 320px;
+        margin: 0 auto;
+        padding: 24px;
+        border-radius: 20px;
+        overflow-y: scroll;
+        background-color: ${theme.PALETTE.white};
+
+        & p {
+            line-height: 1.5;
+        }
+    `         
 export default S;
