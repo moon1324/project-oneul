@@ -1,7 +1,13 @@
-import React from "react";
+import React from 'react';
+import {Outlet} from 'react-router-dom'
+
 
 const MyPage = () => {
-    return <div>마이페이지</div>;
+    return (
+        <>
+            <Outlet/>
+        </>
+    );
 };
 
 export default MyPage;

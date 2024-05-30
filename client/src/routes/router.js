@@ -10,6 +10,12 @@ import MyMind from "../pages/myMind/MyMind";
 import Calendar from "../pages/calendar/Calendar";
 import MyPage from "../pages/myPage/MyPage";
 import PageNotFound from "../pages/error/PageNotFound";
+import MyPageEdit from "../pages/myPage/MyPageEdit";
+import MyPageMain from "../pages/myPage/MyPageMain";
+import TermsOfUse from "../pages/myPage/TermsOfUse";
+import PrivacyPolicy from "../pages/myPage/PrivacyPolicy";
+import Secession from "../pages/myPage/Secession";
+
 
 const router = createBrowserRouter([
     {
@@ -39,6 +45,29 @@ const router = createBrowserRouter([
             {
                 path: "/myPage",
                 element: <MyPage />,
+                children:[
+                    {
+                        path:"/myPage",
+                        element:<MyPageMain/>
+                    },
+                    {
+                        path:"/myPage/edit",
+                        element:<MyPageEdit/>
+                    },
+                    {
+                        path:"/myPage/termsOfUse",
+                        element:<TermsOfUse/>
+                    },
+                    {
+                        path:"/myPage/privacyPolicy",
+                        element:<PrivacyPolicy/>
+                    },
+                    {
+                        path:"/myPage/secession",
+                        element:<Secession/>
+
+                    }
+                ]
             },
         ],
     },
