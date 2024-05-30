@@ -5,23 +5,23 @@ import theme from "../../global/theme";
 
 const S={};
 
-S.Form=styled.form`
-    width:100%;
-    height:100%
-`
-
-
 S.Wrapper = styled.div`
     width: 100%;
-    height: 640px;
+    height: 100%;
     background-color: #edf3fa;
     display: flex;
     flex-direction: column;
     position: relative;
+    top:-13px;
     justify-content: center;
     align-items: center;
+    
 `;
 
+S.LastPageWrapper=styled.div`
+position: relative;
+top:-15px;
+`
 S.Background = styled.div `    
     width: 100%;
     height: 100vh;     
@@ -46,7 +46,7 @@ S.TitleWrapper=styled.div`
         font-size:26px;
         color:#142146;
         font-family: 'NanumSquareRound' ;
-        /* padding-top:50px; */
+        
     }
 `
 
@@ -150,12 +150,10 @@ S.LastTextAreaWrapper=styled.div`
     height:120px;
 
     & textarea{
-        /* display:block; */
         width:100%;
         height:100%;
         resize:none;
         border:none;
-        /* box-sizing: border-box; */
         border-radius: 0.8rem;
         box-shadow: 0 8px 5px -5px gray,
                     -5px 0 5px -5px gray, 
@@ -197,8 +195,8 @@ S.FaceTextWrapper=styled.div`
     white-space:noWrap;
     padding-right:14px;
     padding-left: 14px;
-    width:100%;
-    height:100%;
+    /* width:100%;
+    height:100%; */
     & .faceIcon{
             width:25px;
             height:25px;
@@ -244,7 +242,7 @@ S.GroupB=styled.div`
 
 S.GoToWriteButtonWrapper=styled.div`
     position: relative;
-    top:337px;
+    top:47px;
 `
 S.NextButtonWrapper=styled.div`
     display:flex;
@@ -262,10 +260,26 @@ S.SaveButtonWrapper=styled.div`
     top:30px;
 `
 
-S.p_text=styled.p`
-    padding:30px;
+S.text01=styled.p`
+    padding:40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    z-index: 3;
+    & .faHeartCircleCheck{
+        width:200px;
+        height:200px;
+        padding-top: 20px;
+        margin-top:60px;
+        
+        path{
+            /* color:rgba(77, 78, 137,0.5) ; */
+            /* color:rgba(84, 135, 211, 0.5) */
+            color:rgba(192, 128, 188, 0.6)
+            
+        }
+    }
 `
 
 /* const BackgroundImage=styled.div`

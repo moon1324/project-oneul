@@ -12,15 +12,13 @@ const InMyMind06 = () => {
     return (
         <>
             <S.Wrapper>
-                
+                <S.LastPageWrapper>
                 <TitleStep/>
                  
                 <S.QuestionWrapper>
                      <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
                      <p>지금 마음이 어때~?</p>
                 </S.QuestionWrapper>
- 
-                <form action="" method="post">
                     <S.FaceIconWrapper>
                         <S.GroupA>
                             <S.FaceTextWrapper>
@@ -78,16 +76,15 @@ const InMyMind06 = () => {
                     </S.FaceIconWrapper>
                     
                     <S.LastTextAreaWrapper >
-                        <textarea placeholder="해당되는 마음이 없다면 글로 써봐!"></textarea>
+                        <textarea placeholder="해당되는 마음이 없다면 글로 써봐"></textarea>
                     </S.LastTextAreaWrapper>
-                 </form>
-                 
-                 <S.SaveButtonWrapper>
+                
+                <S.SaveButtonWrapper>
                      <Link to={'/'}>
                         <Button id='lastButton' size={"large"} border={"hoverIndigo"} variant={"indigo"} color={"white"}>저장</Button>
                     </Link>
                  </S.SaveButtonWrapper>
-            
+                 </S.LastPageWrapper>
              </S.Wrapper>
             
         </>

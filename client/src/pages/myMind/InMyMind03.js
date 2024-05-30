@@ -20,7 +20,7 @@ const InMyMind03 = () => {
  
                  <form action="" method="post">
                      <S.TextAreaWrapper >
-                         <textarea placeholder="네가 편안해지길 바래"></textarea>
+                         <textarea placeholder="내가 늘 바란 건 하나야~ 달디단 밤양갱!"></textarea>
                      </S.TextAreaWrapper>
                  </form>
                  

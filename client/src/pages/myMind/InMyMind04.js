@@ -20,7 +20,7 @@ const InMyMind04 = () => {
  
                  <form action="" method="post">
                      <S.TextAreaWrapper >
-                         <textarea placeholder="다른 사람에게 듣고 싶은 말을 적어봐!"></textarea>
+                         <textarea placeholder="다른 사람에게 듣고 싶은 말을 적어봐~"></textarea>
                      </S.TextAreaWrapper>
                  </form>
                  
