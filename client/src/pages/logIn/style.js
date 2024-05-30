@@ -41,13 +41,24 @@ S.LoginForm = styled.form`
 `;
 
 S.LoginLabel = styled.label`
-    margin-bottom: 22px;
+    /* margin-bottom: 22px; */
     & p {
         margin-left: 4px;
         margin-bottom: 4px;
         color: ${theme.PALETTE.white};
         font-weight: 100;
     }
+`;
+
+S.ConfirmMessageWrapper = styled.div`
+    width: 100%;
+    height: 22px;
+    background-color: transparent;
+`;
+
+S.ConfirmMessage = styled.span`
+    font-size: 12px;
+    color: ${theme.PALETTE.error.red};
 `;
 
 S.ToSignUp = styled.div`
