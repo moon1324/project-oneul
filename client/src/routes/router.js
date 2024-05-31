@@ -15,7 +15,13 @@ import MyPageMain from "../pages/myPage/MyPageMain";
 import TermsOfUse from "../pages/myPage/TermsOfUse";
 import PrivacyPolicy from "../pages/myPage/PrivacyPolicy";
 import Secession from "../pages/myPage/Secession";
-
+import SignUpMain from "../pages/signUp/SignUpMain";
+import SignUpEmailPw from "../pages/signUp/SignUpEmailPw";
+import SignUpNameMobile from "../pages/signUp/SignUpNameMobile";
+import SignUpNickname from "../pages/signUp/SignUpNickname";
+import SignUpProfileImg from "../pages/signUp/SignUpProfileImg";
+import SignUpOrigin from "../pages/signUp/SignUpOrigin";
+import SignUpSuccess from "../pages/signUp/SignUpSuccess";
 
 const router = createBrowserRouter([
     {
@@ -45,29 +51,28 @@ const router = createBrowserRouter([
             {
                 path: "/myPage",
                 element: <MyPage />,
-                children:[
+                children: [
                     {
-                        path:"/myPage",
-                        element:<MyPageMain/>
+                        path: "/myPage",
+                        element: <MyPageMain />,
                     },
                     {
-                        path:"/myPage/edit",
-                        element:<MyPageEdit/>
+                        path: "/myPage/edit",
+                        element: <MyPageEdit />,
                     },
                     {
-                        path:"/myPage/termsOfUse",
-                        element:<TermsOfUse/>
+                        path: "/myPage/termsOfUse",
+                        element: <TermsOfUse />,
                     },
                     {
-                        path:"/myPage/privacyPolicy",
-                        element:<PrivacyPolicy/>
+                        path: "/myPage/privacyPolicy",
+                        element: <PrivacyPolicy />,
                     },
                     {
-                        path:"/myPage/secession",
-                        element:<Secession/>
-
-                    }
-                ]
+                        path: "/myPage/secession",
+                        element: <Secession />,
+                    },
+                ],
             },
         ],
     },
@@ -78,6 +83,36 @@ const router = createBrowserRouter([
     {
         path: "/signUp",
         element: <SignUp />,
+        children: [
+            {
+                path: "/signUp",
+                element: <SignUpMain />,
+            },
+            {
+                path: "/signUp/1",
+                element: <SignUpEmailPw />,
+            },
+            {
+                path: "/signUp/2",
+                element: <SignUpNameMobile />,
+            },
+            {
+                path: "/signUp/3",
+                element: <SignUpNickname />,
+            },
+            {
+                path: "/signUp/4",
+                element: <SignUpProfileImg />,
+            },
+            {
+                path: "/signUp/5",
+                element: <SignUpOrigin />,
+            },
+            {
+                path: "/signUp/6",
+                element: <SignUpSuccess />,
+            },
+        ],
     },
     {
         path: "/banner",
