@@ -9,7 +9,7 @@ const SignUpMain = () => {
             <S.Wrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"}>
-                        <img src={process.env.PUBLIC_URL + "global/images/logo.png"} />
+                        <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} />
                     </Link>
                 </S.LogoWrapper>
                 <S.ContentContainer>
