@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import S from "./style";
 import { Link } from "react-router-dom";
 import OneulButton from "../../components/button/OneulButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 const SignUpProfileImg = () => {
+    const signUpData = useSelector((state) => state.signup);
+
+    useEffect(() => {
+        console.log("SignUpStep4 signUpData:", signUpData);
+    }, [signUpData]);
+
     return (
         <S.Background>
             <S.Wrapper>
