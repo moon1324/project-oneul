@@ -16,11 +16,11 @@ import TermsOfUse from "../pages/myPage/TermsOfUse";
 import PrivacyPolicy from "../pages/myPage/PrivacyPolicy";
 import Secession from "../pages/myPage/Secession";
 import SignUpMain from "../pages/signUp/SignUpMain";
-import SignUpEmailPw from "../pages/signUp/SignUpEmailPw";
-import SignUpNameMobile from "../pages/signUp/SignUpNameMobile";
-import SignUpNickname from "../pages/signUp/SignUpNickname";
-import SignUpProfileImg from "../pages/signUp/SignUpProfileImg";
-import SignUpOrigin from "../pages/signUp/SignUpOrigin";
+import SignUpStep1 from "../pages/signUp/SignUpStep1";
+import SignUpStep2 from "../pages/signUp/SignUpStep2";
+import SignUpStep3 from "../pages/signUp/SignUpStep3";
+import SignUpStep4 from "../pages/signUp/SignUpStep4";
+import SignUpStep5 from "../pages/signUp/SignUpStep5";
 import SignUpSuccess from "../pages/signUp/SignUpSuccess";
 
 const router = createBrowserRouter([
@@ -90,26 +90,26 @@ const router = createBrowserRouter([
             },
             {
                 path: "/signUp/1",
-                element: <SignUpEmailPw />,
+                element: <SignUpStep1 />,
             },
             {
                 path: "/signUp/2",
-                element: <SignUpNameMobile />,
+                element: <SignUpStep2 />,
             },
             {
                 path: "/signUp/3",
-                element: <SignUpNickname />,
+                element: <SignUpStep3 />,
             },
             {
                 path: "/signUp/4",
-                element: <SignUpProfileImg />,
+                element: <SignUpStep4 />,
             },
             {
                 path: "/signUp/5",
-                element: <SignUpOrigin />,
+                element: <SignUpStep5 />,
             },
             {
-                path: "/signUp/6",
+                path: "/signUp/success",
                 element: <SignUpSuccess />,
             },
         ],
