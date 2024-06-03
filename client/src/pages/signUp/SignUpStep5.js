@@ -9,12 +9,12 @@ const SignUpOrigin = () => {
             <S.Wrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"}>
-                        <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} />
+                        <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} alt="logo" />
                     </Link>
                 </S.LogoWrapper>
                 <S.ContentContainer></S.ContentContainer>
                 <S.ButtonContainer>
-                    <Link to="/SignUp/6">
+                    <Link to="/signUp/6">
                         <OneulButton variant={"indigo"} border={"default"} size={"large"} color={"white"}>
                             다음
                         </OneulButton>

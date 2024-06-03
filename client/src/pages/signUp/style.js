@@ -32,11 +32,40 @@ S.LogoWrapper = styled.div`
 S.ContentContainer = styled.div`
     width: 100%;
     height: 330px;
+    margin-top: 22px;
     display: flex;
     flex-direction: column;
     align-items: center;
     & button {
         margin: 22px 0px;
+    }
+`;
+
+S.Label = styled.label`
+    /* margin-bottom: 22px; */
+    & p {
+        margin-left: 4px;
+        margin-bottom: 4px;
+        color: ${theme.PALETTE.white};
+        font-family: "NanumSquareRound";
+    }
+`;
+
+S.ConfirmMessageWrapper = styled.div`
+    width: 100%;
+    height: 22px;
+    background-color: transparent;
+`;
+
+S.ConfirmMessage = styled.span`
+    font-size: 12px;
+    color: ${theme.PALETTE.error.yellow};
+    .icon {
+        font-size: 12px;
+        margin-right: 4px;
+        path {
+            color: ${theme.PALETTE.error.yellow};
+        }
     }
 `;
 
