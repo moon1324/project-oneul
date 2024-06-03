@@ -28,6 +28,9 @@ const Input = styled.input`
     border: none;
     padding: 0 20px;
     outline: none;
+    height: 2.75rem;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
 `;
 
 export default Input;
