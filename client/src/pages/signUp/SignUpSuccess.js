@@ -2,6 +2,8 @@ import React from "react";
 import S from "./style";
 import { Link } from "react-router-dom";
 import OneulButton from "../../components/button/OneulButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeartPulse } from "@fortawesome/free-solid-svg-icons";
 
 const SignUpSuccess = () => {
     return (
@@ -12,7 +14,12 @@ const SignUpSuccess = () => {
                         <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} alt="logo" />
                     </Link>
                 </S.LogoWrapper>
-                <S.ContentContainer></S.ContentContainer>
+                <S.ContentContainer>
+                    <S.ImgWrapper>
+                        <img src={`${process.env.PUBLIC_URL}/global/images/heart.png`} alt="heart" />
+                        <S.H3>회원가입 성공!</S.H3>
+                    </S.ImgWrapper>
+                </S.ContentContainer>
                 <S.ButtonContainer>
                     <Link to="/logIn">
                         <OneulButton variant={"indigo"} border={"default"} size={"large"} color={"white"}>

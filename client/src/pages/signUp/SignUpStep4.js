@@ -2,6 +2,8 @@ import React from "react";
 import S from "./style";
 import { Link } from "react-router-dom";
 import OneulButton from "../../components/button/OneulButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 const SignUpProfileImg = () => {
     return (
@@ -13,13 +15,18 @@ const SignUpProfileImg = () => {
                     </Link>
                 </S.LogoWrapper>
                 <S.ContentContainer>
-                    <S.Label htmlFor="profile-img">
+                    <S.LabelCentered htmlFor="profile-img">
                         <p>다른 사람들이 볼 내 얼굴을 올려보세요</p>
-                        <div style={{ width: "140px", height: "140px" }}>
-                            <label></label>
-                        </div>
-                        <input type="file" id="attach" style="display: none;" />
-                    </S.Label>
+                        <label htmlFor="profile">
+                            <S.ProfileWrapper>
+                                <S.ImgWrapper>
+                                    <img src="#" alt="profile-img"></img>
+                                </S.ImgWrapper>
+                                <FontAwesomeIcon icon={faCirclePlus} className="icon" />
+                            </S.ProfileWrapper>
+                        </label>
+                        <input type="file" id="profile" style={{ display: "none" }} />
+                    </S.LabelCentered>
                 </S.ContentContainer>
                 <S.ButtonContainer>
                     <Link to="/signUp/5">

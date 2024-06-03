@@ -69,6 +69,93 @@ S.ConfirmMessage = styled.span`
     }
 `;
 
+// profile
+S.LabelCentered = styled.label`
+    ${flexCenterColumn}
+    & p {
+        margin-left: 4px;
+        margin-bottom: 4px;
+        color: ${theme.PALETTE.white};
+        font-family: "NanumSquareRound";
+    }
+`;
+
+S.ProfileWrapper = styled.div`
+    margin-top: 20px;
+    ${flexCenter}
+    width: 140px;
+    height: 140px;
+    position: relative;
+
+    & .icon {
+        width: 24px;
+        height: 24px;
+        right: 20px;
+        bottom: 20px;
+        position: absolute;
+        color: ${theme.PALETTE.white};
+    }
+`;
+
+S.ImgWrapper = styled.div`
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: gray;
+
+    & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+`;
+
+// Origin
+S.CheckboxContainer = styled.div`
+    ${flexCenter}
+    margin-top: 20px;
+    width: 320px;
+    height: 160px;
+    border-radius: 20px;
+    background-color: ${theme.PALETTE.skyblue};
+`;
+
+S.CheckboxRow = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 120px;
+    height: 160px;
+    & input {
+        border: none;
+    }
+`;
+
+S.CheckboxLabel = styled.label`
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin: 12px 0px;
+    & p {
+        margin: 0 4px;
+        font-size: 12px;
+    }
+`;
+
+// Success
+S.ImgWrapper = styled.div`
+    ${flexCenterColumn}
+`;
+
+S.H3 = styled.h3`
+    margin-top: 28px;
+    color: ${theme.PALETTE.white};
+    font-size: ${theme.FONT_SIZE.h3};
+    height: ${theme.FONT_LINE.h3};
+`;
+
 S.ButtonContainer = styled.div`
     margin: 0px 50px;
     margin-bottom: 56px;
