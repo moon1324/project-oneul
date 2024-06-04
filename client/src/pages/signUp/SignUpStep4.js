@@ -57,10 +57,10 @@ const SignUpStep4 = () => {
                         <p>사람들에게 보일 내 얼굴을 올려보세요</p>
                         <label htmlFor="profile">
                             <S.ProfileWrapper>
-                                <S.ImgWrapper>
+                                <S.ProfileImgWrapper>
                                     {/* 이미지 올리지 않았을 시 기본이미지 */}
                                     <img src={profileImg || `${process.env.PUBLIC_URL}/global/images/default.png`} alt="profile-img" />
-                                </S.ImgWrapper>
+                                </S.ProfileImgWrapper>
                                 <FontAwesomeIcon icon={faCirclePlus} className="icon" />
                             </S.ProfileWrapper>
                         </label>
