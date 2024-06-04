@@ -15,16 +15,12 @@ import MyPageMain from "../pages/myPage/MyPageMain";
 import TermsOfUse from "../pages/myPage/TermsOfUse";
 import PrivacyPolicy from "../pages/myPage/PrivacyPolicy";
 import Secession from "../pages/myPage/Secession";
-<<<<<<< HEAD
-=======
 import Banner1 from "../pages/banner/Banner1";
 import Banner2 from "../pages/banner/Banner2";
 import Banner3 from "../pages/banner/Banner3";
 import Banner4 from "../pages/banner/Banner4";
 import Banner5 from "../pages/banner/Banner5";
 import BannerMain from "../pages/banner/BannerMain";
->>>>>>> main
-
 
 const router = createBrowserRouter([
     {
