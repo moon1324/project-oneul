@@ -1,7 +1,12 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 
 const SignUp = () => {
-    return <div>회원가입</div>;
+    return (
+        <>
+            <Outlet />
+        </>
+    );
 };
 
 export default SignUp;

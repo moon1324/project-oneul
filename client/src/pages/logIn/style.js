@@ -22,8 +22,7 @@ S.LogoWrapper = styled.div`
     width: 120px;
     height: 90px;
     ${flexCenter}
-    margin-top: 60px;
-    margin-bottom: 82px;
+    margin: 60px 0px;
     margin-left: 34px;
     & img {
         width: 100%;
@@ -33,6 +32,8 @@ S.LogoWrapper = styled.div`
 S.LoginForm = styled.form`
     width: 100%;
     height: 274px;
+    margin-top: 22px;
+    margin-bottom: 56px;
     ${flexCenterColumn}
     /* margin between password input and login button */
     & button {
@@ -69,7 +70,8 @@ S.ConfirmMessage = styled.span`
 `;
 
 S.ToSignUp = styled.div`
-    margin: 56px 50px;
+    margin: 0px 50px;
+    margin-bottom: 56px;
 `;
 
 export default S;
