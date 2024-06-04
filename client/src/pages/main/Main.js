@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faAngleRight, faHeartCircleCheck} from '@fortawesome/free-solid-svg-icons'
 import S from './style';
+import BannerMain from '../banner/BannerMain';
 
 
 const Main = () => {
@@ -31,7 +32,7 @@ const Main = () => {
                         </S.BoxWritingMymind>    
                     </Link>
                 </S.Wrapper>
-                <Banner/>
+                <BannerMain/>
                 <S.Wrapper>
                     <S.BoxForOurToday>
                         <div className="header">

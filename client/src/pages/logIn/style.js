@@ -22,8 +22,7 @@ S.LogoWrapper = styled.div`
     width: 120px;
     height: 90px;
     ${flexCenter}
-    margin-top: 60px;
-    margin-bottom: 82px;
+    margin: 60px 0px;
     margin-left: 34px;
     & img {
         width: 100%;
@@ -33,6 +32,8 @@ S.LogoWrapper = styled.div`
 S.LoginForm = styled.form`
     width: 100%;
     height: 274px;
+    margin-top: 22px;
+    margin-bottom: 56px;
     ${flexCenterColumn}
     /* margin between password input and login button */
     & button {
@@ -46,7 +47,7 @@ S.LoginLabel = styled.label`
         margin-left: 4px;
         margin-bottom: 4px;
         color: ${theme.PALETTE.white};
-        font-weight: 100;
+        font-family: "NanumSquareRound";
     }
 `;
 
@@ -58,11 +59,19 @@ S.ConfirmMessageWrapper = styled.div`
 
 S.ConfirmMessage = styled.span`
     font-size: 12px;
-    color: ${theme.PALETTE.error.red};
+    color: ${theme.PALETTE.error.yellow};
+    .icon {
+        font-size: 12px;
+        margin-right: 4px;
+        path {
+            color: ${theme.PALETTE.error.yellow};
+        }
+    }
 `;
 
 S.ToSignUp = styled.div`
-    margin: 56px 50px;
+    margin: 0px 50px;
+    margin-bottom: 56px;
 `;
 
 export default S;

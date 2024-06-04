@@ -1,9 +1,26 @@
-import React from 'react';
+import React, {useState,useRef} from 'react';
 import S from './style';
 import OneulInput from '../../components/input/OneulInput';
 import OneulButton from '../../components/button/OneulButton';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCirclePlus} from '@fortawesome/free-solid-svg-icons'
+
 
 const MyPageEdit = () => {
+    const [avatarURL,setAvatarURL] = useState(process.env.PUBLIC_URL + '/images/mypage/profile_picture.svg');
+    const fileUploadRef = useRef();
+
+    const handleImageUpload = (event)=>{
+        event.preventDefault();
+        fileUploadRef.current.click();
+    }
+
+    const uploadImageDisplay = async() => {
+        const uploadedFile = fileUploadRef.current.files[0];
+        const cachedURL = URL.createObjectURL(uploadedFile);
+        setAvatarURL(cachedURL);
+    }
+
     return (
         <>
             <S.PageTitle>
@@ -11,7 +28,13 @@ const MyPageEdit = () => {
             </S.PageTitle>   
             <S.ProfilePictureWrapper>
                 <div className="pictureBox">
-                    <img src={process.env.PUBLIC_URL + '/images/mypage/profile_picture.svg'}/>
+                    <img src={avatarURL} alt="Avatar"/>
+                    <form id="form" encType="multipart/form-data">
+                        <button type="submit" onClick={handleImageUpload} className="uploadBtn">
+                            <FontAwesomeIcon icon={faCirclePlus} />
+                        </button>
+                        <input type="file" id="file" ref={fileUploadRef} onChange={uploadImageDisplay} hidden/>
+                    </form>
                 </div>
             </S.ProfilePictureWrapper>
             <S.InputContainer>
