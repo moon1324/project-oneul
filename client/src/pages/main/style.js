@@ -58,10 +58,11 @@ const S = {}
     `
     S.IconBox = styled.div`
         text-align: right;
+
         & svg{
                 & path{
                     color : ${theme.PALETTE.white};
-                }
+                    }
             }
     `
 
