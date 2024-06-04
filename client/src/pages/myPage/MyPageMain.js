@@ -42,26 +42,26 @@ const MyPageMain = () => {
             </S.ProfileContaier>
             <S.ServiceContainer>
                 <S.ServiceWrapper>
-                    <p>서비스 이용약관</p>
                     <Link to={'/myPage/termsOfUse'}>
+                        <p>서비스 이용약관</p>
                         <FontAwesomeIcon icon={faAngleRight} />
                     </Link>
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
-                    <p>개인정보처리방침</p>
                     <Link to={'/myPage/privacyPolicy'}>
+                        <p>개인정보처리방침</p>
                         <FontAwesomeIcon icon={faAngleRight} />
                     </Link>
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
-                    <p>로그아웃</p>
                     <Link to={'/logIn'}>
+                        <p>로그아웃</p>
                         <FontAwesomeIcon icon={faAngleRight} />
                     </Link>
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
-                    <p className="secession">회원탈퇴</p>
                     <Link to={'/myPage/secession'}>
+                        <p className="secession">회원탈퇴</p>
                         <FontAwesomeIcon icon={faAngleRight} />
                     </Link>
                 </S.ServiceWrapper>
