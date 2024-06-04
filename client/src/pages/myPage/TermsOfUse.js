@@ -2,12 +2,19 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCircleXmark} from '@fortawesome/free-regular-svg-icons'
 import S from './style';
+import {useNavigate} from 'react-router-dom'
 
 const TermsOfUse = () => {
+    const navigate = useNavigate();
+
+    const goToMypage = () => {
+        navigate("/myPage")
+    }
+
     return (
         <>
             <S.MypageNav>
-                <FontAwesomeIcon icon={faCircleXmark} />
+                <FontAwesomeIcon icon={faCircleXmark} onClick={goToMypage}/>
             </S.MypageNav>
             <S.PageTitle>
                 <h2>서비스 이용 약관</h2>
