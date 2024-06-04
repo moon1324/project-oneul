@@ -113,12 +113,16 @@ S.ImgWrapper = styled.div`
 
 // Origin
 S.CheckboxContainer = styled.div`
-    ${flexCenter}
+    ${flexCenterColumn}
     margin-top: 20px;
     width: 320px;
     height: 160px;
     border-radius: 20px;
     background-color: ${theme.PALETTE.skyblue};
+`;
+
+S.CheckboxRowContainer = styled.div`
+    ${flexCenter}
 `;
 
 S.CheckboxRow = styled.div`
@@ -127,7 +131,7 @@ S.CheckboxRow = styled.div`
     justify-content: center;
     align-items: start;
     width: 120px;
-    height: 160px;
+    height: 120px;
     & input {
         border: none;
     }
