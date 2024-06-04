@@ -4,7 +4,7 @@ import S from './style';
 
 const OurDay = () => {
     return (
-        <S.cardPostWrapper>
+        <S.cardPostContainer>
             <S.postProfileContainer>
                 <S.ThumbnailWrapper>
                     <img src={process.env.PUBLIC_URL + "global/images/profile.jpg"} alt="profile-img" />
@@ -17,7 +17,7 @@ const OurDay = () => {
             <S.reactionContainer>
                     <Reaction/>
             </S.reactionContainer>
-        </S.cardPostWrapper>
+        </S.cardPostContainer>
     );
 };
 

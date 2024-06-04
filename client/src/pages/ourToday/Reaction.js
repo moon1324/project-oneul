@@ -3,25 +3,35 @@ import { faFaceAngry as regularAngry, faFaceSadTear as regularSadTear, faFaceSmi
 import { faFaceAngry as solidAngry, faFaceSadTear as solidSadTear, faFaceSmile as solidSmile, faHeart as solidHeart, faMessage, faThumbsUp as solidThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import S from './style';
+import CommentInsert from './CommentInsert';
+import Comment from './Comment';
 
-const Reaction = () => {
+const Reaction = ({comments, isCommentUpdate, setIsCommentUpdate}) => {
+    // 하트 icon 클릭 및 하트 수 상태변화 관리
     const [heartChange, setHeartChange] = useState(false);
     const [heartCount, setHeartCount] = useState(0);
-
+    // 좋아요 icon 클릭 및 좋아요 수 상태변화 관리
     const [thumbsUpChange, setThumbsUpChange] = useState(false);
     const [thumbsUpCount, setThumbsUpCount] = useState(0);
-
+    // 즐거움 icon 클릭 및 즐거움 수 상태변화 관리
     const [smileChange, setSmileChange] = useState(false);
     const [smileCount, setSmileCount] = useState(0);
-
+    // 슬픔 icon 클릭 및 슬픔 수 상태변화 관리
     const [sadChange, setSadChange] = useState(false);
     const [sadCount, setSadCount] = useState(0);
-
+    // 화남 icon 클릭 및 화남 수 상태변화 관리
     const [angryChange, setAngryChange] = useState(false);
     const [angryCount, setAngryCount] = useState(0);
 
-    const [commentChange, setCommentChange] = useState(false);
+    const [showWindow, setShowWindow] = useState(false);
+    
+    function activateCommentWindow() {
+        setShowWindow(!showWindow);
+    }
 
+
+    
+    // 하트 클릭 이벤트 및 하트 수 변화 이벤트
     const handleHeart = () => {
         setHeartChange(!heartChange)
         if(heartChange){
@@ -30,7 +40,7 @@ const Reaction = () => {
             return setHeartCount(heartCount + 1);
         }
     }
-
+    // 좋아요 클릭 이벤트 및 좋아요 수 변화 이벤트
     const handleThumbsUp = () => {
         setThumbsUpChange(!thumbsUpChange)
         if(thumbsUpChange){
@@ -39,7 +49,7 @@ const Reaction = () => {
              return setThumbsUpCount(thumbsUpCount + 1);
         }
     }
-
+    // 즐거움 클릭 이벤트 및 즐거움 수 변화 이벤트
     const handleSmile = () => {
         setSmileChange(!smileChange)
         if(smileChange){
@@ -48,7 +58,7 @@ const Reaction = () => {
             return setSmileCount(smileCount + 1);
         }
     }
-
+    // 슬픔 클릭 이벤트 및 슬픔 수 변화 이벤트
     const handleSad = () => {
         setSadChange(!sadChange)
         if(sadChange){
@@ -57,7 +67,7 @@ const Reaction = () => {
              return setSadCount(sadCount + 1);
          }
     }
-
+    // 화남 클릭 이벤트 및 화남 수 변화 이벤트
     const handleAngry = () => {
         setAngryChange(!angryChange)
         if(angryChange){
@@ -67,17 +77,38 @@ const Reaction = () => {
          }
     }
 
-    const handleComment = () => {
-        setCommentChange(!commentChange)
-    }
+
+
+
+    // 댓글 관련 이벤트 처리
+    // const [ comments, setComments ] = useState([])
+    // const [ error, setError ] = useState(false);
+    // const [ isCommentUpdate, setIsCommentUpdate ] = useState(false);
+
+    // const getComments = async () => {
+    //     try {
+    //         const response = await fetch('http://localhost:3000/ourToday');
+    //         const datas = await response.json()
+    //         return datas
+    //     } catch (error) {
+    //         setError(error)
+    //     }
+    // }    
+
+    // useEffect(() => {
+    //     getComments().then(setComments)
+    // }, [isCommentUpdate])
+
+    // console.log(comments && comments.length)
+
 
     return (
         <S.reactionWrapper>
-            <S.commentContainer>
-                <S.commentWrapper>
+            <S.commentIconContainer>
+                <S.commentIconWrapper onClick={activateCommentWindow}>
                     <FontAwesomeIcon icon = {faMessage} className='comment'/>
-                </S.commentWrapper>
-            </S.commentContainer>
+                </S.commentIconWrapper>
+            </S.commentIconContainer>
             <S.emotionContainer>
                 <S.emotionWrapper>
                     <label>
@@ -97,7 +128,26 @@ const Reaction = () => {
                     </label>
                 </S.emotionWrapper>
             </S.emotionContainer>
-        </S.reactionWrapper>
+            <S.commentWindow>
+                {/* CommentInsert(댓글 입력창)에 comments={comments}
+                    setIsCommentUpdate={setIsCommentUpdate}
+                    isCommentUpdate={isCommentUpdate} 전달할 것 */}
+                <CommentInsert/>
+                <S.commentUnorderedList>
+                    <Comment/>
+                    {/* 각 comment가 추가 될때마다 댓글이 나타나도록 Comment 컴포넌트화 */}
+                    {/* {comments.map((comment, i) => {
+                        <Comment
+                            key={i}
+                            comment={comment}
+                            getComments={getComments}
+                            setIsCommentUpdate={setIsCommentUpdate}
+                            isCommentUpdate={isCommentUpdate}
+                        />
+                    })} */}
+                </S.commentUnorderedList>
+            </S.commentWindow> 
+        </S.reactionWrapper> 
     );
 };
 

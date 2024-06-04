@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import S from './style';
+import { Link } from 'react-router-dom';
 
 const OurDayButton = () => {
     const [tab, setTab] = useState("ourToday");
@@ -14,18 +15,20 @@ const OurDayButton = () => {
 
     return (
         <S.contentButtonWrapper>
-                <S.buttonsWrapper>
+                <S.buttonsContainer>
                     <S.dayButtonWrapper onClick={activateTabToOurToday} className={tab === "ourToday" ? "activeTab" : ""}>
                             우리의 오늘
                     </S.dayButtonWrapper>
                     <S.dayButtonWrapper onClick={activateTabToMyToday} className={tab === "myToday" ? "activeTab" : ""}>
                             나의 오늘
                     </S.dayButtonWrapper>
-                </S.buttonsWrapper>
+                </S.buttonsContainer>
                 <S.writingButtonWrapper>
-                    <S.writingButton>
-                        나의 오늘 쓰기
-                    </S.writingButton>
+                    <Link to={"/WriteToday"}>
+                        <S.writingButton>
+                            나의 오늘 쓰기
+                        </S.writingButton>
+                    </Link>
                 </S.writingButtonWrapper>
         </S.contentButtonWrapper>
     );
