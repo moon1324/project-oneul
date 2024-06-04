@@ -24,11 +24,9 @@ const OurDayButton = () => {
                     </S.dayButtonWrapper>
                 </S.buttonsContainer>
                 <S.writingButtonWrapper>
-                    <Link to={"/WriteToday"}>
                         <S.writingButton>
                             나의 오늘 쓰기
                         </S.writingButton>
-                    </Link>
                 </S.writingButtonWrapper>
         </S.contentButtonWrapper>
     );

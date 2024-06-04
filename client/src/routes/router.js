@@ -10,7 +10,6 @@ import MyMind from "../pages/myMind/MyMind";
 import Calendar from "../pages/calendar/Calendar";
 import MyPage from "../pages/myPage/MyPage";
 import PageNotFound from "../pages/error/PageNotFound";
-import WriteToday from "../pages/ourToday/WriteToday";
 
 const router = createBrowserRouter([
     {
@@ -29,10 +28,6 @@ const router = createBrowserRouter([
                 path: "/ourToday",
                 element: <OurToday />,
 
-            },
-            {
-                path: "/writeToday",
-                element: <WriteToday />,
             },
             {
                 path: "/myMind",
