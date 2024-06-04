@@ -32,7 +32,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["\n        text-align: right;\n\n        & svg{\n                & path{\n                    color : ", ";\n                    }\n            }\n    "]);
+  var data = _taggedTemplateLiteral(["\n        text-align: right;\n\n        & svg{\n                & path{\n                    color : ", ";\n\n                }\n            }\n    "]);
 
   _templateObject5 = function _templateObject5() {
     return data;

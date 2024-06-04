@@ -62,7 +62,8 @@ const S = {}
         & svg{
                 & path{
                     color : ${theme.PALETTE.white};
-                    }
+
+                }
             }
     `
 

@@ -15,6 +15,15 @@ import MyPageMain from "../pages/myPage/MyPageMain";
 import TermsOfUse from "../pages/myPage/TermsOfUse";
 import PrivacyPolicy from "../pages/myPage/PrivacyPolicy";
 import Secession from "../pages/myPage/Secession";
+<<<<<<< HEAD
+=======
+import Banner1 from "../pages/banner/Banner1";
+import Banner2 from "../pages/banner/Banner2";
+import Banner3 from "../pages/banner/Banner3";
+import Banner4 from "../pages/banner/Banner4";
+import Banner5 from "../pages/banner/Banner5";
+import BannerMain from "../pages/banner/BannerMain";
+>>>>>>> main
 
 
 const router = createBrowserRouter([
@@ -82,6 +91,32 @@ const router = createBrowserRouter([
     {
         path: "/banner",
         element: <Banner />,
+        children : [
+            {
+                path:"/banner",
+                element : <BannerMain/>
+            }
+            ,{
+               path:"/banner/banner1",
+               element : <Banner1/> 
+            },
+            {
+                path:"/banner/banner2",
+                element : <Banner2/> 
+             },
+             {
+                path:"/banner/banner3",
+                element : <Banner3/> 
+             },
+             {
+                path:"/banner/banner4",
+                element : <Banner4/> 
+             },
+             {
+                path:"/banner/banner5",
+                element : <Banner5/> 
+             }
+        ]
     },
     {
         path: "*",
