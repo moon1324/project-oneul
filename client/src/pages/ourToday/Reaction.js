@@ -27,6 +27,7 @@ const Reaction = ({comments, isCommentUpdate, setIsCommentUpdate}) => {
     
     function activateCommentWindow() {
         setShowWindow(!showWindow);
+        console.log(showWindow)
     }
 
 
@@ -128,7 +129,7 @@ const Reaction = ({comments, isCommentUpdate, setIsCommentUpdate}) => {
                     </label>
                 </S.emotionWrapper>
             </S.emotionContainer>
-            <S.commentWindow>
+            { showWindow && <S.commentWindow onClick={activateCommentWindow}>
                 {/* CommentInsert(댓글 입력창)에 comments={comments}
                     setIsCommentUpdate={setIsCommentUpdate}
                     isCommentUpdate={isCommentUpdate} 전달할 것 */}
@@ -145,8 +146,8 @@ const Reaction = ({comments, isCommentUpdate, setIsCommentUpdate}) => {
                             isCommentUpdate={isCommentUpdate}
                         />
                     })} */}
-                </S.commentUnorderedList>
-            </S.commentWindow> 
+                </S.commentUnorderedList> 
+            </S.commentWindow> }
         </S.reactionWrapper> 
     );
 };

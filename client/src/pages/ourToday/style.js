@@ -218,7 +218,6 @@ S.reactionCountWrapper = styled.div`
 
 // 댓글 icon클릭시 나타날 댓글창(in Reaction)
 S.commentWindow = styled.div`
-    display: none;
     width: 360px;
     background-color: #fff;
     height: 385px;
