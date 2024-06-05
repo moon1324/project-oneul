@@ -10,24 +10,25 @@ import MyMind from "../pages/myMind/MyMind";
 import Calendar from "../pages/calendar/Calendar";
 import MyPage from "../pages/myPage/MyPage";
 import PageNotFound from "../pages/error/PageNotFound";
-import MyPageEdit from "../pages/myPage/MyPageEdit";
+import WriteToday from "../pages/ourToday/WriteToday";
 import MyPageMain from "../pages/myPage/MyPageMain";
+import BannerMain from "../pages/banner/BannerMain";
+import Banner4 from "../pages/banner/Banner4";
+import MyPageEdit from "../pages/myPage/MyPageEdit";
 import TermsOfUse from "../pages/myPage/TermsOfUse";
 import PrivacyPolicy from "../pages/myPage/PrivacyPolicy";
 import Secession from "../pages/myPage/Secession";
 import Banner1 from "../pages/banner/Banner1";
 import Banner2 from "../pages/banner/Banner2";
 import Banner3 from "../pages/banner/Banner3";
-import Banner4 from "../pages/banner/Banner4";
 import Banner5 from "../pages/banner/Banner5";
-import BannerMain from "../pages/banner/BannerMain";
-import SignUpMain from "../pages/signUp/SignUpMain";
-import SignUpStep1 from "../pages/signUp/SignUpStep1";
-import SignUpStep2 from "../pages/signUp/SignUpStep2";
-import SignUpStep3 from "../pages/signUp/SignUpStep3";
-import SignUpStep4 from "../pages/signUp/SignUpStep4";
-import SignUpStep5 from "../pages/signUp/SignUpStep5";
 import SignUpSuccess from "../pages/signUp/SignUpSuccess";
+import SignUpStep5 from "../pages/signUp/SignUpStep5";
+import SignUpStep4 from "../pages/signUp/SignUpStep4";
+import SignUpStep2 from "../pages/signUp/SignUpStep2";
+import SignUpStep1 from "../pages/signUp/SignUpStep1";
+import SignUpMain from "../pages/signUp/SignUpMain";
+import SignUpStep3 from "../pages/signUp/SignUpStep3";
 
 const router = createBrowserRouter([
     {
@@ -45,6 +46,11 @@ const router = createBrowserRouter([
             {
                 path: "/ourToday",
                 element: <OurToday />,
+
+            },
+            {
+                path: "/writeToday",
+                element: <WriteToday/>
             },
             {
                 path: "/myMind",
