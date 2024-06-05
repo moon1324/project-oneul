@@ -98,7 +98,14 @@ const SignUpStep1 = () => {
                 <S.ContentContainer>
                     <S.Label htmlFor="email">
                         <p>이메일</p>
-                        <Input variant={"active"} size={"default"} value={email} onChange={handleEmailChange} onBlur={validateEmail} />
+                        <Input
+                            variant={"active"}
+                            size={"default"}
+                            value={email}
+                            placeholder="이메일을 입력해주세요"
+                            onChange={handleEmailChange}
+                            onBlur={validateEmail}
+                        />
                         <S.ConfirmMessageWrapper>
                             {emailError === "pattern" && (
                                 <S.ConfirmMessage>
@@ -139,6 +146,7 @@ const SignUpStep1 = () => {
                             size={"default"}
                             type="password"
                             value={passwordCheck}
+                            placeholder="비밀번호를 입력해주세요"
                             onChange={handlePasswordCheckChange}
                             onBlur={validatePasswordCheck}
                         />

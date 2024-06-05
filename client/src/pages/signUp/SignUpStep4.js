@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import S from "./style";
 import { Link, useNavigate } from "react-router-dom";
 import OneulButton from "../../components/button/OneulButton";
@@ -12,6 +12,7 @@ const SignUpStep4 = () => {
     const dispatch = useDispatch();
     const signUpData = useSelector((state) => state.signup);
     const [profileImg, setProfileImg] = useState("");
+    // const fileRef = useRef(null);
 
     useEffect(() => {
         console.log("SignUpStep4 signUpData:", signUpData);
@@ -26,8 +27,11 @@ const SignUpStep4 = () => {
     // profile label 클릭 시 이미지를 올려서 S.ImgWrapper안의 기본 이미지를 올린 이미지로 변경하고, 화면에 유지하는 로직 (새로운 이미지를 올린 상태로 다시 눌렀을 때 또 새로운 이미지로 대체되도록 코드 구성)
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+        console.log(file);
+
         if (file) {
-            const imageUrl = URL.createObjectURL(file);
+            const reader = new FileReader();
+            const imageUrl = reader.readAsDataURL(file);
             setProfileImg(imageUrl);
         }
     };
