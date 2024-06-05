@@ -67,7 +67,14 @@ const SignUpStep2 = () => {
                 <S.ContentContainer>
                     <S.Label htmlFor="name">
                         <p>이름</p>
-                        <Input variant={"active"} size={"default"} value={name} onChange={handleNameChange} onBlur={validateName} />
+                        <Input
+                            variant={"active"}
+                            size={"default"}
+                            value={name}
+                            placeholder="이름을 입력해주세요"
+                            onChange={handleNameChange}
+                            onBlur={validateName}
+                        />
                         <S.ConfirmMessageWrapper>
                             {nameError === "required" && (
                                 <S.ConfirmMessage>
@@ -79,7 +86,14 @@ const SignUpStep2 = () => {
                     </S.Label>
                     <S.Label htmlFor="mobile">
                         <p>전화번호</p>
-                        <Input variant={"active"} size={"default"} value={mobile} onChange={handleMobileChange} onBlur={validateMobile} />
+                        <Input
+                            variant={"active"}
+                            size={"default"}
+                            value={mobile}
+                            placeholder="전화번호를 입력해주세요"
+                            onChange={handleMobileChange}
+                            onBlur={validateMobile}
+                        />
                         <S.ConfirmMessageWrapper>
                             {mobileError === "required" && (
                                 <S.ConfirmMessage>

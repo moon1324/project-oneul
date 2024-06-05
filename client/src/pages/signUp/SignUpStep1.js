@@ -123,7 +123,15 @@ const SignUpStep1 = () => {
                     </S.Label>
                     <S.Label htmlFor="password">
                         <p>비밀번호</p>
-                        <Input variant={"active"} size={"default"} type="password" value={password} onChange={handlePasswordChange} onBlur={validatePassword} />
+                        <Input
+                            variant={"active"}
+                            size={"default"}
+                            type="password"
+                            value={password}
+                            placeholder="비밀번호를 입력해주세요"
+                            onChange={handlePasswordChange}
+                            onBlur={validatePassword}
+                        />
                         <S.ConfirmMessageWrapper>
                             {passwordError === "pattern" && (
                                 <S.ConfirmMessage>
@@ -146,7 +154,7 @@ const SignUpStep1 = () => {
                             size={"default"}
                             type="password"
                             value={passwordCheck}
-                            placeholder="비밀번호를 입력해주세요"
+                            placeholder="비밀번호를 다시 입력해주세요"
                             onChange={handlePasswordCheckChange}
                             onBlur={validatePasswordCheck}
                         />
