@@ -15,7 +15,7 @@ const SignUpStep2 = () => {
     const signUpData = useSelector((state) => state.signup);
 
     const [name, setName, handleNameChange] = useInput("");
-    const [mobile, setMobile, handleMobileChange] = useInput("");
+    const [mobile, setMobile] = useInput("");
     const [nameError, setNameError] = useState("");
     const [mobileError, setMobileError] = useState("");
 
@@ -34,12 +34,24 @@ const SignUpStep2 = () => {
     };
 
     const validateMobile = () => {
+        const mobilePattern = /^010\d{8}$/;
         if (mobile === "") {
             setMobileError("required");
             return false;
         }
+        if (!mobilePattern.test(mobile)) {
+            setMobileError("invalid");
+            return false;
+        }
         setMobileError("");
         return true;
+    };
+
+    const handleMobileChange = (e) => {
+        const value = e.target.value;
+        if (/^\d*$/.test(value) && value.length <= 11) {
+            setMobile(value);
+        }
     };
 
     // 모든 조건 통과 시, 이름과 전화번호를 redux의 store에 저장, step3로 이동
@@ -89,6 +101,7 @@ const SignUpStep2 = () => {
                         <Input
                             variant={"active"}
                             size={"default"}
+                            type="tel"
                             value={mobile}
                             placeholder="전화번호를 입력해주세요"
                             onChange={handleMobileChange}
@@ -99,6 +112,12 @@ const SignUpStep2 = () => {
                                 <S.ConfirmMessage>
                                     <FontAwesomeIcon icon={faCircleXmark} className="icon" />
                                     전화번호를 입력해주세요.
+                                </S.ConfirmMessage>
+                            )}
+                            {mobileError === "invalid" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    올바른 전화번호를 입력해주세요.
                                 </S.ConfirmMessage>
                             )}
                         </S.ConfirmMessageWrapper>
