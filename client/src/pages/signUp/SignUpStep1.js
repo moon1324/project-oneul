@@ -35,6 +35,11 @@ const SignUpStep1 = () => {
             setEmailError("pattern");
             return false;
         }
+        if (email === "existingEmail") {
+            // 추후 db연결했을 때 값 연결
+            setEmailError("duplicate");
+            return false;
+        }
         if (email === "") {
             setEmailError("required");
             return false;
@@ -111,6 +116,12 @@ const SignUpStep1 = () => {
                                 <S.ConfirmMessage>
                                     <FontAwesomeIcon icon={faCircleXmark} className="icon" />
                                     이메일 양식에 맞게 입력해주세요.
+                                </S.ConfirmMessage>
+                            )}
+                            {emailError === "duplicate" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    이메일이 이미 사용 중입니다.
                                 </S.ConfirmMessage>
                             )}
                             {emailError === "required" && (
