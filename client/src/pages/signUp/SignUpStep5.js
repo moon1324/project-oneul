@@ -24,7 +24,7 @@ const SignUpStep5 = () => {
         setCheckedValue((prev) => (checked ? [...prev, value] : prev.filter((item) => item !== value)));
     };
     // 체크박스를 하나이상 눌렀을 때 다음 버튼을 누르면 체크박스 라벨 안에 같이 있는 p값을 가져와서 store의 origin에 저장, 이제까지 step1-5에서 저장한 store에 있는 모든 값을 db에 전송 (회원가입), 그리고 성공페이지 이동
-    const handleOnClickNext = () => {
+    const handleOnClickNext = async () => {
         if (checkedValue.length === 0) {
             setShowError(true);
             return;
@@ -32,7 +32,30 @@ const SignUpStep5 = () => {
         setShowError(false);
         dispatch(updateSignUpData({ origin: checkedValue }));
 
-        // 여기에 DB 전송 로직 추가 필요
+        // 서버로 데이터 전송
+        // try {
+        //     const response = await fetch("http://localhost:8000/api/signup", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(signUpData),
+        //     });
+        //     console.log(response)
+
+        //     if (!response.ok) {
+        //         throw new Error("SignUp failed");
+        //     }
+
+        //     // 성공적으로 회원가입이 완료되면 성공 페이지로 이동
+        //     navigate("/signUp/success");
+        // } catch (error) {
+        //     console.error("Error during sign-up:", error);
+        // }
+        // console.log("서버 전송 로직 실행")
+
+        // dispatch(resetSignUpData());
+        // console.log("기존 store의 데이터 초기화")
 
         navigate("/signUp/success");
     };
