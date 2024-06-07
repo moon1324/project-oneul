@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import S from "./style";
 import { Link, useNavigate } from "react-router-dom";
 import OneulButton from "../../components/button/OneulButton";
@@ -12,7 +12,6 @@ const SignUpStep4 = () => {
     const dispatch = useDispatch();
     const signUpData = useSelector((state) => state.signup);
     const [profileImg, setProfileImg] = useState("");
-    // const fileRef = useRef(null);
 
     useEffect(() => {
         console.log("SignUpStep4 signUpData:", signUpData);
@@ -31,14 +30,15 @@ const SignUpStep4 = () => {
 
         if (file) {
             const reader = new FileReader();
-            const imageUrl = reader.readAsDataURL(file);
-            setProfileImg(imageUrl);
+            reader.onloadend = () => {
+                setProfileImg(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
     // 다음버튼 눌렀을 시 store에 profile 이미지 저장, SignUpStep5이동
     const handleOnClickNext = () => {
-        // dispatch(updateSignUpData({ profileImg: file }));
         dispatch(updateSignUpData({ profileImg }));
         navigate("/signUp/5");
     };
@@ -68,7 +68,7 @@ const SignUpStep4 = () => {
                                 <FontAwesomeIcon icon={faCirclePlus} className="icon" />
                             </S.ProfileWrapper>
                         </label>
-                        <input type="file" id="profile" style={{ display: "none" }} onChange={handleImageChange} />
+                        <input type="file" id="profile" style={{ display: "none" }} accept=".jpg, .jpeg, .png, .svg" onChange={handleImageChange} />
                     </S.LabelCentered>
                 </S.ContentContainer>
                 <S.ButtonContainer>
