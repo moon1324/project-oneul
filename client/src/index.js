@@ -3,11 +3,25 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { combineReducers, legacy_createStore as createStore } from "redux";
+import { devToolsEnhancer } from "redux-devtools-extension";
+import { Provider } from "react-redux";
+// import signUp from "./modules/signUp";
+import signUpReducer from "./modules/signUp";
+
+const rootReducer = combineReducers({
+    signup: signUpReducer,
+});
+
+// const store = createStore(signUp, devToolsEnhancer());
+const store = createStore(rootReducer, devToolsEnhancer());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <>
-        <App />
+        <Provider store={store}>
+            <App />
+        </Provider>
     </>
 );
 

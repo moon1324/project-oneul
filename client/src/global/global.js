@@ -38,7 +38,7 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Pretendard-Regular';
     }
 
-    button, input {
+    button {
         height: 2.75rem;
         box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
         border-radius: 20px

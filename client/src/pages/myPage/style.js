@@ -11,6 +11,7 @@ const S = {}
          
         & svg {
             font-size: 1.5rem;
+            cursor: pointer;
         }
     `
     S.ProfileContaier = styled.div`
@@ -22,16 +23,37 @@ const S = {}
         justify-content: center;
 
         & .pictureBox{
+            position: relative;
             width: 100px;
             height: 100px;
-            border-radius:50%;
             overflow: hidden;
 
-            & img {
+            & > img {
                 width:100%;
                 height: 100%;
+                border-radius:50%;
                 object-fit: cover;
             }
+            
+            & button {
+                cursor: pointer;
+                position: absolute;
+                bottom: 0px;
+                right: 0px;
+                font-size: 26px;
+                border:none;
+                background-color: transparent;
+                box-shadow: none;
+            }
+        }
+
+        & .uploadBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
         }
     `
 
@@ -93,12 +115,14 @@ const S = {}
     `
     S.ServiceWrapper = styled.div`
         width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 1rem ;
         border-top: 1px solid ${theme.PALETTE.white};
         border-bottom: 1px solid ${theme.PALETTE.white};
+            & a{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
 
         & .secession { 
             color: ${theme.PALETTE.error.red};
@@ -119,6 +143,11 @@ const S = {}
             & h2 {
                 font-family: 'NanumSquareRound';
                 font-size: ${theme.FONT_SIZE.h2};
+            }
+
+            & .secession {
+                color: ${theme.PALETTE.error.red};
+                font-weight: bold;
             }
         `
 
@@ -158,5 +187,23 @@ const S = {}
         & p {
             line-height: 1.5;
         }
-    `         
+    `    
+
+/* Secession */
+
+    S.SecessionCon = styled.div`
+        width: 100%;
+        text-align: center;
+        
+        & p {
+            padding: 20px 0;
+        }
+
+        & div { 
+            width: fit-content;
+            margin: 0 auto;
+            padding: 0 0 50px 0;
+            text-align: left;
+        }
+    `
 export default S;
