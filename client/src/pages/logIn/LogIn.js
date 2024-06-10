@@ -26,9 +26,42 @@ const LogIn = () => {
                     </Link>
                 </S.LogoWrapper>
                 <S.LoginForm
-                    onSubmit={handleSubmit(async (data) => {
-                        console.log(data);
-                    })}
+                    onSubmit={
+                        handleSubmit(async (data) => {
+                            console.log(data);
+                        })
+                        // handleSubmit(async (data) => {
+                        //     try {
+                        //         const response = await fetch("http://localhost:8000/api/login", {
+                        //             method: "POST",
+                        //             headers: {
+                        //                 "Content-Type": "application/json",
+                        //             },
+                        //             body: JSON.stringify(data),
+                        //         });
+
+                        //         if (!response.ok) {
+                        //             const result = await response.json();
+                        //             throw new Error(result.message || "Login failed");
+                        //         }
+
+                        //         const result = await response.json();
+
+                        //         // store에 로그인 데이터 업데이트
+                        //         dispatch(loginSuccess(result.user));
+
+                        //         // 메인 페이지로 이동
+                        //         navigate("/");
+                        //     } catch (error) {
+                        //         console.error("Error during login:", error);
+                        //         setError("apiError", {
+                        //             type: "manual",
+                        //             message: "이메일과 비밀번호가 일치하지 않습니다.",
+                        //         });
+                        //         dispatch(loginFailure(error.message));
+                        //     }
+                        // })
+                    }
                 >
                     <S.LoginLabel htmlFor="email">
                         <p>이메일</p>
@@ -61,7 +94,7 @@ const LogIn = () => {
                     </S.LoginLabel>
                     <S.LoginLabel htmlFor="password">
                         <p>비밀번호</p>
-                        <Input {...register("password", { required: true })} variant={"active"} size={"default"} />
+                        <Input {...register("password", { required: true })} variant={"active"} size={"default"} type="password" />
                         <S.ConfirmMessageWrapper>
                             {errors?.password?.type === "required" && (
                                 <S.ConfirmMessage>
