@@ -1,10 +1,11 @@
 import React from 'react';
+import {Outlet} from 'react-router-dom'
 
 const Banner = () => {
     return (
-        <div>
-            <img src={process.env.PUBLIC_URL + '/images/banner/banner1.svg'}/>
-        </div>
+        <>
+            <Outlet/>
+        </>
     );
 };
 
