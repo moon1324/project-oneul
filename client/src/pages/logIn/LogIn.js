@@ -1,14 +1,18 @@
 import React from "react";
 import S from "./style";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-// import OneulInput from "../../components/input/OneulInput";
+import { useDispatch } from "react-redux";
+import { loginSuccess, loginFailure } from "../../modules/logIn";
 import Input from "../../components/input/style";
 import OneulButton from "../../components/button/OneulButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const LogIn = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const {
         register,
         handleSubmit,
@@ -16,6 +20,47 @@ const LogIn = () => {
     } = useForm({ mode: "onSubmit" });
 
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    const onSubmit = async (data) => {
+        try {
+            const response = await fetch("http://localhost:4000/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: data.email,
+                    password: data.password,
+                }),
+            }).then((response) => {
+                console.log(response, "response data");
+            });
+
+            if (!response.ok) {
+                const result = await response.json();
+                throw new Error(result.message || "Login failed");
+            }
+
+            const result = await response.json();
+
+            // store에 로그인 데이터 업데이트
+            dispatch(loginSuccess(result.user));
+
+            // 메인 페이지로 이동
+            navigate("/");
+        } catch (error) {
+            console.error("Error during login:", error);
+            setError("email", {
+                type: "mismatch",
+                message: "이메일 또는 비밀번호가 일치하지 않습니다.",
+            });
+            setError("password", {
+                type: "mismatch",
+                message: "이메일 또는 비밀번호가 일치하지 않습니다.",
+            });
+            dispatch(loginFailure(error.message));
+        }
+    };
 
     return (
         <S.Background>
@@ -27,40 +72,10 @@ const LogIn = () => {
                 </S.LogoWrapper>
                 <S.LoginForm
                     onSubmit={
-                        handleSubmit(async (data) => {
-                            console.log(data);
-                        })
                         // handleSubmit(async (data) => {
-                        //     try {
-                        //         const response = await fetch("http://localhost:8000/api/login", {
-                        //             method: "POST",
-                        //             headers: {
-                        //                 "Content-Type": "application/json",
-                        //             },
-                        //             body: JSON.stringify(data),
-                        //         });
-
-                        //         if (!response.ok) {
-                        //             const result = await response.json();
-                        //             throw new Error(result.message || "Login failed");
-                        //         }
-
-                        //         const result = await response.json();
-
-                        //         // store에 로그인 데이터 업데이트
-                        //         dispatch(loginSuccess(result.user));
-
-                        //         // 메인 페이지로 이동
-                        //         navigate("/");
-                        //     } catch (error) {
-                        //         console.error("Error during login:", error);
-                        //         setError("apiError", {
-                        //             type: "manual",
-                        //             message: "이메일과 비밀번호가 일치하지 않습니다.",
-                        //         });
-                        //         dispatch(loginFailure(error.message));
-                        //     }
+                        //     console.log(data);
                         // })
+                        handleSubmit(onSubmit)
                     }
                 >
                     <S.LoginLabel htmlFor="email">
@@ -90,6 +105,12 @@ const LogIn = () => {
                                     이메일을 입력해주세요.
                                 </S.ConfirmMessage>
                             )}
+                            {errors?.email?.type === "mismatch" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    이메일 또는 비밀번호가 일치하지 않습니다.
+                                </S.ConfirmMessage>
+                            )}
                         </S.ConfirmMessageWrapper>
                     </S.LoginLabel>
                     <S.LoginLabel htmlFor="password">
@@ -100,6 +121,12 @@ const LogIn = () => {
                                 <S.ConfirmMessage>
                                     <FontAwesomeIcon icon={faCircleXmark} className="icon" />
                                     비밀번호 입력해주세요.
+                                </S.ConfirmMessage>
+                            )}
+                            {errors?.password?.type === "mismatch" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    이메일 또는 비밀번호가 일치하지 않습니다.
                                 </S.ConfirmMessage>
                             )}
                         </S.ConfirmMessageWrapper>
