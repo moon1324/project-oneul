@@ -16,6 +16,7 @@ const rootReducer = combineReducers({
 // const store = createStore(signUp, devToolsEnhancer());
 const store = createStore(rootReducer, devToolsEnhancer());
 
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <>

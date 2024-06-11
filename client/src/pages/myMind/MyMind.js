@@ -1,7 +1,13 @@
-import React from "react";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 const MyMind = () => {
-    return <div>나의 마음보기</div>;
+    return (
+        <div>
+            <Outlet/>
+        </div>
+    );
 };
 
 export default MyMind;
+
