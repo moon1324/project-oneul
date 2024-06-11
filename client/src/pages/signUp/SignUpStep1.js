@@ -35,6 +35,11 @@ const SignUpStep1 = () => {
             setEmailError("pattern");
             return false;
         }
+        if (email === "existingEmail") {
+            // 추후 db연결했을 때 값 연결
+            setEmailError("duplicate");
+            return false;
+        }
         if (email === "") {
             setEmailError("required");
             return false;
@@ -98,12 +103,25 @@ const SignUpStep1 = () => {
                 <S.ContentContainer>
                     <S.Label htmlFor="email">
                         <p>이메일</p>
-                        <Input variant={"active"} size={"default"} value={email} onChange={handleEmailChange} onBlur={validateEmail} />
+                        <Input
+                            variant={"active"}
+                            size={"default"}
+                            value={email}
+                            placeholder="이메일을 입력해주세요"
+                            onChange={handleEmailChange}
+                            onBlur={validateEmail}
+                        />
                         <S.ConfirmMessageWrapper>
                             {emailError === "pattern" && (
                                 <S.ConfirmMessage>
                                     <FontAwesomeIcon icon={faCircleXmark} className="icon" />
                                     이메일 양식에 맞게 입력해주세요.
+                                </S.ConfirmMessage>
+                            )}
+                            {emailError === "duplicate" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    이메일이 이미 사용 중입니다.
                                 </S.ConfirmMessage>
                             )}
                             {emailError === "required" && (
@@ -116,7 +134,15 @@ const SignUpStep1 = () => {
                     </S.Label>
                     <S.Label htmlFor="password">
                         <p>비밀번호</p>
-                        <Input variant={"active"} size={"default"} type="password" value={password} onChange={handlePasswordChange} onBlur={validatePassword} />
+                        <Input
+                            variant={"active"}
+                            size={"default"}
+                            type="password"
+                            value={password}
+                            placeholder="비밀번호를 입력해주세요"
+                            onChange={handlePasswordChange}
+                            onBlur={validatePassword}
+                        />
                         <S.ConfirmMessageWrapper>
                             {passwordError === "pattern" && (
                                 <S.ConfirmMessage>
@@ -139,6 +165,7 @@ const SignUpStep1 = () => {
                             size={"default"}
                             type="password"
                             value={passwordCheck}
+                            placeholder="비밀번호를 다시 입력해주세요"
                             onChange={handlePasswordCheckChange}
                             onBlur={validatePasswordCheck}
                         />
