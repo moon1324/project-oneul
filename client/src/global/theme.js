@@ -23,6 +23,7 @@ theme.PALETTE = {
     expression: {},
 };
 
+
 theme.FONT_SIZE = {
     h1: "36px",
     h2: "26px",
