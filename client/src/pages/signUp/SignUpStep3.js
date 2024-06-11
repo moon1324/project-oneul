@@ -61,7 +61,14 @@ const SignUpNickname = () => {
                 <S.ContentContainer>
                     <S.Label htmlFor="nickname">
                         <p>닉네임</p>
-                        <Input variant={"active"} size={"default"} value={nickname} onChange={handleNicknameChange} onBlur={validateNickname} />
+                        <Input
+                            variant={"active"}
+                            size={"default"}
+                            value={nickname}
+                            placeholder="닉네임을 입력해주세요"
+                            onChange={handleNicknameChange}
+                            onBlur={validateNickname}
+                        />
                         <S.ConfirmMessageWrapper>
                             {nicknameError === "required" && (
                                 <S.ConfirmMessage>

@@ -97,12 +97,11 @@ S.ProfileWrapper = styled.div`
     }
 `;
 
-S.ImgWrapper = styled.div`
+S.ProfileImgWrapper = styled.div`
     width: 100px;
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    background-color: gray;
 
     & img {
         width: 100%;

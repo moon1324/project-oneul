@@ -26,15 +26,19 @@ const SignUpStep4 = () => {
     // profile label 클릭 시 이미지를 올려서 S.ImgWrapper안의 기본 이미지를 올린 이미지로 변경하고, 화면에 유지하는 로직 (새로운 이미지를 올린 상태로 다시 눌렀을 때 또 새로운 이미지로 대체되도록 코드 구성)
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+        console.log(file);
+
         if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setProfileImg(imageUrl);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfileImg(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
     // 다음버튼 눌렀을 시 store에 profile 이미지 저장, SignUpStep5이동
     const handleOnClickNext = () => {
-        // dispatch(updateSignUpData({ profileImg: file }));
         dispatch(updateSignUpData({ profileImg }));
         navigate("/signUp/5");
     };
@@ -57,14 +61,14 @@ const SignUpStep4 = () => {
                         <p>사람들에게 보일 내 얼굴을 올려보세요</p>
                         <label htmlFor="profile">
                             <S.ProfileWrapper>
-                                <S.ImgWrapper>
+                                <S.ProfileImgWrapper>
                                     {/* 이미지 올리지 않았을 시 기본이미지 */}
                                     <img src={profileImg || `${process.env.PUBLIC_URL}/global/images/default.png`} alt="profile-img" />
-                                </S.ImgWrapper>
+                                </S.ProfileImgWrapper>
                                 <FontAwesomeIcon icon={faCirclePlus} className="icon" />
                             </S.ProfileWrapper>
                         </label>
-                        <input type="file" id="profile" style={{ display: "none" }} onChange={handleImageChange} />
+                        <input type="file" id="profile" style={{ display: "none" }} accept=".jpg, .jpeg, .png, .svg" onChange={handleImageChange} />
                     </S.LabelCentered>
                 </S.ContentContainer>
                 <S.ButtonContainer>
