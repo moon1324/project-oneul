@@ -1,14 +1,16 @@
 import React from "react";
 import OurDayButton from "./OurDayButton";
-import { Outlet } from "react-router-dom";
 import OurDay from "./OurDay";
+import S from "./style";
 
 const OurToday = () => {
     return (
-        <div>
-            <OurDayButton />
-            <OurDay />
-        </div>
+        <>
+            <S.ourTodayContainer>
+                <OurDayButton />
+                <OurDay />
+            </S.ourTodayContainer>
+        </>
     );
 };
 

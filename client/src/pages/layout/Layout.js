@@ -11,7 +11,7 @@ const Layout = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const path = location.pathname;
-    const showHeader = path === "/" || path === "/ourToday" || path === `/search`;
+    const showHeader = path === "/" || path === "/ourToday" || path === `/search` || path === '/writeToday';
 
     // 검색버튼 눌렀을 시 검색 인풋 활성화
     const [isSearchActive, setIsSearchActive] = useState(false);
