@@ -1,8 +1,14 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { flexCenter, flexCenterColumn } from "../../global/common";
+import { motion } from "framer-motion";
 import theme from "../../global/theme";
 
 const S = {};
+
+// 우리의 오늘 Container(in ourToday)
+S.ourTodayContainer = styled.div`
+    overflow: hidden;
+`
 
 // "우리의 오늘","나의 오늘","나의 오늘 쓰기" 버튼 전체를 감싸는 Wrapper(in OurDayButton)
 S.contentButtonWrapper = styled.div`
@@ -107,27 +113,7 @@ S.reactionContainer = styled.div`
     align-items: center;
 `;
 
-const fadeIn = keyframes`
-    from {
-        opacity: 1;
-        transform: translateY(60px); /* 적용할 곳에 맞게  translateY을 조절해주면 됨 */
-    }
-    to {
-        opacity: 3;
-        transform: none;
-    }
-`;
 
-const fadeOut = keyframes`
-    from {
-        opacity: 1;
-        transform: translateY(60px);
-    }
-    to {
-        opacity: 0;
-        transform: none;
-    }
-`;
 
 // Reaction(좋아요, 하트, 화남,... 댓글 등)을 감싸는 Wrapper(in Reaction)
 S.reactionWrapper = styled.div`
@@ -135,6 +121,7 @@ S.reactionWrapper = styled.div`
     height: 15%;
     ${flexCenter}
 `;
+
 
 // 댓글 icon을 감싸는 Container(in Reaction)
 S.commentIconContainer = styled.div`
@@ -202,7 +189,8 @@ S.emotionWrapper = styled.ul`
 
 // emotion을 목록화해줄 list(in Reaction)
 S.emotionList = styled.li`
-    margin-right: 16px;
+    display: flex;
+    margin-right: 5px;
     padding: 0;
 `;
 
@@ -210,28 +198,24 @@ S.emotionList = styled.li`
 S.reactionCountWrapper = styled.div`
     width: 17px;
     height: 17px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     text-align: center;
 `;
 
 // 댓글 icon클릭시 나타날 댓글창(in Reaction)
-S.commentWindow = styled.div`
-    width: 360px;
+S.commentWindow = styled(motion.div)`
+    width: 100%;
+    height: 45vh;
     background-color: #fff;
-    height: 385px;
     border: 1px solid black;
     border-radius: 20px;
-    position: fixed;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-snap-type: y mandatory;
+    position: absolute;
+    will-change: transform;
 `;
 
 
 // 댓글창에서 댓글의 수를 감싸는 wrapper(in CommentInsert)
 S.commentCountWrapper = styled.div`
+    position: relative;
     width: 55px;
     height: 20px;
     margin: 15px 0 10px 16px;
@@ -239,6 +223,7 @@ S.commentCountWrapper = styled.div`
 
 // 댓글 입력구간이 차지할 공간을 나타내는 container(in CommentInsert)
 S.commentInputContainer = styled.div`
+    position: relative;
     width: 360px;
     height: 60px;
     display: flex;
@@ -251,6 +236,7 @@ S.commentInputContainer = styled.div`
 
 // 댓글 입력구간에서 입력란 옆의 user의 이미지를 감싸줄 wrapper(in CommentInsert)
 S.commentThumbnailWrapper = styled.div`
+    position: relative;
     width: 36px;
     height: 36px;
     margin-left: 16px;
@@ -266,6 +252,7 @@ S.commentThumbnailWrapper = styled.div`
 
 // 댓글 입력란(in CommentInsert)
 S.commentInput = styled.input`
+    position: relative;
     width: 235px;
     height: 60%;
     margin-left: 10px;
@@ -279,6 +266,7 @@ S.commentInput = styled.input`
 
 // 댓글 입력시 누를 수 있는 button(in CommentInsert)
 S.commentForwardButton = styled.button`
+    position: relative;
     width: 35px;
     height: 60%;
     display: flex;
@@ -300,29 +288,34 @@ S.commentForwardButton = styled.button`
 
 // 각각의 댓글을 목록화하는 ul태그(in Reaction)
 S.commentUnorderedList = styled.ul`
+    position: relative;
     list-style-type: none;
     ${flexCenterColumn}
 `;
 
 // 각각의 comment list를 감쌀 Container(in Comment)
 S.commentContainer = styled.div`
+    position: relative;
     width: 360px;
     margin-top: 10px;
 `
 // 각 댓글의 user 정보(프로필 사진 및 이름)를 감싸는 wrapper(in Comment)
 S.commentUserInfoWrapper = styled.div`
+    position: relative;
     display: flex;
     align-items: center;
     width: 255px;
 `
 // 각 댓글의 user이름을 감싸는 p태그(in Comment)
 S.commentUserName = styled.p`
+    position: relative;
     font-size: 14px;
     margin-left: 16px;
 `
 
 // 각 댓글의 내용을 감싸는 wrapper(in Comment)
 S.commentWrapper = styled.div`
+    position: relative;
     display: flex;
     align-items: center;
     width: 360px;
@@ -331,11 +324,64 @@ S.commentWrapper = styled.div`
 
 // 각 댓글의 내용이 들어있는 input요소(in Comment)
 S.comment = styled.input`
+    position: relative;
     width : 310px;
     margin-left: 16px;
     border: none;
     box-shadow: none;
 `;
 
+S.writeTodayContainer = styled.div`
+    ${flexCenterColumn};
+`
+
+S.explanationWritingPostWrapper = styled.div`
+    font-family: 'Pretendard';
+    font-size: 16px;
+    margin-top: 20px;
+    text-align: center;
+`
+
+S.textWrapper = styled.div`
+    width: 320px;
+    height: 320px;
+    margin-top: 20px;
+    background-color: #FFF;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    ${flexCenterColumn};
+    & .writeTodayText::-webkit-scrollbar-thumb {
+        border-radius: 20px;
+    }
+`
+
+S.writeForm = styled.form`
+    ${flexCenterColumn};
+`
+
+S.todayText = styled.textarea`
+    width: 255px;
+    height: 280px;
+    font-family: 'Pretendard';
+    font-size: 15px;
+    border: none;
+    resize: none;
+`
+
+S.writeButtonWrapper = styled.div`
+    width: 360px;
+    height: 44px;
+    margin-top: 20px;
+    ${flexCenter};
+`
+
+S.completeWriteButton = styled.button`
+    width: 260px;
+    height: 100%;
+    color: #fff;
+    background-color: #4D4E89;
+    border: none;
+    cursor: pointer;
+`
 
 export default S;
