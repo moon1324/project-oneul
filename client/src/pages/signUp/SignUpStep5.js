@@ -34,7 +34,7 @@ const SignUpStep5 = () => {
 
         // 서버로 데이터 전송
         // try {
-        //     const response = await fetch("http://localhost:8000/api/signup", {
+        //     const response = await fetch("http://localhost:4000/signup", {
         //         method: "POST",
         //         headers: {
         //             "Content-Type": "application/json",
