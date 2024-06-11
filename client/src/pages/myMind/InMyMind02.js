@@ -5,45 +5,43 @@ import {faCloudMoon} from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/button/style";
 import { Link} from "react-router-dom";
 import TitleStep from "./TitleStep";
-import {useForm} from 'react-hook-form'
+import {FormContext } from "./context/FormContext";
+import { useContext, useState } from "react";
 
-const InMyMind02 = () => {
-    const {register, handleSubmit,
-        formState:{isSubmitting,errors}}
-        =useForm({mode:'onChange'})
-
+const InMyMind02 = ({index}) => {
     
+    const {state, actions} = useContext(FormContext);
+    const [value, setValue] = useState(state.formData[index]||"");
+    
+    const onChangeValue = (e) => {
+        setValue(e.target.value);
+    };
+  
+    const handleSave= (e) => {
+        actions.updateFormData(index, value);
+    };
+
     return (
         <>
-         <S.Wrapper>
+            <S.Wrapper>
                 
-            <TitleStep/>
+                <TitleStep/>
                  
                 <S.QuestionWrapper>
                     <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-                    <p>어떤 상황때문에 이 감정들을 느꼈어?</p>
+                    <p>어떤 상황 때문에 이 감정들을 느꼈어?</p>
                 </S.QuestionWrapper>
 
-                 
-                <S.TextAreaWrapper htmlFor="question01" >
-                    <textarea placeholder="감정을 느낀 구체적인 상황을 말해줄래?"></textarea>
+                 <S.TextAreaWrapper>
+                    <textarea value={value} onChange={onChangeValue} placeholder="감정을 느낀 구체적인 상황을 말해줄래?"></textarea>
                 </S.TextAreaWrapper>
                 
-                 {/* <form action="" method="post">
-                     <S.TextAreaWrapper >
-                         <textarea placeholder="앞에서 말했던 감정들을 구체적인 상황에 넣어서 표현해봐!"></textarea>
-                     </S.TextAreaWrapper>
-                 </form> */}
-                 
-                <S.NextButtonWrapper>
-                     <Link to={'/myMind/inMyMind03'}><Button size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button></Link>
-                </S.NextButtonWrapper>
+                 <S.SaveButtonWrapper>
+                     <Link to={'/myMind/inMyMind03'}><Button onClick={handleSave} size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>저장</Button></Link>
+                </S.SaveButtonWrapper>
             
              </S.Wrapper>
-            
-            
         </>
-    
     )
 };
 

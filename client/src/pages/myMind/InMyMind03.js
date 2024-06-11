@@ -5,8 +5,22 @@ import {faCloudMoon} from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/button/style";
 import { Link} from "react-router-dom";
 import TitleStep from "./TitleStep";
+import {FormContext } from "./context/FormContext";
+import { useContext, useState } from "react";
 
-const InMyMind03 = () => {
+const InMyMind03 = ({index}) => {
+
+    const {state, actions} = useContext(FormContext);
+    const [value, setValue] = useState(state.formData[index]||"");
+    
+    const onChangeValue = (e) => {
+        setValue(e.target.value);
+    };
+  
+    const handleSave= (e) => {
+        actions.updateFormData(index, value);
+    };
+
     return (
         <>
             <S.Wrapper>
@@ -20,18 +34,16 @@ const InMyMind03 = () => {
  
                  <form action="" method="post">
                      <S.TextAreaWrapper >
-                         <textarea placeholder="내가 늘 바란 건 하나야~ 달디단 밤양갱!"></textarea>
+                         <textarea value={value} onChange={onChangeValue} placeholder="내가 늘 바란 건 하나야~ 달디단 밤양갱!"></textarea>
                      </S.TextAreaWrapper>
                  </form>
                  
-                 <S.NextButtonWrapper>
-                     <Link to={'/myMind/inMyMind04'}><Button size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button></Link>
-                 </S.NextButtonWrapper>
+                 <S.SaveButtonWrapper>
+                     <Link to={'/myMind/inMyMind04'}><Button onClick={handleSave} size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>저장</Button></Link>
+                 </S.SaveButtonWrapper>
             
              </S.Wrapper>
-            
         </>
-    
     )
 };
 

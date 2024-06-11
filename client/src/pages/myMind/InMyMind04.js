@@ -5,8 +5,22 @@ import {faCloudMoon} from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/button/style";
 import { Link} from "react-router-dom";
 import TitleStep from "./TitleStep";
+import {FormContext } from "./context/FormContext";
+import { useContext, useState } from "react";
 
-const InMyMind04 = () => {
+const InMyMind04 = ({index}) => {
+
+    const {state, actions} = useContext(FormContext);
+    const [value, setValue] = useState(state.formData[index]||"");
+    
+    const onChangeValue = (e) => {
+        setValue(e.target.value);
+    };
+  
+    const handleSave= (e) => {
+        actions.updateFormData(index, value);
+    };
+
     return (
         <>
             <S.Wrapper>
@@ -18,20 +32,16 @@ const InMyMind04 = () => {
                      <p>그랬구나..! 마크(이)는 어떤 말이 듣고 싶어?</p>
                 </S.QuestionWrapper>
  
-                 <form action="" method="post">
-                     <S.TextAreaWrapper >
-                         <textarea placeholder="다른 사람에게 듣고 싶은 말을 적어봐~"></textarea>
-                     </S.TextAreaWrapper>
-                 </form>
+                <S.TextAreaWrapper >
+                    <textarea value={value} onChange={onChangeValue} placeholder="누구에게 어떤 말을 듣고 싶어?"></textarea>
+                </S.TextAreaWrapper>
                  
-                 <S.NextButtonWrapper>
-                     <Link to={'/myMind/inMyMind05'}><Button size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>다음</Button></Link>
-                 </S.NextButtonWrapper>
+                <S.SaveButtonWrapper>
+                    <Link to={'/myMind/inMyMind05'}><Button onClick={handleSave} size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>저장</Button></Link>
+                </S.SaveButtonWrapper>
             
              </S.Wrapper>
-            
         </>
-    
     )
 };
 
