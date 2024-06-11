@@ -1,7 +1,12 @@
-import React from "react";
+import React from 'react';
+import {Outlet } from 'react-router-dom';
 
 const Calendar = () => {
-    return <div>캘린더</div>;
+  return (
+    <div>
+        <Outlet/>
+    </div>
+  );
 };
 
 export default Calendar;
