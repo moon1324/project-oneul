@@ -55,17 +55,20 @@ const sizeCSS = {
 };
 
 const colorCSS = {
+    black: css`
+        color: ${({ theme }) => theme.PALETTE.black};
+    `,
     white: css`
-        color: #fff;
+        color: ${({ theme }) => theme.PALETTE.white};
     `,
     hoverSkyblue: css`
-        color: #5487d3;
+        color: ${({ theme }) => theme.PALETTE.skyblue};
     `,
     hoverIndigo: css`
-        color: #4d4e89;
+        color: ${({ theme }) => theme.PALETTE.indigo};
     `,
     hoverRed: css`
-        color: #ee6161;
+        color: ${({ theme }) => theme.PALETTE.error.red};
     `,
 };
 
