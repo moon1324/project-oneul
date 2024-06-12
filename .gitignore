@@ -12,6 +12,9 @@
 # Built Visual Studio Code Extensions
 *.vsix
 
+# Exclude all 'dist' folders
+client/**/dist/
+
 # node_modules of 'client' in react folder
 client/node_modules
 # node_modules of 'server' in react folder
