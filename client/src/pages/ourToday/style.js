@@ -203,19 +203,18 @@ S.reactionCountWrapper = styled.div`
 
 // 댓글 icon클릭시 나타날 댓글창(in Reaction)
 S.commentWindow = styled(motion.div)`
-    width: 100%;
+    width: 360px;
     height: 45vh;
     background-color: #fff;
     border: 1px solid black;
     border-radius: 20px;
-    position: absolute;
+    position: fixed;
     will-change: transform;
 `;
 
 
 // 댓글창에서 댓글의 수를 감싸는 wrapper(in CommentInsert)
 S.commentCountWrapper = styled.div`
-    position: relative;
     width: 55px;
     height: 20px;
     margin: 15px 0 10px 16px;
@@ -223,7 +222,6 @@ S.commentCountWrapper = styled.div`
 
 // 댓글 입력구간이 차지할 공간을 나타내는 container(in CommentInsert)
 S.commentInputContainer = styled.div`
-    position: relative;
     width: 360px;
     height: 60px;
     display: flex;
@@ -236,7 +234,6 @@ S.commentInputContainer = styled.div`
 
 // 댓글 입력구간에서 입력란 옆의 user의 이미지를 감싸줄 wrapper(in CommentInsert)
 S.commentThumbnailWrapper = styled.div`
-    position: relative;
     width: 36px;
     height: 36px;
     margin-left: 16px;
@@ -252,7 +249,6 @@ S.commentThumbnailWrapper = styled.div`
 
 // 댓글 입력란(in CommentInsert)
 S.commentInput = styled.input`
-    position: relative;
     width: 235px;
     height: 60%;
     margin-left: 10px;
@@ -266,7 +262,6 @@ S.commentInput = styled.input`
 
 // 댓글 입력시 누를 수 있는 button(in CommentInsert)
 S.commentForwardButton = styled.button`
-    position: relative;
     width: 35px;
     height: 60%;
     display: flex;
@@ -288,34 +283,29 @@ S.commentForwardButton = styled.button`
 
 // 각각의 댓글을 목록화하는 ul태그(in Reaction)
 S.commentUnorderedList = styled.ul`
-    position: relative;
     list-style-type: none;
     ${flexCenterColumn}
 `;
 
 // 각각의 comment list를 감쌀 Container(in Comment)
 S.commentContainer = styled.div`
-    position: relative;
     width: 360px;
     margin-top: 10px;
 `
 // 각 댓글의 user 정보(프로필 사진 및 이름)를 감싸는 wrapper(in Comment)
 S.commentUserInfoWrapper = styled.div`
-    position: relative;
     display: flex;
     align-items: center;
     width: 255px;
 `
 // 각 댓글의 user이름을 감싸는 p태그(in Comment)
 S.commentUserName = styled.p`
-    position: relative;
     font-size: 14px;
     margin-left: 16px;
 `
 
 // 각 댓글의 내용을 감싸는 wrapper(in Comment)
 S.commentWrapper = styled.div`
-    position: relative;
     display: flex;
     align-items: center;
     width: 360px;
@@ -324,7 +314,6 @@ S.commentWrapper = styled.div`
 
 // 각 댓글의 내용이 들어있는 input요소(in Comment)
 S.comment = styled.input`
-    position: relative;
     width : 310px;
     margin-left: 16px;
     border: none;

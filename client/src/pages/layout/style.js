@@ -8,6 +8,7 @@ S.Background = styled.div`
     width: 100%;
     height: 100vh;
     background-color: ${theme.PALETTE.white};
+    position: relative;
     ${flexCenter}
 `;
 
