@@ -80,7 +80,7 @@ const SignUpStep1 = () => {
         // 모든 조건 통과시, 이메일과 비밀번호를 redux의 store에 저장, step2로 이동
         if (validateEmail() && validatePassword() && validatePasswordCheck()) {
             dispatch(updateSignUpData({ email, password }));
-            console.log({ email, password });
+            // console.log({ email, password });
             navigate("/signUp/2");
         }
     };
