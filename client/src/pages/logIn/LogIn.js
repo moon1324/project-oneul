@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import S from "./style";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess, loginFailure } from "../../modules/logIn";
 import Input from "../../components/input/style";
 import OneulButton from "../../components/button/OneulButton";
@@ -12,55 +12,66 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 const LogIn = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const userData = useSelector((state) => state.login);
+
+    useEffect(() => {
+        console.log("user data: ", userData);
+    }, [userData]);
 
     const {
         register,
         handleSubmit,
         formState: { isSubmitting, isSubmitted, errors },
+        setError,
     } = useForm({ mode: "onSubmit" });
 
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-    // const onSubmit = async (data) => {
-    //     try {
-    //         const response = await fetch("http://localhost:4000/login", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify({
-    //                 email: data.email,
-    //                 password: data.password,
-    //             }),
-    //         }).then((response) => {
-    //             console.log(response, "response data");
-    //         });
+    const onSubmit = async (data) => {
+        try {
+            const response = await fetch("http://localhost:8000/user/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: data.email,
+                    password: data.password,
+                }),
+            });
+            // .then((response) => {
+            //     console.log(response, "response data");
+            //     console.log(response.ok);
+            // });
+            console.log(response, "response data");
+            console.log(response.ok);
 
-    //         if (!response.ok) {
-    //             const result = await response.json();
-    //             throw new Error(result.message || "Login failed");
-    //         }
+            if (!response.ok) {
+                const result = await response.json();
+                throw new Error(result.message || "Login failed");
+            }
 
-    //         const result = await response.json();
+            const result = await response.json();
 
-    //         // store에 로그인 데이터 업데이트
-    //         dispatch(loginSuccess(result.user));
+            // store에 로그인 데이터 업데이트
+            dispatch(loginSuccess(result.user));
 
-    //         // 메인 페이지로 이동
-    //         navigate("/");
-    //     } catch (error) {
-    //         console.error("Error during login:", error);
-    //         setError("email", {
-    //             type: "mismatch",
-    //             message: "이메일 또는 비밀번호가 일치하지 않습니다.",
-    //         });
-    //         setError("password", {
-    //             type: "mismatch",
-    //             message: "이메일 또는 비밀번호가 일치하지 않습니다.",
-    //         });
-    //         dispatch(loginFailure(error.message));
-    //     }
-    // };
+            // 메인 페이지로 이동
+            navigate("/");
+            console.log(result.user);
+        } catch (error) {
+            console.error("Error during login:", error);
+            setError("email", {
+                type: "mismatch",
+                message: "이메일 또는 비밀번호가 일치하지 않습니다.",
+            });
+            setError("password", {
+                type: "mismatch",
+                message: "이메일 또는 비밀번호가 일치하지 않습니다.",
+            });
+            dispatch(loginFailure(error.message));
+        }
+    };
 
     return (
         <S.Background>
@@ -72,10 +83,10 @@ const LogIn = () => {
                 </S.LogoWrapper>
                 <S.LoginForm
                     onSubmit={
-                        handleSubmit(async (data) => {
-                            console.log(data);
-                        })
-                        // handleSubmit(onSubmit)
+                        // handleSubmit(async (data) => {
+                        //     console.log(data);
+                        // })
+                        handleSubmit(onSubmit)
                     }
                 >
                     <S.LoginLabel htmlFor="email">
