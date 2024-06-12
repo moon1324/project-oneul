@@ -18,4 +18,7 @@ client/**/dist/
 # node_modules of 'client' in react folder
 client/node_modules
 # node_modules of 'server' in react folder
-# server/node_modules
+server/node_modules
+
+# .env in server folder
+server/.env
