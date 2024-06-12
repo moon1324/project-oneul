@@ -30,20 +30,26 @@ const loginUser = async (req, res) => {
         });
     }
 };
-const registerUser = async (req, res) => {
+const signupUser = async (req, res) => {
     console.log(req.body);
-    const user = await User.findOne({ email: req.body.email });
-    if (user) {
-        // 중복 회원가입 요청 발생 시 409 코드
-        return res.status(409).json({
-            registerSuccess: false,
-            message: "이미 존재하는 이메일입니다",
-        });
-    } else {
+    // const user = await User.findOne({ email: req.body.email });
+    // if (user) {
+    //     // 중복 회원가입 요청 발생 시 409 코드
+    //     return res.status(409).json({
+    //         registerSuccess: false,
+    //         message: "이미 존재하는 이메일입니다",
+    //     });
+    // } else
+    {
         // 유저를 파싱
         let register = {
             email: req.body.email,
             password: req.body.password,
+            name: req.body.name,
+            mobile: req.body.mobile,
+            nickname: req.body.nickname,
+            profileImg: req.body.profileImg,
+            origin: req.body.origin,
         };
         // 유저를 등록
         await User.create(register);
@@ -57,4 +63,4 @@ const registerUser = async (req, res) => {
 const updateUser = async (req, res) => {};
 const deleteUser = async (req, res) => {};
 
-export { loginUser, registerUser, updateUser, deleteUser };
+export { loginUser, signupUser, updateUser, deleteUser };
