@@ -8,14 +8,15 @@ import { devToolsEnhancer } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 // import signUp from "./modules/signUp";
 import signUpReducer from "./modules/signUp";
+import loginReducer from "./modules/logIn";
 
 const rootReducer = combineReducers({
     signup: signUpReducer,
+    login: loginReducer,
 });
 
 // const store = createStore(signUp, devToolsEnhancer());
 const store = createStore(rootReducer, devToolsEnhancer());
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
