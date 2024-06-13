@@ -9,12 +9,12 @@ import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 const SignUpSuccess = () => {
     const navigate = useNavigate();
-    // const dispatch = useDispatch();
-    // const signUpData = useSelector((state) => state.signup);
+    const dispatch = useDispatch();
+    const signUpData = useSelector((state) => state.signup);
 
-    // useEffect(() => {
-    //     console.log("SignUpStep5 signUpData:", signUpData);
-    // }, [signUpData]);
+    useEffect(() => {
+        console.log("SignUpStep5 signUpData:", signUpData);
+    }, [signUpData]);
 
     const handleOnClickLogin = () => {
         // dispatch(resetSignUpData());
