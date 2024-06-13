@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import S from "./style";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess, loginFailure } from "../../modules/logIn";
+import { useDispatch } from "react-redux";
+import { setUser, setUserStatus } from "../../modules/logIn";
 import Input from "../../components/input/style";
 import OneulButton from "../../components/button/OneulButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,16 +12,11 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 const LogIn = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const userData = useSelector((state) => state.login);
-
-    useEffect(() => {
-        console.log("user data: ", userData);
-    }, [userData]);
 
     const {
         register,
         handleSubmit,
-        formState: { isSubmitting, isSubmitted, errors },
+        formState: { isSubmitting, errors },
         setError,
     } = useForm({ mode: "onSubmit" });
 
@@ -39,10 +34,6 @@ const LogIn = () => {
                     password: data.password,
                 }),
             });
-            // .then((response) => {
-            //     console.log(response, "response data");
-            //     console.log(response.ok);
-            // });
             console.log(response, "response data");
             console.log(response.ok);
 
@@ -52,13 +43,15 @@ const LogIn = () => {
             }
 
             const result = await response.json();
+            console.log(result);
+            console.log(result.user);
 
             // store에 로그인 데이터 업데이트
-            dispatch(loginSuccess(result.user));
+            dispatch(setUser(result.user));
+            dispatch(setUserStatus(true));
 
             // 메인 페이지로 이동
             navigate("/");
-            console.log(result.user);
         } catch (error) {
             console.error("Error during login:", error);
             setError("email", {
@@ -69,7 +62,6 @@ const LogIn = () => {
                 type: "mismatch",
                 message: "이메일 또는 비밀번호가 일치하지 않습니다.",
             });
-            dispatch(loginFailure(error.message));
         }
     };
 
@@ -78,17 +70,10 @@ const LogIn = () => {
             <S.Wrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"}>
-                        <img src={process.env.PUBLIC_URL + "global/images/logo.png"} />
+                        <img src={process.env.PUBLIC_URL + "global/images/logo.png"} alt="logo" />
                     </Link>
                 </S.LogoWrapper>
-                <S.LoginForm
-                    onSubmit={
-                        // handleSubmit(async (data) => {
-                        //     console.log(data);
-                        // })
-                        handleSubmit(onSubmit)
-                    }
-                >
+                <S.LoginForm onSubmit={handleSubmit(onSubmit)}>
                     <S.LoginLabel htmlFor="email">
                         <p>이메일</p>
                         {/* OneulInput쓰면 OneulInput에서 forwardRef를 써야해서 */}
