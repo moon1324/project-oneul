@@ -3,7 +3,7 @@ import S from "./style";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { loginSuccess, loginFailure } from "../../modules/logIn";
+import { setUser, setUserStatus } from "../../modules/logIn";
 import Input from "../../components/input/style";
 import OneulButton from "../../components/button/OneulButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,68 +16,64 @@ const LogIn = () => {
     const {
         register,
         handleSubmit,
-        formState: { isSubmitting, isSubmitted, errors },
+        formState: { isSubmitting, errors },
+        setError,
     } = useForm({ mode: "onSubmit" });
 
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-    // const onSubmit = async (data) => {
-    //     try {
-    //         const response = await fetch("http://localhost:4000/login", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify({
-    //                 email: data.email,
-    //                 password: data.password,
-    //             }),
-    //         }).then((response) => {
-    //             console.log(response, "response data");
-    //         });
+    const onSubmit = async (data) => {
+        try {
+            const response = await fetch("http://localhost:8000/user/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: data.email,
+                    password: data.password,
+                }),
+            });
+            console.log(response, "response data");
+            console.log(response.ok);
 
-    //         if (!response.ok) {
-    //             const result = await response.json();
-    //             throw new Error(result.message || "Login failed");
-    //         }
+            if (!response.ok) {
+                const result = await response.json();
+                throw new Error(result.message || "Login failed");
+            }
 
-    //         const result = await response.json();
+            const result = await response.json();
+            console.log(result);
+            console.log(result.user);
 
-    //         // store에 로그인 데이터 업데이트
-    //         dispatch(loginSuccess(result.user));
+            // store에 로그인 데이터 업데이트
+            dispatch(setUser(result.user));
+            dispatch(setUserStatus(true));
 
-    //         // 메인 페이지로 이동
-    //         navigate("/");
-    //     } catch (error) {
-    //         console.error("Error during login:", error);
-    //         setError("email", {
-    //             type: "mismatch",
-    //             message: "이메일 또는 비밀번호가 일치하지 않습니다.",
-    //         });
-    //         setError("password", {
-    //             type: "mismatch",
-    //             message: "이메일 또는 비밀번호가 일치하지 않습니다.",
-    //         });
-    //         dispatch(loginFailure(error.message));
-    //     }
-    // };
+            // 메인 페이지로 이동
+            navigate("/");
+        } catch (error) {
+            console.error("Error during login:", error);
+            setError("email", {
+                type: "mismatch",
+                message: "이메일 또는 비밀번호가 일치하지 않습니다.",
+            });
+            setError("password", {
+                type: "mismatch",
+                message: "이메일 또는 비밀번호가 일치하지 않습니다.",
+            });
+        }
+    };
 
     return (
         <S.Background>
             <S.Wrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"}>
-                        <img src={process.env.PUBLIC_URL + "global/images/logo.png"} />
+                        <img src={process.env.PUBLIC_URL + "global/images/logo.png"} alt="logo" />
                     </Link>
                 </S.LogoWrapper>
-                <S.LoginForm
-                    onSubmit={
-                        handleSubmit(async (data) => {
-                            console.log(data);
-                        })
-                        // handleSubmit(onSubmit)
-                    }
-                >
+                <S.LoginForm onSubmit={handleSubmit(onSubmit)}>
                     <S.LoginLabel htmlFor="email">
                         <p>이메일</p>
                         {/* OneulInput쓰면 OneulInput에서 forwardRef를 써야해서 */}
