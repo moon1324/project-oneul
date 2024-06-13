@@ -185,12 +185,13 @@ S.reactionCountWrapper = styled.div`
 
 // 댓글 icon클릭시 나타날 댓글창(in Reaction)
 S.commentWindow = styled(motion.div)`
-    width: 100%;
-    height: 45vh;
+    width: 360px;
+    height: 350px;
     background-color: #fff;
     border: 1px solid black;
     border-radius: 20px;
-    position: absolute;
+    position: fixed;
+    bottom: 16%;
     will-change: transform;
 `;
 
