@@ -29,7 +29,7 @@ const SignUpNickname = () => {
         // 닉네임 중복시 에러메세지 추가
         // 나중에 db조회값과 비교
         if (nickname === "existingNickname") {
-            setNicknameError("duplicate");
+            setNicknameError("duplicated");
             return false;
         }
         setNicknameError("");
@@ -76,10 +76,10 @@ const SignUpNickname = () => {
                                     닉네임을 입력해주세요.
                                 </S.ConfirmMessage>
                             )}
-                            {nicknameError === "duplicate" && (
+                            {nicknameError === "duplicated" && (
                                 <S.ConfirmMessage>
                                     <FontAwesomeIcon icon={faCircleXmark} className="icon" />
-                                    닉네임이 이미 사용 중입니다.
+                                    중복된 닉네임입니다.
                                 </S.ConfirmMessage>
                             )}
                         </S.ConfirmMessageWrapper>

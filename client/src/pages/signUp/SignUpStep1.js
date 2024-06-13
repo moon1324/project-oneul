@@ -31,6 +31,8 @@ const SignUpStep1 = () => {
 
     // 이메일 형식에 맞지 않으면 에러 메세지 띄우기
     const validateEmail = () => {
+        // 서버에 입력한 이메일을 조회 후 있으면 중복된 이메일이라는 메세지 띄우기
+
         if (!email.match(emailRegex)) {
             setEmailError("pattern");
             return false;

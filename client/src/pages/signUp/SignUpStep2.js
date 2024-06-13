@@ -43,6 +43,11 @@ const SignUpStep2 = () => {
             setMobileError("invalid");
             return false;
         }
+        // 입력한 mobile을 db조회 후 중복된 번호면 에러메세지 띄우기
+        if (mobile === "existingMobile") {
+            setMobileError("duplicate");
+            return false;
+        }
         setMobileError("");
         return true;
     };
@@ -118,6 +123,12 @@ const SignUpStep2 = () => {
                                 <S.ConfirmMessage>
                                     <FontAwesomeIcon icon={faCircleXmark} className="icon" />
                                     올바른 전화번호를 입력해주세요.
+                                </S.ConfirmMessage>
+                            )}
+                            {mobileError === "duplicated" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    중복된 전화번호입니다.
                                 </S.ConfirmMessage>
                             )}
                         </S.ConfirmMessageWrapper>
