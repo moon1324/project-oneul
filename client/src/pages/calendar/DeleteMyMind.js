@@ -14,6 +14,7 @@ const DeleteMyMind = ({visible,setVisible}) => {
     // const formDatas=state.formData;
 
     // const [visible, setVisible] = useState(true);
+    
    
     return (
     <>  

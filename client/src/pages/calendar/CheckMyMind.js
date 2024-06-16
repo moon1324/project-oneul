@@ -19,9 +19,9 @@ const CheckMyMind = () => {
     return (
         <>
         {visible&&<DeleteMyMind visible={visible} setVisible={setVisible}/>}
-            {/* 왜 안돼!!!!!!!!!!!!!!!!! */}
+            {/* 됐다!!!!!!!!!!!!!!!!! */}
             <S.CheckMyMindContainer>
-            <div className={visible?'grayBackground':''}></div>
+            <div className={visible?'grayBackground':''}>
                 <S.IconsWrapper>
                     <Link to={'/calendar/checkMyMind/modifyMyMind'}><FontAwesomeIcon icon={faPenToSquare} className='faPenToSquare'/></Link>
                     <div>
@@ -78,7 +78,7 @@ const CheckMyMind = () => {
                         <div className='answer'> {formDatas[5]} </div>
                     </div>
                 </S.ContentWrapper>
-
+                </div>
             </S.CheckMyMindContainer>
         </>
 

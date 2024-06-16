@@ -115,7 +115,7 @@ S.CheckMyMindContainer=styled.div`
     position: relative;
     
     & div.grayBackground{
-        background-color: gray;
+        background-color: #8C9094;
     }
 `
  
@@ -222,6 +222,7 @@ S.DeletePageContainer=styled.div`
     /* background-color: #8C9094; */
     /* width:360px;
     height:570px; */
+    background-color: rgba(0,0,0,0.4);
 `
 S.DeleteContainer=styled.div`
     ${flexCenterColumn};
