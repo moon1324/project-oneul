@@ -33,7 +33,25 @@ const SignUpStep2 = () => {
         return true;
     };
 
-    const validateMobile = () => {
+    // 전화번호 중복체크
+    const checkMobileDuplicate = async (mobile) => {
+        try {
+            const response = await fetch("http://localhost:8000/user/checkMobile", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ mobile }),
+            });
+            const result = await response.json();
+            return result.duplicate;
+        } catch (error) {
+            console.error("Error checking mobile:", error);
+            return false;
+        }
+    };
+
+    const validateMobile = async () => {
         const mobilePattern = /^010\d{8}$/;
         if (mobile === "") {
             setMobileError("required");
@@ -44,7 +62,8 @@ const SignUpStep2 = () => {
             return false;
         }
         // 입력한 mobile을 db조회 후 중복된 번호면 에러메세지 띄우기
-        if (mobile === "existingMobile") {
+        const isDuplicate = await checkMobileDuplicate(mobile);
+        if (isDuplicate) {
             setMobileError("duplicate");
             return false;
         }
@@ -60,8 +79,10 @@ const SignUpStep2 = () => {
     };
 
     // 모든 조건 통과 시, 이름과 전화번호를 redux의 store에 저장, step3로 이동
-    const handleOnClickNext = () => {
-        if (validateName() && validateMobile()) {
+    const handleOnClickNext = async () => {
+        const isNameValid = validateName();
+        const isMobileValid = await validateMobile();
+        if (isNameValid && isMobileValid) {
             dispatch(updateSignUpData({ name, mobile }));
             navigate("/signUp/3");
         }
@@ -125,7 +146,7 @@ const SignUpStep2 = () => {
                                     올바른 전화번호를 입력해주세요.
                                 </S.ConfirmMessage>
                             )}
-                            {mobileError === "duplicated" && (
+                            {mobileError === "duplicate" && (
                                 <S.ConfirmMessage>
                                     <FontAwesomeIcon icon={faCircleXmark} className="icon" />
                                     중복된 전화번호입니다.

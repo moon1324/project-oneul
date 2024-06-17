@@ -46,6 +46,21 @@ const checkEmail = async (req, res) => {
     });
 };
 
+const checkMobile = async (req, res) => {
+    console.log(req.body);
+    const user = await User.findOne({ mobile: req.body.mobile });
+    if (user) {
+        return res.status(200).json({
+            message: "이미 사용중인 전화번호입니다",
+            duplicate: true,
+        });
+    }
+    return res.status(200).json({
+        message: "사용가능한 전화번호입니다",
+        duplicate: false,
+    });
+};
+
 const signupUser = async (req, res) => {
     console.log(req.body);
     {
@@ -71,4 +86,4 @@ const signupUser = async (req, res) => {
 const updateUser = async (req, res) => {};
 const deleteUser = async (req, res) => {};
 
-export { loginUser, checkEmail, signupUser, updateUser, deleteUser };
+export { loginUser, checkEmail, checkMobile, signupUser, updateUser, deleteUser };
