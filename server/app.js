@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import rootRouter from "./routes/rootRouter.js";
 import dotenv from "dotenv";
+import passport from "passport";
+import { initializePassport } from "./auth/auth.js";
 
 // .env 파일에서 환경변수 불러오기
 dotenv.config();
@@ -30,6 +32,10 @@ app.use(
         credential: true,
     })
 );
+
+// passport 로직 추가
+app.use(passport.initialize());
+initializePassport();
 
 // 라우팅 처리
 app.use("/", rootRouter);
