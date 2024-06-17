@@ -21,15 +21,33 @@ const SignUpNickname = () => {
         console.log("SignUpStep3 signUpData:", signUpData);
     }, [signUpData]);
 
-    const validateNickname = () => {
+    // 닉네임 중복체크
+    const checkNicknameDuplicate = async (nickname) => {
+        try {
+            const response = await fetch("http://localhost:8000/user/checkNickname", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ nickname }),
+            });
+            const result = await response.json();
+            return result.duplicate;
+        } catch (error) {
+            console.error("Error checking nickname:", error);
+            return false;
+        }
+    };
+
+    const validateNickname = async () => {
         if (nickname === "") {
             setNicknameError("required");
             return false;
         }
         // 닉네임 중복시 에러메세지 추가
-        // 나중에 db조회값과 비교
-        if (nickname === "existingNickname") {
-            setNicknameError("duplicated");
+        const isDuplicate = await checkNicknameDuplicate(nickname);
+        if (isDuplicate) {
+            setNicknameError("duplicate");
             return false;
         }
         setNicknameError("");
@@ -37,8 +55,10 @@ const SignUpNickname = () => {
     };
 
     // 모든 조건 통과 시, 이름과 전화번호를 redux의 store에 저장, step3로 이동
-    const handleOnClickNext = () => {
-        if (validateNickname()) {
+    const handleOnClickNext = async () => {
+        const isNicknameValid = await validateNickname();
+
+        if (isNicknameValid) {
             dispatch(updateSignUpData({ nickname }));
             navigate("/signUp/4");
         }
@@ -76,7 +96,7 @@ const SignUpNickname = () => {
                                     닉네임을 입력해주세요.
                                 </S.ConfirmMessage>
                             )}
-                            {nicknameError === "duplicated" && (
+                            {nicknameError === "duplicate" && (
                                 <S.ConfirmMessage>
                                     <FontAwesomeIcon icon={faCircleXmark} className="icon" />
                                     중복된 닉네임입니다.

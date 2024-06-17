@@ -61,6 +61,21 @@ const checkMobile = async (req, res) => {
     });
 };
 
+const checkNickname = async (req, res) => {
+    console.log(req.body);
+    const user = await User.findOne({ nickname: req.body.nickname });
+    if (user) {
+        return res.status(200).json({
+            message: "이미 사용중인 닉네임입니다",
+            duplicate: true,
+        });
+    }
+    return res.status(200).json({
+        message: "사용가능한 닉네임입니다",
+        duplicate: false,
+    });
+};
+
 const signupUser = async (req, res) => {
     console.log(req.body);
     {
@@ -86,4 +101,4 @@ const signupUser = async (req, res) => {
 const updateUser = async (req, res) => {};
 const deleteUser = async (req, res) => {};
 
-export { loginUser, checkEmail, checkMobile, signupUser, updateUser, deleteUser };
+export { loginUser, checkEmail, checkMobile, checkNickname, signupUser, updateUser, deleteUser };
