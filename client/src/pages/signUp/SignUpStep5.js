@@ -50,6 +50,7 @@ const SignUpStep5 = () => {
                     // signUpData.origin으로 접근하면 빈배열이 들어간다
                     // origin 직접 추가
                     origin: origin,
+                    token: "",
                 }),
             });
             // .then((response) => console.log(response, "response data"));
