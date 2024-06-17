@@ -29,21 +29,37 @@ const SignUpStep1 = () => {
         console.log("Initial signUpData:", signUpData);
     }, [signUpData]);
 
-    // 이메일 형식에 맞지 않으면 에러 메세지 띄우기
-    const validateEmail = () => {
-        // 서버에 입력한 이메일을 조회 후 있으면 중복된 이메일이라는 메세지 띄우기
+    // 이메일 중복체크
+    const checkEmailDuplicate = async (email) => {
+        try {
+            const response = await fetch("http://localhost:8000/user/checkEmail", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
+            });
+            const result = await response.json();
+            return result.duplicate;
+        } catch (error) {
+            console.error("Error checking email:", error);
+            return false;
+        }
+    };
 
+    // 이메일 형식에 맞지 않으면 에러 메세지 띄우기
+    const validateEmail = async () => {
         if (!email.match(emailRegex)) {
             setEmailError("pattern");
             return false;
         }
-        if (email === "existingEmail") {
-            // 추후 db연결했을 때 값 연결
-            setEmailError("duplicate");
-            return false;
-        }
         if (email === "") {
             setEmailError("required");
+            return false;
+        }
+        const isDuplicate = await checkEmailDuplicate(email);
+        if (isDuplicate) {
+            setEmailError("duplicate");
             return false;
         }
         setEmailError("");
@@ -78,9 +94,13 @@ const SignUpStep1 = () => {
         return true;
     };
 
-    const handleOnClickNext = () => {
+    const handleOnClickNext = async () => {
         // 모든 조건 통과시, 이메일과 비밀번호를 redux의 store에 저장, step2로 이동
-        if (validateEmail() && validatePassword() && validatePasswordCheck()) {
+        const isEmailValid = await validateEmail();
+        const isPasswordValid = validatePassword();
+        const isPasswordCheckValid = validatePasswordCheck();
+
+        if (isEmailValid && isPasswordValid && isPasswordCheckValid) {
             dispatch(updateSignUpData({ email, password }));
             // console.log({ email, password });
             navigate("/signUp/2");
