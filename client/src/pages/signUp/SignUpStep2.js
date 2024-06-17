@@ -6,7 +6,7 @@ import OneulButton from "../../components/button/OneulButton";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import useInput from "../../hooks/useInput";
 
 const SignUpStep2 = () => {
@@ -14,8 +14,8 @@ const SignUpStep2 = () => {
     const dispatch = useDispatch();
     const signUpData = useSelector((state) => state.signup);
 
-    const [name, setName, handleNameChange] = useInput("");
-    const [mobile, setMobile] = useInput("");
+    const [name, setName, handleNameChange] = useInput(signUpData.name || "");
+    const [mobile, setMobile] = useInput(signUpData.mobile || "");
     const [nameError, setNameError] = useState("");
     const [mobileError, setMobileError] = useState("");
 
@@ -94,9 +94,18 @@ const SignUpStep2 = () => {
         navigate("/logIn");
     };
 
+    // 뒤로가기 버튼 클릭 시 store의 이름과 전화번호를 빈 문자열로 설정하고 이전 단계로 이동
+    const handleOnClickBack = () => {
+        dispatch(updateSignUpData({ name: "", mobile: "" }));
+        navigate("/signUp/1");
+    };
+
     return (
         <S.Background>
             <S.Wrapper>
+                <S.BackWrapper>
+                    <FontAwesomeIcon icon={faArrowLeft} className="icon" onClick={handleOnClickBack} />
+                </S.BackWrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"} onClick={handleOnClickLogin}>
                         <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} alt="logo" />

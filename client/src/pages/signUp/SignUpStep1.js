@@ -7,15 +7,15 @@ import useInput from "../../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const SignUpStep1 = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const signUpData = useSelector((state) => state.signup);
 
-    const [email, setEmail, handleEmailChange] = useInput("");
-    const [password, setPassword, handlePasswordChange] = useInput("");
+    const [email, setEmail, handleEmailChange] = useInput(signUpData.email || "");
+    const [password, setPassword, handlePasswordChange] = useInput(signUpData.password || "");
     const [passwordCheck, setPasswordCheck, handlePasswordCheckChange] = useInput("");
 
     const [emailError, setEmailError] = useState("");
@@ -114,9 +114,17 @@ const SignUpStep1 = () => {
         navigate("/logIn");
     };
 
+    const handleOnClickBack = () => {
+        dispatch(updateSignUpData({ email: "", password: "" }));
+        navigate("/logIn");
+    };
+
     return (
         <S.Background>
             <S.Wrapper>
+                <S.BackWrapper>
+                    <FontAwesomeIcon icon={faArrowLeft} className="icon" onClick={handleOnClickBack} />
+                </S.BackWrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"} onClick={handleOnClickLogin}>
                         <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} alt="logo" />

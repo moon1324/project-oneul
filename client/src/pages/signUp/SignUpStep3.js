@@ -6,7 +6,7 @@ import OneulButton from "../../components/button/OneulButton";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import useInput from "../../hooks/useInput";
 
 const SignUpNickname = () => {
@@ -14,7 +14,7 @@ const SignUpNickname = () => {
     const dispatch = useDispatch();
     const signUpData = useSelector((state) => state.signup);
 
-    const [nickname, setNickname, handleNicknameChange] = useInput("");
+    const [nickname, setNickname, handleNicknameChange] = useInput(signUpData.nickname || "");
     const [nicknameError, setNicknameError] = useState("");
 
     useEffect(() => {
@@ -70,9 +70,18 @@ const SignUpNickname = () => {
         navigate("/logIn");
     };
 
+    // 뒤로가기 버튼 클릭 시 store의 닉네임을 빈 문자열로 설정하고 이전 단계로 이동
+    const handleOnClickBack = () => {
+        dispatch(updateSignUpData({ nickname: "" }));
+        navigate("/signUp/2");
+    };
+
     return (
         <S.Background>
             <S.Wrapper>
+                <S.BackWrapper>
+                    <FontAwesomeIcon icon={faArrowLeft} className="icon" onClick={handleOnClickBack} />
+                </S.BackWrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"} onClick={handleOnClickLogin}>
                         <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} alt="logo" />

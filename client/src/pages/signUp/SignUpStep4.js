@@ -5,16 +5,19 @@ import OneulButton from "../../components/button/OneulButton";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 const SignUpStep4 = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const signUpData = useSelector((state) => state.signup);
-    const [profileImg, setProfileImg] = useState("");
+    const [profileImg, setProfileImg] = useState(signUpData.profileImg || `${process.env.PUBLIC_URL}/global/images/default.png`);
 
     useEffect(() => {
         console.log("SignUpStep4 signUpData:", signUpData);
+        if (signUpData.profileImg) {
+            setProfileImg(signUpData.profileImg);
+        }
     }, [signUpData]);
 
     // 건너뛰기 클릭 시 store에 기본이미지로 profile 이미지 저장, SignUpStep5 이동
@@ -48,9 +51,17 @@ const SignUpStep4 = () => {
         navigate("/logIn");
     };
 
+    const handleOnClickBack = () => {
+        dispatch(updateSignUpData({ profileImg: "" }));
+        navigate("/signUp/3");
+    };
+
     return (
         <S.Background>
             <S.Wrapper>
+                <S.BackWrapper>
+                    <FontAwesomeIcon icon={faArrowLeft} className="icon" onClick={handleOnClickBack} />
+                </S.BackWrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"} onClick={handleOnClickLogin}>
                         <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} alt="logo" />
