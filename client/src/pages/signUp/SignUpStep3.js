@@ -6,7 +6,7 @@ import OneulButton from "../../components/button/OneulButton";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import useInput from "../../hooks/useInput";
 
 const SignUpNickname = () => {
@@ -14,21 +14,39 @@ const SignUpNickname = () => {
     const dispatch = useDispatch();
     const signUpData = useSelector((state) => state.signup);
 
-    const [nickname, setNickname, handleNicknameChange] = useInput("");
+    const [nickname, setNickname, handleNicknameChange] = useInput(signUpData.nickname || "");
     const [nicknameError, setNicknameError] = useState("");
 
     useEffect(() => {
         console.log("SignUpStep3 signUpData:", signUpData);
     }, [signUpData]);
 
-    const validateNickname = () => {
+    // 닉네임 중복체크
+    const checkNicknameDuplicate = async (nickname) => {
+        try {
+            const response = await fetch("http://localhost:8000/user/checkNickname", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ nickname }),
+            });
+            const result = await response.json();
+            return result.duplicate;
+        } catch (error) {
+            console.error("Error checking nickname:", error);
+            return false;
+        }
+    };
+
+    const validateNickname = async () => {
         if (nickname === "") {
             setNicknameError("required");
             return false;
         }
         // 닉네임 중복시 에러메세지 추가
-        // 나중에 db조회값과 비교
-        if (nickname === "existingNickname") {
+        const isDuplicate = await checkNicknameDuplicate(nickname);
+        if (isDuplicate) {
             setNicknameError("duplicate");
             return false;
         }
@@ -37,8 +55,10 @@ const SignUpNickname = () => {
     };
 
     // 모든 조건 통과 시, 이름과 전화번호를 redux의 store에 저장, step3로 이동
-    const handleOnClickNext = () => {
-        if (validateNickname()) {
+    const handleOnClickNext = async () => {
+        const isNicknameValid = await validateNickname();
+
+        if (isNicknameValid) {
             dispatch(updateSignUpData({ nickname }));
             navigate("/signUp/4");
         }
@@ -50,9 +70,18 @@ const SignUpNickname = () => {
         navigate("/logIn");
     };
 
+    // 뒤로가기 버튼 클릭 시 store의 닉네임을 빈 문자열로 설정하고 이전 단계로 이동
+    const handleOnClickBack = () => {
+        dispatch(updateSignUpData({ nickname: "" }));
+        navigate("/signUp/2");
+    };
+
     return (
         <S.Background>
             <S.Wrapper>
+                <S.BackWrapper>
+                    <FontAwesomeIcon icon={faArrowLeft} className="icon" onClick={handleOnClickBack} />
+                </S.BackWrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"} onClick={handleOnClickLogin}>
                         <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} alt="logo" />
@@ -79,7 +108,7 @@ const SignUpNickname = () => {
                             {nicknameError === "duplicate" && (
                                 <S.ConfirmMessage>
                                     <FontAwesomeIcon icon={faCircleXmark} className="icon" />
-                                    닉네임이 이미 사용 중입니다.
+                                    중복된 닉네임입니다.
                                 </S.ConfirmMessage>
                             )}
                         </S.ConfirmMessageWrapper>

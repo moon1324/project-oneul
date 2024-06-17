@@ -30,16 +30,54 @@ const loginUser = async (req, res) => {
         });
     }
 };
+
+const checkEmail = async (req, res) => {
+    console.log(req.body);
+    const user = await User.findOne({ email: req.body.email });
+    if (user) {
+        return res.status(200).json({
+            message: "이미 사용중인 이메일입니다",
+            duplicate: true,
+        });
+    }
+    return res.status(200).json({
+        message: "사용가능한 이메일입니다",
+        duplicate: false,
+    });
+};
+
+const checkMobile = async (req, res) => {
+    console.log(req.body);
+    const user = await User.findOne({ mobile: req.body.mobile });
+    if (user) {
+        return res.status(200).json({
+            message: "이미 사용중인 전화번호입니다",
+            duplicate: true,
+        });
+    }
+    return res.status(200).json({
+        message: "사용가능한 전화번호입니다",
+        duplicate: false,
+    });
+};
+
+const checkNickname = async (req, res) => {
+    console.log(req.body);
+    const user = await User.findOne({ nickname: req.body.nickname });
+    if (user) {
+        return res.status(200).json({
+            message: "이미 사용중인 닉네임입니다",
+            duplicate: true,
+        });
+    }
+    return res.status(200).json({
+        message: "사용가능한 닉네임입니다",
+        duplicate: false,
+    });
+};
+
 const signupUser = async (req, res) => {
     console.log(req.body);
-    // const user = await User.findOne({ email: req.body.email });
-    // if (user) {
-    //     // 중복 회원가입 요청 발생 시 409 코드
-    //     return res.status(409).json({
-    //         registerSuccess: false,
-    //         message: "이미 존재하는 이메일입니다",
-    //     });
-    // } else
     {
         // 유저를 파싱
         let register = {
@@ -63,4 +101,4 @@ const signupUser = async (req, res) => {
 const updateUser = async (req, res) => {};
 const deleteUser = async (req, res) => {};
 
-export { loginUser, signupUser, updateUser, deleteUser };
+export { loginUser, checkEmail, checkMobile, checkNickname, signupUser, updateUser, deleteUser };
