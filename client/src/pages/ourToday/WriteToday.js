@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import S from './style';
+import useTextarea from '../../hooks/useTextarea';
 
 const WriteToday = () => {
-    const [textValue, setTextValue] = useState();
+    const [postValue, setPostValue, handlePostChange] = useTextarea();
 
     return (
         <S.writeTodayContainer>
@@ -11,7 +12,10 @@ const WriteToday = () => {
                     나의 오늘을 다른사람과 나눠볼까요?
                 </S.explanationWritingPostWrapper>
                 <S.textWrapper>
-                    <S.todayText className='writeTodayText' value={textValue} />
+                    <S.todayText className='writeTodayText' 
+                        value={postValue}
+                        onChange={handlePostChange}    
+                    />
                 </S.textWrapper>
                 <S.writeButtonWrapper>
                     <S.completeWriteButton>작성 완료</S.completeWriteButton>
