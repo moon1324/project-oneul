@@ -2,14 +2,11 @@ import React, { useEffect } from "react";
 import S from "./style";
 import { Link, useNavigate } from "react-router-dom";
 import OneulButton from "../../components/button/OneulButton";
-import { useDispatch, useSelector } from "react-redux";
-import { resetSignUpData } from "../../modules/signUp";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 const SignUpSuccess = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+
     const signUpData = useSelector((state) => state.signup);
 
     useEffect(() => {
@@ -17,7 +14,6 @@ const SignUpSuccess = () => {
     }, [signUpData]);
 
     const handleOnClickLogin = () => {
-        // dispatch(resetSignUpData());
         navigate("/logIn");
     };
 

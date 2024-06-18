@@ -2,7 +2,7 @@ import React from "react";
 import S from "./style";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser, setUserStatus } from "../../modules/logIn";
 import Input from "../../components/input/style";
 import OneulButton from "../../components/button/OneulButton";
@@ -12,6 +12,15 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 const LogIn = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const currentUser = useSelector((state) => state.login.currentUser);
+    const userStatus = useSelector((state) => state.login.isLogin);
+
+    // 로그인이 되어있을 시 메인페이지로 이동
+    console.log(userStatus);
+    if (userStatus) {
+        navigate("/");
+    }
 
     const {
         register,
@@ -24,7 +33,8 @@ const LogIn = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch("http://localhost:8000/user/login", {
+            // const response = await fetch("http://localhost:8000/user/login", {
+            const response = await fetch("http://localhost:8000/user/passportLogin", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -46,10 +56,12 @@ const LogIn = () => {
             console.log(result);
             console.log(result.user);
 
+            let { token, user } = result;
+            console.log(token, user);
             // store에 로그인 데이터 업데이트
             dispatch(setUser(result.user));
             dispatch(setUserStatus(true));
-
+            localStorage.setItem("token", token);
             // 메인 페이지로 이동
             navigate("/");
         } catch (error) {

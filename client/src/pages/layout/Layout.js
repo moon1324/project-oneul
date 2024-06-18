@@ -5,13 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeartCircleCheck, faCalendarDays, faHouse, faUsers, faUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import OneulInput from "../../components/input/OneulInput";
 import useInput from "../../hooks/useInput";
+import { useSelector } from "react-redux";
 
 const Layout = () => {
     // useLocation을 써서 메인, 우리의오늘, 검색일때 화면에 header 표시
     const location = useLocation();
     const navigate = useNavigate();
     const path = location.pathname;
-    const showHeader = path === "/" || path === "/ourToday" || path === `/search` || path === '/writeToday';
+    const showHeader = path === "/" || path === "/ourToday" || path === `/search` || path === "/writeToday";
+
+    const currentUser = useSelector((state) => state.login.currentUser);
 
     // 검색버튼 눌렀을 시 검색 인풋 활성화
     const [isSearchActive, setIsSearchActive] = useState(false);
@@ -62,11 +65,11 @@ const Layout = () => {
                             <S.ProfileContainer>
                                 <S.ThumbnailWrapper>
                                     <Link to={"/myPage"}>
-                                        <img src={process.env.PUBLIC_URL + "global/images/profile.jpg"} alt="profile-img" />
+                                        <img src={currentUser.profileImg} alt="profile-img" />
                                     </Link>
                                 </S.ThumbnailWrapper>
                             </S.ProfileContainer>
-                            <S.WelcomeMessage className={isSearchActive ? "display-none" : ""}>michael님, 반가워요!</S.WelcomeMessage>
+                            <S.WelcomeMessage className={isSearchActive ? "display-none" : ""}>{currentUser.nickname}님, 반가워요!</S.WelcomeMessage>
                             <OneulInput
                                 variant={"active"}
                                 size={"default"}
