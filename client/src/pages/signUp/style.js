@@ -16,6 +16,22 @@ S.Wrapper = styled.div`
     height: 640px;
     background-image: url(${process.env.PUBLIC_URL}/global/images/background.png);
     ${flexCenterColumn}
+    position: relative;
+`;
+
+S.BackWrapper = styled.div`
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    ${flexCenter}
+    left: 0;
+    top: 0;
+    .icon {
+        font-size: 24px;
+        path {
+            color: ${theme.PALETTE.white};
+        }
+    }
 `;
 
 S.LogoWrapper = styled.div`
