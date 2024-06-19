@@ -5,7 +5,7 @@ import OneulButton from "../../components/button/OneulButton";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const SignUpStep5 = () => {
     const navigate = useNavigate();
@@ -50,6 +50,7 @@ const SignUpStep5 = () => {
                     // signUpData.origin으로 접근하면 빈배열이 들어간다
                     // origin 직접 추가
                     origin: origin,
+                    token: "",
                 }),
             });
             // .then((response) => console.log(response, "response data"));
@@ -78,9 +79,17 @@ const SignUpStep5 = () => {
         navigate("/logIn");
     };
 
+    const handleOnClickBack = () => {
+        dispatch(updateSignUpData({ origin: "" }));
+        navigate("/signUp/4");
+    };
+
     return (
         <S.Background>
             <S.Wrapper>
+                <S.BackWrapper>
+                    <FontAwesomeIcon icon={faArrowLeft} className="icon" onClick={handleOnClickBack} />
+                </S.BackWrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"} onClick={handleOnClickLogin}>
                         <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} alt="logo" />

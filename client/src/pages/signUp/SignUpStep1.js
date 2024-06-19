@@ -7,15 +7,15 @@ import useInput from "../../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const SignUpStep1 = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const signUpData = useSelector((state) => state.signup);
 
-    const [email, setEmail, handleEmailChange] = useInput("");
-    const [password, setPassword, handlePasswordChange] = useInput("");
+    const [email, setEmail, handleEmailChange] = useInput(signUpData.email || "");
+    const [password, setPassword, handlePasswordChange] = useInput(signUpData.password || "");
     const [passwordCheck, setPasswordCheck, handlePasswordCheckChange] = useInput("");
 
     const [emailError, setEmailError] = useState("");
@@ -29,19 +29,37 @@ const SignUpStep1 = () => {
         console.log("Initial signUpData:", signUpData);
     }, [signUpData]);
 
+    // 이메일 중복체크
+    const checkEmailDuplicate = async (email) => {
+        try {
+            const response = await fetch("http://localhost:8000/user/checkEmail", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
+            });
+            const result = await response.json();
+            return result.duplicate;
+        } catch (error) {
+            console.error("Error checking email:", error);
+            return false;
+        }
+    };
+
     // 이메일 형식에 맞지 않으면 에러 메세지 띄우기
-    const validateEmail = () => {
+    const validateEmail = async () => {
         if (!email.match(emailRegex)) {
             setEmailError("pattern");
             return false;
         }
-        if (email === "existingEmail") {
-            // 추후 db연결했을 때 값 연결
-            setEmailError("duplicate");
-            return false;
-        }
         if (email === "") {
             setEmailError("required");
+            return false;
+        }
+        const isDuplicate = await checkEmailDuplicate(email);
+        if (isDuplicate) {
+            setEmailError("duplicate");
             return false;
         }
         setEmailError("");
@@ -76,9 +94,13 @@ const SignUpStep1 = () => {
         return true;
     };
 
-    const handleOnClickNext = () => {
+    const handleOnClickNext = async () => {
         // 모든 조건 통과시, 이메일과 비밀번호를 redux의 store에 저장, step2로 이동
-        if (validateEmail() && validatePassword() && validatePasswordCheck()) {
+        const isEmailValid = await validateEmail();
+        const isPasswordValid = validatePassword();
+        const isPasswordCheckValid = validatePasswordCheck();
+
+        if (isEmailValid && isPasswordValid && isPasswordCheckValid) {
             dispatch(updateSignUpData({ email, password }));
             // console.log({ email, password });
             navigate("/signUp/2");
@@ -92,9 +114,17 @@ const SignUpStep1 = () => {
         navigate("/logIn");
     };
 
+    const handleOnClickBack = () => {
+        dispatch(updateSignUpData({ email: "", password: "" }));
+        navigate("/logIn");
+    };
+
     return (
         <S.Background>
             <S.Wrapper>
+                <S.BackWrapper>
+                    <FontAwesomeIcon icon={faArrowLeft} className="icon" onClick={handleOnClickBack} />
+                </S.BackWrapper>
                 <S.LogoWrapper>
                     <Link to={"/logIn"} onClick={handleOnClickLogin}>
                         <img src={`${process.env.PUBLIC_URL}/global/images/logo.png`} alt="logo" />

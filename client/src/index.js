@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import { combineReducers, legacy_createStore as createStore } from "redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
 import { Provider } from "react-redux";
-// import signUp from "./modules/signUp";
 import signUpReducer from "./modules/signUp";
 import loginReducer from "./modules/logIn";
 
