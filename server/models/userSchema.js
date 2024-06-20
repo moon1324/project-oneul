@@ -9,7 +9,7 @@ const userSchema = new Schema({
     nickname: { type: String },
     profileImg: { type: String },
     origin: { type: [String] },
-    // token: { type: String },
+    token: { type: String },
 });
 
 // model("객체명", 스키마, "컬렉션(테이블)명")

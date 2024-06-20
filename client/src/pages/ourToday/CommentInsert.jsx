@@ -6,7 +6,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 // 변수로 {comments, isCommentUpdate, setIsCommentUpdate} 받을 것
 const CommentInsert = () => {
-    // const [value, onChangeValue, setValue] = useInput("")
+    const [value, setValue, onChangeValue] = useInput("")
 
     // CRUD
     // POST
@@ -54,16 +54,21 @@ const CommentInsert = () => {
         <>
             <S.commentCountWrapper>
                 <span>댓글</span>
+                <span>1</span>
             </S.commentCountWrapper>
             <S.commentInputContainer>
                 <S.commentThumbnailWrapper>
                     <img src={process.env.PUBLIC_URL + "global/images/profile.jpg"} alt="profile-img" />
                 </S.commentThumbnailWrapper>
-                {/* S.commentInput에 onChange={onChangeValue} onKeyDown={onKeyDownAddComment} 이벤트 및 value={value} 추가 */}
-                <S.commentInput type='text' placeholder='다른사람과 소통해볼까요?' 
-                />
-                {/* S.commentForwardButton에 onClick={clickAddComment} 추가  */}
-                <S.commentForwardButton><FontAwesomeIcon icon={faPaperPlane} className='paperPlane' /></S.commentForwardButton>
+                <S.commentInputWrapper>
+                    {/* S.commentInput에 onChange={onChangeValue} onKeyDown={onKeyDownAddComment} 이벤트 및 value={value} 추가 */}
+                    <S.commentInput type='text' placeholder='다른사람과 소통해볼까요?' 
+                        value={value}
+                        onChange={onChangeValue}
+                    />
+                    {/* S.commentForwardButton에 onClick={clickAddComment} 추가  */}
+                    <S.commentForwardButton><FontAwesomeIcon icon={faPaperPlane} className='paperPlane' /></S.commentForwardButton>
+                </S.commentInputWrapper>
             </S.commentInputContainer>
         </>
     );

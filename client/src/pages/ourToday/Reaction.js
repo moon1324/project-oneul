@@ -131,6 +131,7 @@ const Reaction = () => {
             <S.commentIconContainer>
                 <S.commentIconWrapper onClick={activateCommentWindow}>
                     <FontAwesomeIcon icon = {faMessage} className='comment'/>
+                    <S.commentCount>1</S.commentCount>
                 </S.commentIconWrapper>
             </S.commentIconContainer>
             <S.emotionContainer>

@@ -1,6 +1,8 @@
 import React from 'react';
 import Reaction from './Reaction';
 import S from './style';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const OurDay = () => {
     return (
@@ -12,6 +14,14 @@ const OurDay = () => {
                 <S.userNameWrapper>
                     Michael
                 </S.userNameWrapper>
+                <S.correctionButtonContainer>
+                    <S.correctionButtonWrapper>
+                        <S.correctionButton><FontAwesomeIcon icon={faPenToSquare} className='pen' /></S.correctionButton>
+                    </S.correctionButtonWrapper>
+                    <S.correctionButtonWrapper>
+                        <S.correctionButton><FontAwesomeIcon icon={faTrashCan} className='trash' /></S.correctionButton>
+                    </S.correctionButtonWrapper>
+                </S.correctionButtonContainer>
             </S.postProfileContainer>
             <S.postContentWrapper></S.postContentWrapper>
             <S.reactionContainer>

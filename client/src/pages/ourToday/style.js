@@ -98,6 +98,42 @@ S.userNameWrapper = styled.div`
     margin-left: 20px;
 `;
 
+S.correctionButtonContainer = styled.div`
+    display: flex;
+    margin-left: auto;
+    margin-right: 10px;
+`
+
+S.correctionButtonWrapper = styled.div`
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+S.correctionButton = styled.button`
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-size: 16px;
+        box-shadow: none;
+
+        & .pen path{
+            color : #142146;
+        }
+        & .pen:hover path{
+            color : #5f81f7;
+        }
+
+        & .trash path{
+            color: #142146;
+        }
+        & .trash:hover path{
+            color: #ec6863;
+        }
+`
+
 // 게시글 본문 내용을 감싸는 wrapper(in OurDay)
 S.postContentWrapper = styled.div`
     width : 100%;
@@ -145,7 +181,14 @@ S.commentIconContainer = styled.div`
 // 댓글 icon을 직접적으로 감싸는 wrapper(in Reaction)
 S.commentIconWrapper = styled.div`
     margin-left: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
+
+S.commentCount = styled.p`
+    margin-left: 10px;
+`
 
 // emotion(좋아요, 하트, 화남, 슬픔 등)이 차지할 공간을 마련할 Container(in Reaction)
 S.emotionContainer = styled.div`
@@ -247,23 +290,28 @@ S.commentThumbnailWrapper = styled.div`
     }
 `;
 
+S.commentInputWrapper = styled.div`
+    width: 270px;
+    height: 60%;
+    margin-left: 10px;
+    display: flex;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 20px;
+`
+
 // 댓글 입력란(in CommentInsert)
 S.commentInput = styled.input`
     width: 235px;
-    height: 60%;
-    margin-left: 10px;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    height: 100%;
     border: none;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
 `;
 
 // 댓글 입력시 누를 수 있는 button(in CommentInsert)
 S.commentForwardButton = styled.button`
     width: 35px;
-    height: 60%;
+    height: 100%;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -296,26 +344,38 @@ S.commentContainer = styled.div`
 S.commentUserInfoWrapper = styled.div`
     display: flex;
     align-items: center;
-    width: 255px;
+    width: 100%;
 `
+
+S.commentNameAndDate = styled.div`
+    display: flex;
+    align-items: center;
+`
+
 // 각 댓글의 user이름을 감싸는 p태그(in Comment)
 S.commentUserName = styled.p`
     font-size: 14px;
     margin-left: 16px;
 `
+S.commentDate = styled.p`
+    font-size: 8px;
+    color: #BEC1C5;
+    margin-left: 16px;
+`
+
 
 // 각 댓글의 내용을 감싸는 wrapper(in Comment)
 S.commentWrapper = styled.div`
     display: flex;
     align-items: center;
     width: 360px;
-    margin-top: 2px;
+    margin-top: 5px;
 `;
 
 // 각 댓글의 내용이 들어있는 input요소(in Comment)
 S.comment = styled.input`
-    width : 310px;
-    margin-left: 16px;
+    width : 270px;
+    margin-left: 65px;
     border: none;
     box-shadow: none;
 `;

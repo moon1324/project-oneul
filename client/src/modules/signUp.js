@@ -17,6 +17,7 @@ const initialState = {
     nickname: "",
     profileImg: "",
     origin: "",
+    token: "",
 };
 
 // reducer 제작

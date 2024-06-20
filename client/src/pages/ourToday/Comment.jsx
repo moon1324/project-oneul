@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faPen, faTrash, faX } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faPen, faPenToSquare, faTrash, faTrashCan, faX } from '@fortawesome/free-solid-svg-icons';
 import S from './style';
 
 // 변수로 {comment, getComments, setComments, isCommentUpdate, setIsCommentUpdate}을 받을 것
@@ -90,7 +90,18 @@ const Comment = () => {
                     <S.commentThumbnailWrapper>
                         <img src={process.env.PUBLIC_URL + "global/images/profile.jpg"} alt="profile-img" />
                     </S.commentThumbnailWrapper>
-                    <S.commentUserName>Michael</S.commentUserName>
+                    <S.commentNameAndDate>
+                        <S.commentUserName>Michael</S.commentUserName>
+                        <S.commentDate>2024년 6월 20일</S.commentDate>
+                    </S.commentNameAndDate>
+                    <S.correctionButtonContainer>
+                    <S.correctionButtonWrapper>
+                        <S.correctionButton><FontAwesomeIcon icon={faPenToSquare} className='pen' /></S.correctionButton>
+                    </S.correctionButtonWrapper>
+                    <S.correctionButtonWrapper>
+                        <S.correctionButton><FontAwesomeIcon icon={faTrashCan} className='trash' /></S.correctionButton>
+                    </S.correctionButtonWrapper>
+                </S.correctionButtonContainer>
                 </S.commentUserInfoWrapper>
                 <S.commentWrapper>
                     <S.comment type="text" className='comment' value={"이게 최선입니까? 확실해요?"} />
