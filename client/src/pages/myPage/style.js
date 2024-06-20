@@ -136,6 +136,11 @@ const S = {}
     `
 /* MyPageEdit.js */
 
+        S.Form = styled.form`
+            width: 100%;
+            height: 100%;
+        `
+        
         S.PageTitle = styled.div`
             text-align: center;
             padding: 2.5rem 0;
