@@ -37,6 +37,9 @@ app.use(
 app.use(passport.initialize());
 initializePassport();
 
+// 정적 파일 제공
+app.use("/images", express.static("public/images"));
+
 // 라우팅 처리
 app.use("/", rootRouter);
 

@@ -32,46 +32,70 @@ const SignUpStep5 = () => {
         setShowError(false);
         dispatch(updateSignUpData({ origin }));
 
-        // 서버로 데이터 전송
+        // 프로필 이미지 업로드
         try {
-            const response = await fetch("http://localhost:8000/user/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: signUpData.email,
-                    password: signUpData.password,
-                    name: signUpData.name,
-                    mobile: signUpData.mobile,
-                    nickname: signUpData.nickname,
-                    profileImg: signUpData.profileImg,
-                    // origin: signUpData.origin,
-                    // signUpData.origin으로 접근하면 빈배열이 들어간다
-                    // origin 직접 추가
-                    origin: origin,
-                    token: "",
-                }),
-            });
-            // .then((response) => console.log(response, "response data"));
-            console.log(response, "response data");
+            let profileImgPath = signUpData.profileImg;
+            if (profileImgPath.startsWith("data:image")) {
+                const blob = await fetch(profileImgPath).then((res) => res.blob());
+                const formData = new FormData();
+                formData.append("profileImage", blob, "profileImage.png");
 
-            if (!response.ok) {
-                const result = await response.json();
-                throw new Error(result.message || "SignUp failed");
+                const uploadResponse = await fetch("http://localhost:8000/user/uploadProfileImg", {
+                    method: "POST",
+                    body: formData,
+                });
+                // console.log(uploadResponse, "프로필 이미지 업로드 리스폰스");
+                if (!uploadResponse.ok) {
+                    const uploadData = await uploadResponse.json();
+                    throw new Error(uploadData.message || "Upload Profile Img failed");
+                } else {
+                    const uploadData = await uploadResponse.json();
+                    profileImgPath = uploadData.profileImg;
+
+                    // 서버로 데이터 전송
+                    try {
+                        console.log("서버 전송 로직 실행");
+                        const response = await fetch("http://localhost:8000/user/signup", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                email: signUpData.email,
+                                password: signUpData.password,
+                                name: signUpData.name,
+                                mobile: signUpData.mobile,
+                                nickname: signUpData.nickname,
+                                // profileImg: signUpData.profileImg,
+                                profileImg: profileImgPath,
+                                // origin: signUpData.origin,
+                                // signUpData.origin으로 접근하면 빈배열이 들어간다
+                                // origin 직접 추가
+                                origin: origin,
+                                token: "",
+                            }),
+                        });
+                        // .then((response) => console.log(response, "response data"));
+                        console.log(response, "response data");
+
+                        if (!response.ok) {
+                            const result = await response.json();
+                            throw new Error(result.message || "SignUp failed");
+                        } else {
+                            // 기존 store의 데이터 초기화
+                            dispatch(resetSignUpData());
+                            console.log("기존 store의 데이터 초기화");
+                            // 성공적으로 회원가입이 완료되면 성공 페이지로 이동
+                            navigate("/signUp/success");
+                        }
+                    } catch (error) {
+                        console.error("Error during Sign Up");
+                    }
+                }
             }
-
-            // 성공적으로 회원가입이 완료되면 성공 페이지로 이동
-            navigate("/signUp/success");
         } catch (error) {
-            console.error("Error during sign-up:", error);
+            console.error("Error during Profile Image upload");
         }
-        console.log("서버 전송 로직 실행");
-
-        dispatch(resetSignUpData());
-        console.log("기존 store의 데이터 초기화");
-
-        navigate("/signUp/success");
     };
 
     const handleOnClickLogin = () => {
@@ -141,12 +165,10 @@ const SignUpStep5 = () => {
                     </S.LabelCentered>
                 </S.ContentContainer>
                 <S.ButtonContainer>
-                    <Link to="/signUp/success">
-                        {/* 다음버튼 누를 시 이 페이지의 체크박스값 저장, 그리고 store에 저장된 모든 정보 db에 전송 */}
-                        <OneulButton variant={"indigo"} border={"default"} size={"large"} color={"white"} onClick={handleOnClickNext}>
-                            다음
-                        </OneulButton>
-                    </Link>
+                    {/* 다음버튼 누를 시 이 페이지의 체크박스값 저장, 그리고 store에 저장된 모든 정보 db에 전송 */}
+                    <OneulButton variant={"indigo"} border={"default"} size={"large"} color={"white"} onClick={handleOnClickNext}>
+                        다음
+                    </OneulButton>
                 </S.ButtonContainer>
             </S.Wrapper>
         </S.Background>
