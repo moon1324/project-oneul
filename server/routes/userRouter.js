@@ -1,6 +1,30 @@
 import express from "express";
 import passport from "passport";
-import { authLocation, checkEmail, checkMobile, checkNickname, deleteUser, loginUser, passportLogin, signupUser, updateUser } from "../controller/user/user.js";
+import {
+    authLocation,
+    checkEmail,
+    checkMobile,
+    checkNickname,
+    deleteUser,
+    loginUser,
+    passportLogin,
+    signupUser,
+    updateUser,
+    uploadProfileImage,
+} from "../controller/user/user.js";
+import multer from "multer";
+
+// Multer 설정
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "public/images/profileImg");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
+
+const upload = multer({ storage });
 
 const userRouter = express.Router();
 
@@ -8,6 +32,7 @@ userRouter.post("/login", loginUser);
 userRouter.post("/checkEmail", checkEmail);
 userRouter.post("/checkMobile", checkMobile);
 userRouter.post("/checkNickname", checkNickname);
+userRouter.post("/uploadProfileImg", upload.single("profileImage"), uploadProfileImage);
 userRouter.post("/signup", signupUser);
 userRouter.put("/update", updateUser);
 userRouter.delete("/delete", deleteUser);
