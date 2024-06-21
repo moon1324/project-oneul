@@ -4,6 +4,7 @@ import S from "./style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeartCircleCheck, faCalendarDays, faHouse, faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
 import SearchInput from "./SearchInput";
+import { useSelector } from "react-redux";
 
 const Layout = () => {
     // useLocation을 써서 메인, 우리의오늘, 검색일때 화면에 header 표시
