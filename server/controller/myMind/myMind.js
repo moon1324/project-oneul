@@ -40,9 +40,9 @@ const getMyMindsCalendar = async (req, res) => {
 
 const getMyMind = async (req, res) => {
     const { date } = req.query;
-
+    // const userId = req.user.userId;
     try {
-        let myMind = await MyMind.findOne({ createdAt: date });
+        let myMind = await MyMind.findOne({createdAt: date });
         if (!myMind) {
             return res.status(404).json({ message: '해당 날짜에 데이터가 없습니다.' });
         }
