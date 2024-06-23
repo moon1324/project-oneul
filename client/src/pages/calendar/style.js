@@ -116,6 +116,7 @@ S.CheckMyMindContainer=styled.div`
     
     & div.grayBackground{
         background-color: #8C9094;
+        
     }
 `
  
@@ -126,6 +127,7 @@ S.IconsWrapper=styled.div`
     & .faPenToSquare{
         position: absolute;
         left:7px;
+        cursor: pointer;
     }
     & .faTrashCan{
         position: absolute;
@@ -150,6 +152,7 @@ S.ContentWrapper=styled.div`
     
     & div .answer{
         font-size: 12px;
+        padding-top:5px;
         word-break: break-all;
     }
 `
@@ -176,6 +179,7 @@ S.PageContainer=styled.div`
         right:7px;
         top:7px;
         font-size:22px;
+        cursor: pointer;
     }
 `
 S.QuestionsWrapper=styled.div`
@@ -189,7 +193,7 @@ S.TextAreaWrapper=styled.div`
         height:100%;
         resize:none;
         border:none;
-        padding:10px;
+        padding:10px 0px 10px 10px;
         border-radius: 0.8rem;
         box-shadow: 0 8px 5px -5px gray,
                     -5px 0 5px -5px gray, 
@@ -222,7 +226,7 @@ S.DeletePageContainer=styled.div`
     /* background-color: #8C9094; */
     /* width:360px;
     height:570px; */
-    background-color: rgba(0,0,0,0.4);
+    /* background-color: rgba(0,0,0,0.4); */
 `
 S.DeleteContainer=styled.div`
     ${flexCenterColumn};
