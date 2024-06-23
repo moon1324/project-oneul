@@ -38,7 +38,7 @@ function App() {
                 dispatch(setUserStatus(true));
             })
             .catch(console.error);
-    }, []);
+    }, [dispatch]);
 
     return (
         <>
