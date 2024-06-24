@@ -433,4 +433,83 @@ S.completeWriteButton = styled.button`
     cursor: pointer;
 `
 
+S.modalContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+`
+
+S.modalWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 999;
+    top: 240px;
+    width: 320px;
+    height: 170px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+`
+
+S.modalTitle = styled.h3`
+    position: absolute;
+    top: 15px;
+    font-size: 20px;
+    font-weight: 600;
+`
+
+S.modalDescriptionWrapper = styled.div`
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+S.modalDescription = styled.p`
+    text-align: center;
+    color: #EE6161;
+`
+
+S.modalButtonContainer = styled.div`
+    width : 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+`
+
+S.modalButtonWrapper = styled.div`
+    width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+S.modalCancelButton = styled.button`
+    background-color: #5487D3;
+    border: 2px #5487d3 solid;
+    width: 100px;
+    height: 44px;
+    color: #FFFFFF;
+    cursor: pointer;
+`
+
+S.modalDeleteButton = styled.button`
+    background-color: #EE6161;
+    border: 2px #ee6161 solid;
+    width: 100px;
+    height: 44px;
+    color: #FFFFFF;
+    cursor: pointer;
+`
+
 export default S;

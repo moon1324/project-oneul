@@ -1,67 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import S from "./style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeartCircleCheck, faCalendarDays, faHouse, faUsers, faUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import OneulInput from "../../components/input/OneulInput";
-import useInput from "../../hooks/useInput";
+import { faHeartCircleCheck, faCalendarDays, faHouse, faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
 import SearchInput from "./SearchInput";
 import { useSelector } from "react-redux";
 
 const Layout = () => {
-    
+
     // useLocation을 써서 메인, 우리의오늘, 검색일때 화면에 header 표시
     const location = useLocation();
-    const navigate = useNavigate();
     const path = location.pathname;
     const showHeader = path === "/" || path === "/ourToday" || path === `/search` || path === "/writeToday";
 
     const currentUser = useSelector((state) => state.login.currentUser);
-
-    // 검색버튼 눌렀을 시 검색 인풋 활성화
-    const [isSearchActive, setIsSearchActive] = useState(false);
-    // useInput hook 사용
-    const [searchValue, setSearchValue, handleSearchChange] = useInput("");
-    const searchRef = useRef(null);
-
-    const toggleSearch = () => {
-        setIsSearchActive(!isSearchActive);
-    };
-
-    const handleSearchSubmit = () => {
-        navigate(`/search?value=${searchValue}`);
-        // console.log(searchValue);
-    };
-
-    const handleKeyPress = (e) => {
-        if (e.key === "Enter") {
-            handleSearchSubmit();
-        }
-    };
-
     useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (searchRef.current && !searchRef.current.contains(e.target)) {
-                setIsSearchActive(false);
-                setSearchValue("");
-            }
-        };
-
-        if (isSearchActive) {
-            document.addEventListener("mousedown", handleClickOutside);
-        } else {
-            document.removeEventListener("mousedown", handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [isSearchActive, setSearchValue]);
+        console.log(currentUser);
+    }, [currentUser]);
 
     return (
         <S.Background>
             <S.Wrapper>
-                <SearchInput />
+                {showHeader && <SearchInput />}
                 <S.Main>
                     <Outlet />
                 </S.Main>
