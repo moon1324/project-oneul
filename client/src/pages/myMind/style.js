@@ -120,7 +120,7 @@ S.TextAreaWrapper=styled.div`
         height:100%;
         resize:none;
         border:none;
-        padding:10px;
+        padding:10px 0px 10px 10px;
         border-radius: 0.8rem;
         box-shadow: 0 8px 5px -5px gray,
                     -5px 0 5px -5px gray, 

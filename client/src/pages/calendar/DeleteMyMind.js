@@ -1,19 +1,38 @@
 import React, { useContext, useState } from 'react';
-import {faCloudMoon} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark,faTrashCan,faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import S from './style';
-import { FormContext } from '../myMind/context/FormContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/button/style';
 
-const DeleteMyMind = ({visible,setVisible}) => {
+const DeleteMyMind = ({visible,setVisible,date}) => {
 
-    // const {state} = useContext(FormContext);
-    // // console.log(state.formData);
-    // const formDatas=state.formData;
+    const navigate=useNavigate();
+    const handleDelete = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/myMind/delete', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    createdAt:date
+                }),
+            });
+            if (!response.ok) {
+                throw new Error('데이터 삭제에 실패했습니다.');
+            }
+            
+            setVisible(false);
+            
+        } catch (error) {
+            console.error('데이터 삭제 중 에러 발생:', error);
+        }
+    };
 
-    // const [visible, setVisible] = useState(true);
+    const navigateToCalendar = () => {
+        navigate(`/calendar`);
+    };
+
+    
    
     return (
     <>  
@@ -30,7 +49,8 @@ const DeleteMyMind = ({visible,setVisible}) => {
 
                 <S.DeleteButtons>
                     <Button onClick={()=>{setVisible(false)}}id='button01' size={"small"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>취소</Button>
-                    <Link to={'/calendar'}><Button id='button02' size={"small"} border={"hoverRed"} variant={"red"} color={"white"}>삭제</Button></Link>
+                    <Button onClick={()=>{handleDelete(); navigateToCalendar()}}
+                    id='button02' size={"small"} border={"hoverRed"} variant={"red"} color={"white"}>삭제</Button>
                 </S.DeleteButtons>
             
                 </S.DeleteContainer>

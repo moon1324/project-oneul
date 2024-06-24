@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import S from "./style";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -17,10 +17,12 @@ const LogIn = () => {
     const userStatus = useSelector((state) => state.login.isLogin);
 
     // 로그인이 되어있을 시 메인페이지로 이동
-    console.log(userStatus);
-    if (userStatus) {
-        navigate("/");
-    }
+    useEffect(() => {
+        console.log(userStatus);
+        if (userStatus) {
+            navigate("/");
+        }
+    }, [userStatus, navigate]);
 
     const {
         register,

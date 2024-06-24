@@ -34,7 +34,7 @@ const InMyMind03 = ({index}) => {
  
                  <form action="" method="post">
                      <S.TextAreaWrapper >
-                         <textarea value={value} onChange={onChangeValue} placeholder="내가 늘 바란 건 하나야~ 달디단 밤양갱!"></textarea>
+                         <textarea value={value} onChange={onChangeValue} placeholder="내가 정말로 원했던 것은 뭘까?"></textarea>
                      </S.TextAreaWrapper>
                  </form>
                  

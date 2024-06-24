@@ -83,6 +83,12 @@ const checkNickname = async (req, res) => {
     });
 };
 
+// 이미지 업로드 라우트
+const uploadProfileImage = (req, res) => {
+    const profileImgPath = `/images/profileImg/${req.file.filename}`;
+    res.json({ profileImg: profileImgPath });
+};
+
 const signupUser = async (req, res) => {
     console.log(req.body);
     {
@@ -171,4 +177,4 @@ const authLocation = async (req, res) => {
     }
 };
 
-export { loginUser, checkEmail, checkMobile, checkNickname, signupUser, updateUser, deleteUser, passportLogin, authLocation };
+export { loginUser, checkEmail, checkMobile, checkNickname, uploadProfileImage, signupUser, updateUser, deleteUser, passportLogin, authLocation };
