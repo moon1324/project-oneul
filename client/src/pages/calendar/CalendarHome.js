@@ -1,14 +1,15 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import classNames from "classnames/bind";
 import S from './style';
 import { FormContext } from '../myMind/context/FormContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(S);
 
 const CalendarHome = () => {
-    const { state } = useContext(FormContext)
-    // console.log(state)
+    
+
+    const navigate = useNavigate();
     
     const today = {
         year: new Date().getFullYear(), //오늘 연도
@@ -21,8 +22,33 @@ const CalendarHome = () => {
     const [selectedYear, setSelectedYear] = useState(today.year); //현재 선택된 연도
     const [selectedMonth, setSelectedMonth] = useState(today.month); //현재 선택된 달
     const dateTotalCount = new Date(selectedYear, selectedMonth, 0).getDate(); 
+    const [calendarData, setCalendarData] = useState([]);
 
-    const prevMonth = useCallback(() => {
+    useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await fetch(`http://localhost:8000/myMind/getCalendar`,{
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+              if (!response.ok) {
+                  throw new Error('데이터를 불러오는 데 실패했습니다.');
+              }
+              const datas = await response.json();
+              setCalendarData(datas); // 서버에서 받아온 데이터를 상태에 설정
+          } catch (error) {
+              console.error('데이터를 불러오는 중 에러 발생:', error);
+          }
+      };
+
+      fetchData(); // 데이터를 불러오는 함수 호출
+  }, [selectedYear, selectedMonth]);
+
+  console.log(calendarData);
+
+  const prevMonth = useCallback(() => {
         //이전 달 보기 보튼
         if (selectedMonth === 1) {
           setSelectedMonth(12);
@@ -47,8 +73,6 @@ const CalendarHome = () => {
           setSelectedMonth(selectedMonth + 1);
         }
       }, [selectedMonth]);
-    
-    
     
     const monthControl = useCallback(() => {
         //달 선택박스에서 고르기
@@ -107,11 +131,26 @@ const CalendarHome = () => {
         return weekArr;
       }, []);
     
+    //   const isDateWithData = useCallback((date) => {
+    //     const formattedDate = `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+    //     return calendarData.some(data => data.createdAt.startsWith(formattedDate)); // createdAt이 formattedDate로 시작하는지 확인
+    // }, [calendarData, selectedYear, selectedMonth]);
+
       const returnDay = useCallback(() => {
         //선택된 달의 날짜들 반환 함수
         let dayArr = [];
+        
         const handleClick = (date) => {
-          console.log(`선택된 날짜: ${selectedYear}-${selectedMonth}-${date}`);
+          
+          const formattedDate=`${selectedYear}-${selectedMonth}-${date}`
+          navigate(`/calendar/checkMyMind?date=${formattedDate}`);
+          // const calendarState=calendarData.filter((data,i)=>{data[i].createdAt===formattedDate});
+          // console.log(calendarState);
+          // formattedDate===calendarData
+        //   if (isDateWithData(date)) {
+        //     navigate(`/calendar/checkMyMind?date=${formattedDate}`);
+        // }
+          
         };
         for (const nowDay of week) {
           const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
@@ -129,10 +168,13 @@ const CalendarHome = () => {
                     },
                     { weekday: true }, //전체 날짜 스타일
                    )}
-                   onClick={() => handleClick(i + 1)} // 날짜 클릭 핸들러
+                   onClick={() => handleClick(i+1)} // 날짜 클릭 핸들러
 
                 >
+                  {/* {i}
+                    {isDateWithData(i) && <div className="dot" />} 데이터가 있는 날짜에 동그라미 표시 */}
                   {i + 1}
+                  
                 </div>
               );
             }
@@ -173,7 +215,8 @@ const CalendarHome = () => {
             </S.WeekWrapper>
                     
             <S.DateWrapper>
-              <Link to={'/calendar/checkMyMind'}><div className="date">{returnDay()}</div></Link>
+              <div className="date">{returnDay()}</div>
+              {/* <Link to={'/calendar/checkMyMind'}><div className="date">{returnDay()}</div></Link> */}
             </S.DateWrapper>
                 
           </S.CalendarContainer>
