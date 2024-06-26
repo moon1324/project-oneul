@@ -5,6 +5,7 @@ import OneulInput from "../../components/input/OneulInput";
 import useInput from "../../hooks/useInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 const SearchInput = () => {
     const navigate = useNavigate();
@@ -14,6 +15,9 @@ const SearchInput = () => {
     // useInput hook 사용
     const [searchValue, setSearchValue, handleSearchChange] = useInput("");
     const searchRef = useRef(null);
+
+    const currentUser = useSelector((state) => state.login.currentUser);
+    const [profileImg, setProfileImg] = useState("");
 
     const toggleSearch = () => {
         setIsSearchActive(!isSearchActive);
@@ -29,6 +33,22 @@ const SearchInput = () => {
             handleSearchSubmit();
         }
     };
+
+    useEffect(() => {
+        const fetchUserProfileImage = async () => {
+            if (currentUser && currentUser.email) {
+                try {
+                    const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
+                    const data = await response.json();
+                    setProfileImg(data.profileImg);
+                } catch (error) {
+                    console.error("Failed to fetch user profile image", error);
+                }
+            }
+        };
+
+        fetchUserProfileImage();
+    }, [currentUser.email]);
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -54,11 +74,11 @@ const SearchInput = () => {
                 <S.ProfileContainer>
                     <S.ThumbnailWrapper>
                         <Link to={"/myPage"}>
-                            <img src={process.env.PUBLIC_URL + "global/images/profile.jpg"} alt="profile-img" />
+                            <img src={profileImg} alt="profile-img" />
                         </Link>
                     </S.ThumbnailWrapper>
                 </S.ProfileContainer>
-                <S.WelcomeMessage className={isSearchActive ? "display-none" : ""}>michael님, 반가워요!</S.WelcomeMessage>
+                <S.WelcomeMessage className={isSearchActive ? "display-none" : ""}>{currentUser.nickname}님, 반가워요!</S.WelcomeMessage>
                 <OneulInput
                     variant={"active"}
                     size={"default"}

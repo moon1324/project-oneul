@@ -6,6 +6,7 @@ import {
     checkMobile,
     checkNickname,
     deleteUser,
+    getUserProfile,
     loginUser,
     passportLogin,
     signupUser,
@@ -42,5 +43,7 @@ userRouter.post("/passportLogin", passportLogin);
 
 // 추가로 인증 후 접근해야하는 fetch마다 authenticateLocal()을 심는다.
 userRouter.post("/auth", passport.authenticate("jwt", { session: false }), authLocation);
+
+userRouter.get("/getProfile/:email", getUserProfile);
 
 export default userRouter;
