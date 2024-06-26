@@ -10,8 +10,10 @@ import { faArrowLeft, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 const SignUpStep4 = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const signUpData = useSelector((state) => state.signup);
-    const [profileImg, setProfileImg] = useState(signUpData.profileImg || `${process.env.PUBLIC_URL}/global/images/default.png`);
+    const defaultProfileImg = `${process.env.PUBLIC_URL}/global/images/default.png`;
+    const [profileImg, setProfileImg] = useState(signUpData.profileImg || defaultProfileImg);
 
     useEffect(() => {
         console.log("SignUpStep4 signUpData:", signUpData);
@@ -22,7 +24,7 @@ const SignUpStep4 = () => {
 
     // 건너뛰기 클릭 시 store에 기본이미지로 profile 이미지 저장, SignUpStep5 이동
     const handleOnClickSkip = () => {
-        dispatch(updateSignUpData({ profileImg: `${process.env.PUBLIC_URL}/global/images/default.png` }));
+        dispatch(updateSignUpData({ profileImg: `images/profile/default.png` }));
         navigate("/signUp/5");
     };
 
@@ -37,6 +39,9 @@ const SignUpStep4 = () => {
                 setProfileImg(reader.result);
             };
             reader.readAsDataURL(file);
+        } else {
+            // 파일을 올리지 않았을 때 초기화
+            setProfileImg(defaultProfileImg);
         }
     };
 
@@ -84,13 +89,13 @@ const SignUpStep4 = () => {
                 </S.ContentContainer>
                 <S.ButtonContainer>
                     {/* 이미지를 올렸을 시 건너뛰기버튼을 다음버튼으로 대체 */}
-                    {profileImg ? (
-                        <OneulButton variant={"indigo"} border={"default"} size={"large"} color={"white"} onClick={handleOnClickNext}>
-                            다음
-                        </OneulButton>
-                    ) : (
+                    {profileImg === defaultProfileImg ? (
                         <OneulButton variant={"indigo"} border={"default"} size={"large"} color={"white"} onClick={handleOnClickSkip}>
                             건너뛰기
+                        </OneulButton>
+                    ) : (
+                        <OneulButton variant={"indigo"} border={"default"} size={"large"} color={"white"} onClick={handleOnClickNext}>
+                            다음
                         </OneulButton>
                     )}
                 </S.ButtonContainer>

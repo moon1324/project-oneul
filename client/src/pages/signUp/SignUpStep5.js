@@ -104,6 +104,9 @@ const SignUpStep5 = () => {
     };
 
     const handleOnClickBack = () => {
+        if (signUpData.profileImg === "images/profile/default.png") {
+            dispatch(updateSignUpData({ profileImg: "" }));
+        }
         dispatch(updateSignUpData({ origin: "" }));
         navigate("/signUp/4");
     };
