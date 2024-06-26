@@ -32,7 +32,7 @@ userRouter.post("/login", loginUser);
 userRouter.post("/checkEmail", checkEmail);
 userRouter.post("/checkMobile", checkMobile);
 userRouter.post("/checkNickname", checkNickname);
-userRouter.post("/uploadProfileImg", upload.single("profileImage"), uploadProfileImg);
+userRouter.post("/uploadProfileImg", upload.single("profileImg"), uploadProfileImg);
 userRouter.post("/signup", signupUser);
 userRouter.put("/update", updateUser);
 userRouter.delete("/delete", deleteUser);

@@ -23,6 +23,54 @@ const SignUpStep5 = () => {
         const { value, checked } = e.target;
         setOrigin((prev) => (checked ? [...prev, value] : prev.filter((item) => item !== value)));
     };
+
+    // 프로필이미지를 받아 서버에 업로드한 후 경로를 리턴하는 함수
+    const uploadProfileImg = async (profileImgPath) => {
+        const blob = await fetch(profileImgPath).then((res) => res.blob());
+        const formData = new FormData();
+        formData.append("profileImg", blob, "profileImg.png");
+
+        const response = await fetch("http://localhost:8000/user/uploadProfileImg", {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const result = await response.json();
+            throw new Error(result.message || "Upload failed");
+        }
+
+        const data = await response.json();
+        return data.profileImg;
+    };
+
+    // 회원가입 로직 실행 함수
+    const signUpUser = async (profileImg) => {
+        const response = await fetch("http://localhost:8000/user/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: signUpData.email,
+                password: signUpData.password,
+                name: signUpData.name,
+                mobile: signUpData.mobile,
+                nickname: signUpData.nickname,
+                profileImg,
+                origin,
+                token: "",
+            }),
+        });
+
+        if (!response.ok) {
+            const result = await response.json();
+            throw new Error(result.message || "SignUp failed");
+        }
+
+        return response.json();
+    };
+
     // 체크박스를 하나이상 눌렀을 때 다음 버튼을 누르면 체크박스 라벨 안에 같이 있는 p값을 가져와서 store의 origin에 저장, 이제까지 step1-5에서 저장한 store에 있는 모든 값을 db에 전송 (회원가입), 그리고 성공페이지 이동
     const handleOnClickNext = async () => {
         if (origin.length === 0) {
@@ -32,69 +80,21 @@ const SignUpStep5 = () => {
         setShowError(false);
         dispatch(updateSignUpData({ origin }));
 
-        // 프로필 이미지 업로드
         try {
             let profileImgPath = signUpData.profileImg;
-            if (profileImgPath.startsWith("data:image")) {
-                const blob = await fetch(profileImgPath).then((res) => res.blob());
-                const formData = new FormData();
-                formData.append("profileImage", blob, "profileImage.png");
-
-                const uploadResponse = await fetch("http://localhost:8000/user/uploadProfileImg", {
-                    method: "POST",
-                    body: formData,
-                });
-                // console.log(uploadResponse, "프로필 이미지 업로드 리스폰스");
-                if (!uploadResponse.ok) {
-                    const uploadData = await uploadResponse.json();
-                    throw new Error(uploadData.message || "Upload Profile Img failed");
-                } else {
-                    const uploadData = await uploadResponse.json();
-                    profileImgPath = uploadData.profileImg;
-
-                    // 서버로 데이터 전송
-                    try {
-                        console.log("서버 전송 로직 실행");
-                        const response = await fetch("http://localhost:8000/user/signup", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                email: signUpData.email,
-                                password: signUpData.password,
-                                name: signUpData.name,
-                                mobile: signUpData.mobile,
-                                nickname: signUpData.nickname,
-                                // profileImg: signUpData.profileImg,
-                                profileImg: profileImgPath,
-                                // origin: signUpData.origin,
-                                // signUpData.origin으로 접근하면 빈배열이 들어간다
-                                // origin 직접 추가
-                                origin: origin,
-                                token: "",
-                            }),
-                        });
-                        // .then((response) => console.log(response, "response data"));
-                        console.log(response, "response data");
-
-                        if (!response.ok) {
-                            const result = await response.json();
-                            throw new Error(result.message || "SignUp failed");
-                        } else {
-                            // 기존 store의 데이터 초기화
-                            dispatch(resetSignUpData());
-                            console.log("기존 store의 데이터 초기화");
-                            // 성공적으로 회원가입이 완료되면 성공 페이지로 이동
-                            navigate("/signUp/success");
-                        }
-                    } catch (error) {
-                        console.error("Error during Sign Up");
-                    }
-                }
+            // default이미지가 아니면 uploadProfileImg실행
+            if (profileImgPath && profileImgPath.startsWith("data:image")) {
+                profileImgPath = await uploadProfileImg(profileImgPath);
+                dispatch(updateSignUpData({ profileImg: profileImgPath }));
             }
+            // 회원가입 실행
+            await signUpUser(profileImgPath);
+            // 기존 store의 데이터 초기화
+            dispatch(resetSignUpData());
+            // 성공적으로 회원가입이 완료되면 성공 페이지로 이동
+            navigate("/signUp/success");
         } catch (error) {
-            console.error("Error during Profile Image upload");
+            console.error("Error during Sign Up", error);
         }
     };
 
