@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import { getCurrentTime } from "../utils/utils.js";
 
 const commentSchema = new Schema({
-    postId : { type:Schema.Types.ObjectId, ref: 'Post' },
+    postId : { type:Schema.Types.ObjectId, ref: 'OurToday' },
     commentUser : { type: Schema.Types.ObjectId,  ref: 'User' },
     commentProfileImg : String,
     commentText : String,
@@ -11,9 +11,10 @@ const commentSchema = new Schema({
 
 
 // post => user.id,
-const postSchema = new Schema({
-    postProfileImg : String,
-    postNickname : String,
+const ourTodaySchema = new Schema({
+    userEmail : { type: Schema.Types.ObjectId, ref: 'User'},
+    userProfileImg : String,
+    userNickname : String,
     content : String,
     heart : {
         heartUsers : [ { type: Schema.Types.ObjectId,  ref: 'User' } ],
@@ -35,11 +36,10 @@ const postSchema = new Schema({
         angryUsers : [ { type: Schema.Types.ObjectId,  ref: 'User' } ],
         angryCount : {type : Number, default: 0 },
     },
+    commentsCount: { type: Number, default: 0 },
     comment : [ commentSchema ]
 });
 
-const Post = model("Post", postSchema, "post");
-const Comment = model("Comment", commentSchema, "comment");
+export const Comment = model("Comment", commentSchema, "comment");
+export default model("OurToday", ourTodaySchema, "ourToday");
 
-// model("객체명", 스키마, "컬렉션(테이블)명")
-export { Post, Comment };
