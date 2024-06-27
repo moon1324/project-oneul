@@ -84,9 +84,14 @@ const checkNickname = async (req, res) => {
 };
 
 // 이미지 업로드 라우트
-const uploadProfileImage = (req, res) => {
-    const profileImgPath = `/images/profileImg/${req.file.filename}`;
-    res.json({ profileImg: profileImgPath });
+const uploadProfileImg = (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({
+            message: "파일 업로드에 실패했습니다",
+        });
+    }
+    const profileImgPath = `images/profile/${req.file.filename}`;
+    return res.status(200).json({ profileImg: profileImgPath });
 };
 
 const signupUser = async (req, res) => {
@@ -177,4 +182,21 @@ const authLocation = async (req, res) => {
     }
 };
 
-export { loginUser, checkEmail, checkMobile, checkNickname, uploadProfileImage, signupUser, updateUser, deleteUser, passportLogin, authLocation };
+const getUserProfile = async (req, res) => {
+    const email = req.params.email;
+
+    try {
+        const user = await User.findOne({ email }).exec();
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({
+            profileImg: `http://localhost:8000/${user.profileImg}`,
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+export { loginUser, checkEmail, checkMobile, checkNickname, uploadProfileImg, signupUser, updateUser, deleteUser, passportLogin, authLocation, getUserProfile };
