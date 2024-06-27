@@ -7,15 +7,25 @@ import { Link,  useNavigate} from "react-router-dom";
 import TitleStep from "./TitleStep";
 import {FormContext } from "./context/FormContext";
 import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 
 const InMyMind06 = ({index}) => {
     
+    const today = {
+        year: new Date().getFullYear(), //오늘 연도
+        month: new Date().getMonth()+1,  //오늘 월
+        date: new Date().getDate(), //오늘 날짜
+    }
+    const createdAt=`${today.year}-${today.month}-${today.date}`;
+
     const navigate = useNavigate();
     
     const {state, actions} = useContext(FormContext);
     const [value, setValue] = useState(state.formData[index]||"");
     const [lastData,setLastData]=useState(false);
     const [alertMessage, setAlertMessage] = useState("");
+
+    const currentUser=useSelector((state)=>state.login.currentUser)
 
     const onChangeValue = (e) => {
         setValue(e.target.value);
@@ -26,20 +36,38 @@ const InMyMind06 = ({index}) => {
         actions.resetFormData();
     }
     
-    //왜 5번 페이지에서만 콘솔이 두 번 찍히지???!!!
-    //->6번 페이지로 이동할 때 useEffect가 사용되서!
-    //useEffect 사용하지 않을 시 6번 페이지에서 제출 버튼을 2번 눌러야 페이지가 이동됨
     useEffect(()=>{
         actions.updateFormData(index, value);
     },[lastData])
    
-    const handleSubmit= () => {
-        
+    const handleSubmit= async() => {
+       
         actions.updateFormData(index, value);
         
         let formData = state.formData;
     
         if (!formData.some((data) => data === "" )) {    
+            try {
+                const response = await fetch("http://localhost:8000/myMind/post", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        userId:currentUser,
+                        createdAt:createdAt,
+                        questions:formData,
+                    }),
+                });
+                console.log(response, "response data");
+    
+                if (!response.ok) {
+                    const result = await response.json();
+                    throw new Error(result.message || "myMindPost failed");
+                }
+            } catch(error){
+                console.error('error in fetch:', error);
+            }
             navigate("/")
             handleReset();
         }else {
@@ -51,24 +79,7 @@ const InMyMind06 = ({index}) => {
         };
     };
 
-    // setValue("");
-    // const handleSave = async() => {
-    //     try {
-    //       await fetch('', {
-    //         method: 'POST',
-    //         headers: {
-    //           'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ formData }),
-    //       });
-         
-    //     } catch (error) {
-    //       console.error('error in fetch:', error);
-    //     }
-        
-    //   };
-
-    return (
+  return (
         <>
             <S.Wrapper>
                 

@@ -434,11 +434,11 @@ S.completeWriteButton = styled.button`
 `
 
 S.modalContainer = styled.div`
-    width: 100%;
-    height: 100%;
+    width: 360px;
+    height: 640px;
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 146px;
+    left: 396px;
     display: flex;
     justify-content: center;
     align-items: center;
