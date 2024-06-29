@@ -284,6 +284,7 @@ var updateUser = function updateUser(req, res) {
         case 7:
           // Update user information
           updates = {
+            password: req.body.password,
             name: req.body.name,
             mobile: req.body.mobile,
             nickname: req.body.nickname,

@@ -3,8 +3,12 @@ import {Link} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleRight, faUserPen} from '@fortawesome/free-solid-svg-icons'
 import S from './style';
+import {useDispatch, useSelector} from 'react-redux'
 
 const MyPageMain = () => {
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state)=>state.login.currentUser);
+
     return (
         <>
             <S.MypageNav>
@@ -15,14 +19,14 @@ const MyPageMain = () => {
             <S.ProfileContaier>
                 <S.ProfilePictureWrapper>
                     <div className="pictureBox">
-                        <img src={process.env.PUBLIC_URL + '/images/mypage/profile_picture.svg'}/>
+                        <img src={currentUser.profileImg}/>
                     </div>
                 </S.ProfilePictureWrapper>
                 <S.ProfileNameWrapper>
-                    <h3>마보님</h3>
+                    <h3>{currentUser.nickname}</h3>
                 </S.ProfileNameWrapper>
                 <S.ProfileStatusWrapper>
-                    <p>안녕하세요! 저는 발랄한 마보예요!</p>
+                    <p>{currentUser.statusMessage}</p>
                 </S.ProfileStatusWrapper>
                 <S.ProfileContentsWrapper>
                     <div className="totalMyminBox">

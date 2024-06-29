@@ -122,6 +122,7 @@ const updateUser = async (req, res) => {
 
         // Update user information
         const updates = {
+            password: req.body.password,
             name: req.body.name,
             mobile: req.body.mobile,
             nickname: req.body.nickname,
