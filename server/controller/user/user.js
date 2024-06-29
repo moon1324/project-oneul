@@ -107,6 +107,7 @@ const signupUser = async (req, res) => {
             profileImg: req.body.profileImg,
             origin: req.body.origin,
             token: req.body.token,
+            statusMessage: req.body.statusMessage,
         };
         // 유저를 등록
         await User.create(register);
@@ -117,7 +118,53 @@ const signupUser = async (req, res) => {
     }
 };
 
-const updateUser = async (req, res) => {};
+const updateUser = async (req, res) => {
+    console.log(req.body)
+    try {
+        // Find the user by email
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(404).json({
+                updateSuccess: false,
+                message: "User not found.",
+            });
+        }
+
+        // Update user information
+        const updates = {
+            password: req.body.password,
+            name: req.body.name,
+            mobile: req.body.mobile,
+            nickname: req.body.nickname,
+            statusMessage: req.body.statusMessage,
+        };
+
+        // Check if there is a new profile image
+        if (req.file) {
+            updates.profileImg = req.file.path; // Assuming you store file paths
+        }
+
+        // Update the user's information in the database
+        await User.updateOne({ email: req.body.email }, { $set: updates });
+
+        // Find the updated user data to send back (excluding password)
+        const updatedUser = await User.findOne({ email: req.body.email }).select('password');
+
+        return res.status(200).json({
+            updateSuccess: true,
+            message: "User information updated successfully.",
+            user: updatedUser,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(401).json({
+            updateSuccess: false,
+            message: "An error occurred while updating user information.",
+        });
+    }
+};
+
 const deleteUser = async (req, res) => {};
 
 // passport Login
