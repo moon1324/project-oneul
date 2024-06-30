@@ -38,6 +38,16 @@ const loginUser = async (req, res) => {
     }
 };
 
+const logoutUser = async (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Logout failed' });
+        }
+        res.clearCookie('connect.sid'); // 세션 쿠키 이름이 'connect.sid'인 경우
+        return res.status(200).json({ message: 'Logout successful' });
+    });
+};
+
 const checkEmail = async (req, res) => {
     console.log(req.body);
     const user = await User.findOne({ email: req.body.email });
@@ -246,4 +256,4 @@ const getUserProfile = async (req, res) => {
     }
 };
 
-export { loginUser, checkEmail, checkMobile, checkNickname, uploadProfileImg, signupUser, updateUser, deleteUser, passportLogin, authLocation, getUserProfile };
+export { loginUser, logoutUser , checkEmail, checkMobile, checkNickname, uploadProfileImg, signupUser, updateUser, deleteUser, passportLogin, authLocation, getUserProfile };

@@ -123,7 +123,12 @@ const S = {}
                 justify-content: space-between;
                 align-items: center;
             }
-
+        & button{
+            width:100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
         & .secession { 
             color: ${theme.PALETTE.error.red};
         }

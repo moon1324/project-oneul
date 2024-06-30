@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.authLocation = exports.passportLogin = exports.deleteUser = exports.updateUser = exports.signupUser = exports.checkNickname = exports.checkMobile = exports.checkEmail = exports.loginUser = void 0;
+exports.getUserProfile = exports.authLocation = exports.passportLogin = exports.deleteUser = exports.updateUser = exports.signupUser = exports.uploadProfileImg = exports.checkNickname = exports.checkMobile = exports.checkEmail = exports.logoutUser = exports.loginUser = void 0;
 
 var _userSchema = _interopRequireDefault(require("../../models/userSchema.js"));
 
@@ -93,38 +93,26 @@ var loginUser = function loginUser(req, res) {
 
 exports.loginUser = loginUser;
 
-var checkEmail = function checkEmail(req, res) {
-  var user;
-  return regeneratorRuntime.async(function checkEmail$(_context2) {
+var logoutUser = function logoutUser(req, res) {
+  return regeneratorRuntime.async(function logoutUser$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          console.log(req.body);
-          _context2.next = 3;
-          return regeneratorRuntime.awrap(_userSchema["default"].findOne({
-            email: req.body.email
-          }));
+          req.session.destroy(function (err) {
+            if (err) {
+              return res.status(500).json({
+                message: 'Logout failed'
+              });
+            }
 
-        case 3:
-          user = _context2.sent;
+            res.clearCookie('connect.sid'); // 세션 쿠키 이름이 'connect.sid'인 경우
 
-          if (!user) {
-            _context2.next = 6;
-            break;
-          }
+            return res.status(200).json({
+              message: 'Logout successful'
+            });
+          });
 
-          return _context2.abrupt("return", res.status(200).json({
-            message: "이미 사용중인 이메일입니다",
-            duplicate: true
-          }));
-
-        case 6:
-          return _context2.abrupt("return", res.status(200).json({
-            message: "사용가능한 이메일입니다",
-            duplicate: false
-          }));
-
-        case 7:
+        case 1:
         case "end":
           return _context2.stop();
       }
@@ -132,18 +120,18 @@ var checkEmail = function checkEmail(req, res) {
   });
 };
 
-exports.checkEmail = checkEmail;
+exports.logoutUser = logoutUser;
 
-var checkMobile = function checkMobile(req, res) {
+var checkEmail = function checkEmail(req, res) {
   var user;
-  return regeneratorRuntime.async(function checkMobile$(_context3) {
+  return regeneratorRuntime.async(function checkEmail$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
           console.log(req.body);
           _context3.next = 3;
           return regeneratorRuntime.awrap(_userSchema["default"].findOne({
-            mobile: req.body.mobile
+            email: req.body.email
           }));
 
         case 3:
@@ -155,13 +143,13 @@ var checkMobile = function checkMobile(req, res) {
           }
 
           return _context3.abrupt("return", res.status(200).json({
-            message: "이미 사용중인 전화번호입니다",
+            message: "이미 사용중인 이메일입니다",
             duplicate: true
           }));
 
         case 6:
           return _context3.abrupt("return", res.status(200).json({
-            message: "사용가능한 전화번호입니다",
+            message: "사용가능한 이메일입니다",
             duplicate: false
           }));
 
@@ -173,18 +161,18 @@ var checkMobile = function checkMobile(req, res) {
   });
 };
 
-exports.checkMobile = checkMobile;
+exports.checkEmail = checkEmail;
 
-var checkNickname = function checkNickname(req, res) {
+var checkMobile = function checkMobile(req, res) {
   var user;
-  return regeneratorRuntime.async(function checkNickname$(_context4) {
+  return regeneratorRuntime.async(function checkMobile$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           console.log(req.body);
           _context4.next = 3;
           return regeneratorRuntime.awrap(_userSchema["default"].findOne({
-            nickname: req.body.nickname
+            mobile: req.body.mobile
           }));
 
         case 3:
@@ -196,13 +184,13 @@ var checkNickname = function checkNickname(req, res) {
           }
 
           return _context4.abrupt("return", res.status(200).json({
-            message: "이미 사용중인 닉네임입니다",
+            message: "이미 사용중인 전화번호입니다",
             duplicate: true
           }));
 
         case 6:
           return _context4.abrupt("return", res.status(200).json({
-            message: "사용가능한 닉네임입니다",
+            message: "사용가능한 전화번호입니다",
             duplicate: false
           }));
 
@@ -214,13 +202,70 @@ var checkNickname = function checkNickname(req, res) {
   });
 };
 
+exports.checkMobile = checkMobile;
+
+var checkNickname = function checkNickname(req, res) {
+  var user;
+  return regeneratorRuntime.async(function checkNickname$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          console.log(req.body);
+          _context5.next = 3;
+          return regeneratorRuntime.awrap(_userSchema["default"].findOne({
+            nickname: req.body.nickname
+          }));
+
+        case 3:
+          user = _context5.sent;
+
+          if (!user) {
+            _context5.next = 6;
+            break;
+          }
+
+          return _context5.abrupt("return", res.status(200).json({
+            message: "이미 사용중인 닉네임입니다",
+            duplicate: true
+          }));
+
+        case 6:
+          return _context5.abrupt("return", res.status(200).json({
+            message: "사용가능한 닉네임입니다",
+            duplicate: false
+          }));
+
+        case 7:
+        case "end":
+          return _context5.stop();
+      }
+    }
+  });
+}; // 이미지 업로드 라우트
+
+
 exports.checkNickname = checkNickname;
+
+var uploadProfileImg = function uploadProfileImg(req, res) {
+  if (!req.file) {
+    return res.status(400).json({
+      message: "파일 업로드에 실패했습니다"
+    });
+  }
+
+  var profileImgPath = "images/profile/".concat(req.file.filename);
+  return res.status(200).json({
+    profileImg: profileImgPath
+  });
+};
+
+exports.uploadProfileImg = uploadProfileImg;
 
 var signupUser = function signupUser(req, res) {
   var register;
-  return regeneratorRuntime.async(function signupUser$(_context5) {
+  return regeneratorRuntime.async(function signupUser$(_context6) {
     while (1) {
-      switch (_context5.prev = _context5.next) {
+      switch (_context6.prev = _context6.next) {
         case 0:
           console.log(req.body);
           // 유저를 파싱
@@ -236,18 +281,18 @@ var signupUser = function signupUser(req, res) {
             statusMessage: req.body.statusMessage
           }; // 유저를 등록
 
-          _context5.next = 4;
+          _context6.next = 4;
           return regeneratorRuntime.awrap(_userSchema["default"].create(register));
 
         case 4:
-          return _context5.abrupt("return", res.status(200).json({
+          return _context6.abrupt("return", res.status(200).json({
             registerSuccess: true,
             message: "회원가입이 완료 되었습니다"
           }));
 
         case 5:
         case "end":
-          return _context5.stop();
+          return _context6.stop();
       }
     }
   });
@@ -257,26 +302,26 @@ exports.signupUser = signupUser;
 
 var updateUser = function updateUser(req, res) {
   var user, updates, updatedUser;
-  return regeneratorRuntime.async(function updateUser$(_context6) {
+  return regeneratorRuntime.async(function updateUser$(_context7) {
     while (1) {
-      switch (_context6.prev = _context6.next) {
+      switch (_context7.prev = _context7.next) {
         case 0:
           console.log(req.body);
-          _context6.prev = 1;
-          _context6.next = 4;
+          _context7.prev = 1;
+          _context7.next = 4;
           return regeneratorRuntime.awrap(_userSchema["default"].findOne({
             email: req.body.email
           }));
 
         case 4:
-          user = _context6.sent;
+          user = _context7.sent;
 
           if (user) {
-            _context6.next = 7;
+            _context7.next = 7;
             break;
           }
 
-          return _context6.abrupt("return", res.status(404).json({
+          return _context7.abrupt("return", res.status(404).json({
             updateSuccess: false,
             message: "User not found."
           }));
@@ -296,7 +341,7 @@ var updateUser = function updateUser(req, res) {
           } // Update the user's information in the database
 
 
-          _context6.next = 11;
+          _context7.next = 11;
           return regeneratorRuntime.awrap(_userSchema["default"].updateOne({
             email: req.body.email
           }, {
@@ -304,31 +349,31 @@ var updateUser = function updateUser(req, res) {
           }));
 
         case 11:
-          _context6.next = 13;
+          _context7.next = 13;
           return regeneratorRuntime.awrap(_userSchema["default"].findOne({
             email: req.body.email
           }).select('password'));
 
         case 13:
-          updatedUser = _context6.sent;
-          return _context6.abrupt("return", res.status(200).json({
+          updatedUser = _context7.sent;
+          return _context7.abrupt("return", res.status(200).json({
             updateSuccess: true,
             message: "User information updated successfully.",
             user: updatedUser
           }));
 
         case 17:
-          _context6.prev = 17;
-          _context6.t0 = _context6["catch"](1);
-          console.error(_context6.t0);
-          return _context6.abrupt("return", res.status(401).json({
+          _context7.prev = 17;
+          _context7.t0 = _context7["catch"](1);
+          console.error(_context7.t0);
+          return _context7.abrupt("return", res.status(401).json({
             updateSuccess: false,
             message: "An error occurred while updating user information."
           }));
 
         case 21:
         case "end":
-          return _context6.stop();
+          return _context7.stop();
       }
     }
   }, null, null, [[1, 17]]);
@@ -337,12 +382,12 @@ var updateUser = function updateUser(req, res) {
 exports.updateUser = updateUser;
 
 var deleteUser = function deleteUser(req, res) {
-  return regeneratorRuntime.async(function deleteUser$(_context7) {
+  return regeneratorRuntime.async(function deleteUser$(_context8) {
     while (1) {
-      switch (_context7.prev = _context7.next) {
+      switch (_context8.prev = _context8.next) {
         case 0:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
     }
   });
@@ -352,9 +397,9 @@ var deleteUser = function deleteUser(req, res) {
 exports.deleteUser = deleteUser;
 
 var passportLogin = function passportLogin(req, res, next) {
-  return regeneratorRuntime.async(function passportLogin$(_context9) {
+  return regeneratorRuntime.async(function passportLogin$(_context10) {
     while (1) {
-      switch (_context9.prev = _context9.next) {
+      switch (_context10.prev = _context10.next) {
         case 0:
           try {
             _passport["default"].authenticate("local", function (error, user, info) {
@@ -369,17 +414,17 @@ var passportLogin = function passportLogin(req, res, next) {
                 session: false
               }, function _callee(loginError) {
                 var token, loginUser, password, others;
-                return regeneratorRuntime.async(function _callee$(_context8) {
+                return regeneratorRuntime.async(function _callee$(_context9) {
                   while (1) {
-                    switch (_context8.prev = _context8.next) {
+                    switch (_context9.prev = _context9.next) {
                       case 0:
                         if (!loginError) {
-                          _context8.next = 3;
+                          _context9.next = 3;
                           break;
                         }
 
                         res.status(401).send(loginError);
-                        return _context8.abrupt("return");
+                        return _context9.abrupt("return");
 
                       case 3:
                         // 여기에서 검증된 회원을 처리
@@ -392,13 +437,13 @@ var passportLogin = function passportLogin(req, res, next) {
 
                         }); // 검증 (선택) 안해도 무관
 
-                        _context8.next = 6;
+                        _context9.next = 6;
                         return regeneratorRuntime.awrap(_userSchema["default"].findOne({
                           email: user.email
                         }).lean());
 
                       case 6:
-                        loginUser = _context8.sent;
+                        loginUser = _context9.sent;
                         console.log(loginUser); // 민감한 정보를 제거 후
                         // 유저와 토큰을 발급해서 화면으로 보낸다
 
@@ -410,7 +455,7 @@ var passportLogin = function passportLogin(req, res, next) {
 
                       case 10:
                       case "end":
-                        return _context8.stop();
+                        return _context9.stop();
                     }
                   }
                 });
@@ -423,7 +468,7 @@ var passportLogin = function passportLogin(req, res, next) {
 
         case 1:
         case "end":
-          return _context9.stop();
+          return _context10.stop();
       }
     }
   });
@@ -435,9 +480,9 @@ exports.passportLogin = passportLogin;
 var authLocation = function authLocation(req, res) {
   var _req$user, password, others;
 
-  return regeneratorRuntime.async(function authLocation$(_context10) {
+  return regeneratorRuntime.async(function authLocation$(_context11) {
     while (1) {
-      switch (_context10.prev = _context10.next) {
+      switch (_context11.prev = _context11.next) {
         case 0:
           try {
             // 인가가 완료된 유저는 req.user에 담긴다
@@ -453,10 +498,59 @@ var authLocation = function authLocation(req, res) {
 
         case 1:
         case "end":
-          return _context10.stop();
+          return _context11.stop();
       }
     }
   });
 };
 
 exports.authLocation = authLocation;
+
+var getUserProfile = function getUserProfile(req, res) {
+  var email, user;
+  return regeneratorRuntime.async(function getUserProfile$(_context12) {
+    while (1) {
+      switch (_context12.prev = _context12.next) {
+        case 0:
+          email = req.params.email;
+          _context12.prev = 1;
+          _context12.next = 4;
+          return regeneratorRuntime.awrap(_userSchema["default"].findOne({
+            email: email
+          }).exec());
+
+        case 4:
+          user = _context12.sent;
+
+          if (user) {
+            _context12.next = 7;
+            break;
+          }
+
+          return _context12.abrupt("return", res.status(404).json({
+            message: "User not found"
+          }));
+
+        case 7:
+          res.json({
+            profileImg: "http://localhost:8000/".concat(user.profileImg)
+          });
+          _context12.next = 13;
+          break;
+
+        case 10:
+          _context12.prev = 10;
+          _context12.t0 = _context12["catch"](1);
+          res.status(500).json({
+            message: "Server error"
+          });
+
+        case 13:
+        case "end":
+          return _context12.stop();
+      }
+    }
+  }, null, null, [[1, 10]]);
+};
+
+exports.getUserProfile = getUserProfile;
