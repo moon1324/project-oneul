@@ -1,13 +1,37 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleRight, faUserPen} from '@fortawesome/free-solid-svg-icons'
 import S from './style';
 import {useDispatch, useSelector} from 'react-redux'
+import logout, { logoutAction } from '../../modules/logout'
 
 const MyPageMain = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const currentUser = useSelector((state)=>state.login.currentUser);
+
+    const logoutApi = async () => {
+        try {
+            const response = await fetch("http://localhost:8000/user/logout", {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                throw new Error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    };
+
+    const handleLogout = async () => {
+        await logoutApi();
+        dispatch(logoutAction());
+        navigate('/login');
+    };
+
+
 
     return (
         <>
@@ -58,10 +82,10 @@ const MyPageMain = () => {
                     </Link>
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
-                    <Link to={'/logIn'}>
+                    <button onClick={handleLogout} style={{all:'unset'}}>
                         <p>로그아웃</p>
                         <FontAwesomeIcon icon={faAngleRight} />
-                    </Link>
+                    </button>
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
                     <Link to={'/myPage/secession'}>

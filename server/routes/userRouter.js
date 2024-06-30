@@ -8,6 +8,7 @@ import {
     deleteUser,
     getUserProfile,
     loginUser,
+    logoutUser,
     passportLogin,
     signupUser,
     updateUser,
@@ -30,6 +31,7 @@ const upload = multer({ storage });
 const userRouter = express.Router();
 
 userRouter.post("/login", loginUser);
+userRouter.post("/logout", logoutUser);
 userRouter.post("/checkEmail", checkEmail);
 userRouter.post("/checkMobile", checkMobile);
 userRouter.post("/checkNickname", checkNickname);
