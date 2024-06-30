@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import S from './style';
 import useTextarea from '../../hooks/useTextarea';
 import { useForm } from 'react-hook-form';
@@ -12,14 +12,18 @@ const WriteToday = () => {
 
     const currentUser = useSelector((state)=>state.login.currentUser);
 
+    // useEffect(()=>{
+
+    // },[])
     const onSubmit = async (data) => {
-        // console.log(data);
-        // console.log(postValue);
+        console.log(data);
+        console.log(postValue);
+        console.log(currentUser.profileImg);
         try {
-            const response = await fetch('http://localhost:8000/ourToday/write', {
-                method: 'POST',
+            const response = await fetch("http://localhost:8000/ourToday/write", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     userEmail: currentUser.email,
@@ -31,14 +35,12 @@ const WriteToday = () => {
                     smile: [],
                     angry: [],
                     sad: [],
-                    commentsCount: 0,
-                    comment: []
                 })
             });
 
+            
             if (response.ok) {
                 const result = await response.json();
-                console.log(result);
                 navigate('/ourToday'); // 성공 시 리디렉션
             } else {
                 console.error('Failed to submit post');

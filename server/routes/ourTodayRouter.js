@@ -1,13 +1,14 @@
 import express from "express";
-import { createPostOurToday } from "../controller/ourTodayPost/ourToday.js";
+import { createPostOurToday, deleteOurTodayPost, getMyTodayPost, getOurTodayPost, updateOurTodayPost } from "../controller/ourTodayPost/ourToday.js";
 
 const ourTodayRouter = express.Router();
 
-// postRouter.get("/checkPost", findPost);
+ourTodayRouter.get("/checkPost", getOurTodayPost);
+ourTodayRouter.get("/checkMyPost", getMyTodayPost);
 // postRouter.get("", findPost);
 ourTodayRouter.post("/write", createPostOurToday);
-// postRouter.put("/update", updatePost);
-// postRouter.delete("/delete", deletePost);
+ourTodayRouter.put("/update", updateOurTodayPost);
+ourTodayRouter.delete("/delete", deleteOurTodayPost);
 
 
 export default ourTodayRouter;

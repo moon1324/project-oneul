@@ -57,6 +57,7 @@ S.writingButton = styled.button`
     cursor: pointer;
 `;
 
+
 // 나의 오늘 및 우리의 오늘 게시글을 감싸는 Container(in OurDay)
 S.cardPostContainer = styled.div`
     width: 320px;
@@ -66,7 +67,9 @@ S.cardPostContainer = styled.div`
     margin: 0 auto;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
     ${flexCenterColumn}
+    margin-bottom: 20px;
 `;
+
 
 // 게시글의 프로필 이미지 및 username을 감싸는 Container(in OurDay)
 S.postProfileContainer = styled.div`
@@ -138,7 +141,19 @@ S.correctionButton = styled.button`
 S.postContentWrapper = styled.div`
     width : 100%;
     height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
+
+S.todayPostText = styled.textarea`
+    width: 300px;
+    height: 180px;
+    font-family: 'Pretendard';
+    font-size: 15px;
+    border: none;
+    resize: none;
+`
 
 // 게시글의 Reaction이 차지할 공간을 만드는 Container(in OurDay)
 S.reactionContainer = styled.div`
@@ -243,6 +258,11 @@ S.reactionCountWrapper = styled.div`
     height: 17px;
     text-align: center;
 `;
+
+S.gap = styled.div`
+    width: 100%;
+    height: 70px;
+`
 
 // 댓글 icon클릭시 나타날 댓글창(in Reaction)
 S.commentWindow = styled(motion.div)`
@@ -438,7 +458,7 @@ S.modalContainer = styled.div`
     height: 640px;
     position: fixed;
     top: 146px;
-    left: 396px;
+    left: 276px;
     display: flex;
     justify-content: center;
     align-items: center;

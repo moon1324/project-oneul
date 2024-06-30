@@ -1,45 +1,34 @@
-import { Schema, model } from "mongoose";
-import { getCurrentTime } from "../utils/utils.js";
-
-const commentSchema = new Schema({
-    postId : { type:Schema.Types.ObjectId, ref: 'OurToday' },
-    commentUser : { type: Schema.Types.ObjectId,  ref: 'User' },
-    commentProfileImg : String,
-    commentText : String,
-    createdAt : {type: String, default: getCurrentTime},
-})
+import { Schema, model, now } from "mongoose";
 
 
 // post => user.id,
 const ourTodaySchema = new Schema({
-    userEmail : { type: Schema.Types.ObjectId, ref: 'User'},
+    userEmail : { type: String, ref: 'User'},
     userProfileImg : String,
     userNickname : String,
     content : String,
     heart : {
-        heartUsers : [ { type: Schema.Types.ObjectId,  ref: 'User' } ],
+        heartUsers : [{type: String, default:""}],
         heartCount : {type : Number, default: 0 },
     },
     like : {
-        thumbsUpUsers : [ { type: Schema.Types.ObjectId,  ref: 'User' } ],
+        thumbsUpUsers : [{type: String, default:""}],
         thumbsUpCount : {type : Number, default: 0 },
     },
     smile : {
-        smileUsers : [ { type: Schema.Types.ObjectId,  ref: 'User' } ],
+        smileUsers : [{type: String, default:""}],
         smileCount : {type : Number, default: 0 },
     },
     sad : {
-        sadUsers : [ { type: Schema.Types.ObjectId,  ref: 'User' } ],
+        sadUsers : [{type: String, default: ""}],
         sadCount : {type : Number, default: 0 },
     },
     angry : {
-        angryUsers : [ { type: Schema.Types.ObjectId,  ref: 'User' } ],
+        angryUsers : [ { type: String,  default: "" } ],
         angryCount : {type : Number, default: 0 },
     },
-    commentsCount: { type: Number, default: 0 },
-    comment : [ commentSchema ]
 });
 
-export const Comment = model("Comment", commentSchema, "comment");
+
 export default model("OurToday", ourTodaySchema, "ourToday");
 
