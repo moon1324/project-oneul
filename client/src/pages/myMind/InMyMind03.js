@@ -7,9 +7,11 @@ import { Link} from "react-router-dom";
 import TitleStep from "./TitleStep";
 import {FormContext } from "./context/FormContext";
 import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 
 const InMyMind03 = ({index}) => {
 
+    const currentUser = useSelector((state) => state.login.currentUser);
     const {state, actions} = useContext(FormContext);
     const [value, setValue] = useState(state.formData[index]||"");
     
@@ -29,7 +31,7 @@ const InMyMind03 = ({index}) => {
                  
                  <S.QuestionWrapper>
                      <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-                     <p>그럼 마크(이)는 그 상황에서 무엇을 바랐어?</p>
+                     <p>그럼 {currentUser.nickname}(이)는 그 상황에서 무엇을 바랐어?</p>
                  </S.QuestionWrapper>
  
                  <form action="" method="post">
@@ -39,7 +41,7 @@ const InMyMind03 = ({index}) => {
                  </form>
                  
                  <S.SaveButtonWrapper>
-                     <Link to={'/myMind/inMyMind04'}><Button onClick={handleSave} size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>저장</Button></Link>
+                     <Link to={'/myMind/inMyMind04'}><Button id='goToSave' onClick={handleSave} size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>저장</Button></Link>
                  </S.SaveButtonWrapper>
             
              </S.Wrapper>

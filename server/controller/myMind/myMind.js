@@ -4,6 +4,7 @@ const postMyMind = async (req, res) => {
     
         let myMindRegister = {
             userId : req.body.userId,
+            userEmail:req.body.userEmail,
             questions: req.body.questions,
             createdAt: req.body.createdAt
         };
@@ -15,21 +16,25 @@ const postMyMind = async (req, res) => {
         });
     
 };
-// const users=await User.find()
-// for(let user of users){
-    //doc: 유저의 정보를 들고옴
-    // console.log(user._doc); //{user}{user}{user}
-// }
-// console.log(users); //[{user},{user},{user}]
 
-const getMyMindsCalendar = async (req, res) => {
+const getTodayExistence = async (req, res) => {
     
+    const { date } = req.query;
+    const userEmail = req.user.email;
     try {
-        let myMinds=await MyMind.find();
-        for(let myMind of myMinds){
-            console.log(myMind);
-        }
-        
+        let myMind = await MyMind.findOne({userEmail:userEmail, createdAt: date });
+        res.status(200).json(myMind);
+    } catch (error) {
+        console.error('에러 발생:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+};
+
+const getCalendar = async (req, res) => {
+    
+    const userEmail = req.user.email;
+    try {
+        let myMinds=await MyMind.find({ userEmail: userEmail });
         res.status(200).json(myMinds);
     } catch (error) {
         console.error('에러 발생:', error);
@@ -39,12 +44,13 @@ const getMyMindsCalendar = async (req, res) => {
 };
 
 const getMyMind = async (req, res) => {
+    
     const { date } = req.query;
-    // const userId = req.user.userId;
+    const userEmail = req.user.email;
     try {
-        let myMind = await MyMind.findOne({createdAt: date });
+        let myMind = await MyMind.findOne({userEmail:userEmail, createdAt: date });
         if (!myMind) {
-            return res.status(404).json({ message: '해당 날짜에 데이터가 없습니다.' });
+            return res.status(400).json({ message: '해당 날짜에 데이터가 없습니다.' });
         }
         res.status(200).json(myMind.questions);
     } catch (error) {
@@ -56,10 +62,11 @@ const getMyMind = async (req, res) => {
 const updateMyMind = async (req, res) => {
     const { date } = req.query;
     const updatedData = req.body;
+    const userEmail = req.user.email;
 
     try {
         let updatedMyMind = await MyMind.findOneAndUpdate(
-            { createdAt: date }, //업데이트할 문서를 찾기 위한 쿼리 조건
+            { userEmail:userEmail, createdAt: date }, //업데이트할 문서를 찾기 위한 쿼리 조건
             { $set: { questions: updatedData } }, //업데이트할 필드
             { new: true } //업데이트된 문서를 반환한다.
         );        
@@ -71,12 +78,12 @@ const updateMyMind = async (req, res) => {
 };
 
 const deleteMyMind = async (req, res) => {
-    
     const { createdAt } = req.body;
+    const userEmail = req.user.email;
 
     try {
         // MyMind 모델을 사용하여 데이터 삭제
-        const deletedData = await MyMind.deleteOne({ createdAt });
+        const deletedData = await MyMind.deleteOne({ userEmail:userEmail,createdAt:createdAt });
         
         if (deletedData.deletedCount === 0) {
             throw new Error('삭제할 데이터를 찾지 못했습니다.');
@@ -95,4 +102,4 @@ const deleteMyMind = async (req, res) => {
 
 
 
-export {postMyMind,getMyMindsCalendar,getMyMind,updateMyMind,deleteMyMind}
+export {postMyMind,getTodayExistence,getCalendar,getMyMind,updateMyMind,deleteMyMind}

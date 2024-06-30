@@ -1,16 +1,14 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import classNames from "classnames/bind";
 import S from './style';
-import { FormContext } from '../myMind/context/FormContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(S);
 
 const CalendarHome = () => {
     
-
     const navigate = useNavigate();
-    
+
     const today = {
         year: new Date().getFullYear(), //오늘 연도
         month: new Date().getMonth()+1,  //오늘 월
@@ -26,27 +24,30 @@ const CalendarHome = () => {
 
     useEffect(() => {
       const fetchData = async () => {
+        
           try {
+              const token = localStorage.getItem('token');
               const response = await fetch(`http://localhost:8000/myMind/getCalendar`,{
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
                 },
               });
               if (!response.ok) {
                   throw new Error('데이터를 불러오는 데 실패했습니다.');
               }
               const datas = await response.json();
-              setCalendarData(datas); // 서버에서 받아온 데이터를 상태에 설정
+              setCalendarData(datas); 
           } catch (error) {
               console.error('데이터를 불러오는 중 에러 발생:', error);
           }
-      };
-
-      fetchData(); // 데이터를 불러오는 함수 호출
+      }
+      fetchData(); 
   }, [selectedYear, selectedMonth]);
 
-  console.log(calendarData);
+  // console.log(calendarData);
+
 
   const prevMonth = useCallback(() => {
         //이전 달 보기 보튼
@@ -130,51 +131,43 @@ const CalendarHome = () => {
         });
         return weekArr;
       }, []);
-    
-    //   const isDateWithData = useCallback((date) => {
-    //     const formattedDate = `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
-    //     return calendarData.some(data => data.createdAt.startsWith(formattedDate)); // createdAt이 formattedDate로 시작하는지 확인
-    // }, [calendarData, selectedYear, selectedMonth]);
-
       const returnDay = useCallback(() => {
         //선택된 달의 날짜들 반환 함수
         let dayArr = [];
         
         const handleClick = (date) => {
-          
           const formattedDate=`${selectedYear}-${selectedMonth}-${date}`
-          navigate(`/calendar/checkMyMind?date=${formattedDate}`);
-          // const calendarState=calendarData.filter((data,i)=>{data[i].createdAt===formattedDate});
-          // console.log(calendarState);
-          // formattedDate===calendarData
-        //   if (isDateWithData(date)) {
-        //     navigate(`/calendar/checkMyMind?date=${formattedDate}`);
-        // }
-          
+          const hasData = calendarData.some(data => data.createdAt === formattedDate);
+          if(hasData){
+            navigate(`/calendar/checkMyMind?date=${formattedDate}`);
+            return;
+          }else{
+            console.log(`해당 날짜에 마음일지를 작성하지 않았습니다.`)
+          }
         };
+        
         for (const nowDay of week) {
           const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
           if (week[day] === nowDay) {
             for (let i = 0; i < dateTotalCount; i++) {
-              
+              const formattedDate = `${selectedYear}-${selectedMonth}-${i + 1}`;
+              const hasData = calendarData.some(data => data.createdAt === formattedDate);
+            
               dayArr.push(
                 <div key={`day-${i + 1}`} className={cx(
+                  'weekday',
                     {
                       //오늘 날짜일 때 표시할 스타일 클라스네임
-                      today:
-                        today.year === selectedYear &&
-                        today.month === selectedMonth &&
-                        today.date === i + 1,
-                    },
-                    { weekday: true }, //전체 날짜 스타일
+                      today: today.year === selectedYear &&today.month === selectedMonth &&today.date === i + 1,
+                      hasData: hasData,
+                    }
+                    
                    )}
                    onClick={() => handleClick(i+1)} // 날짜 클릭 핸들러
 
                 >
-                  {/* {i}
-                    {isDateWithData(i) && <div className="dot" />} 데이터가 있는 날짜에 동그라미 표시 */}
                   {i + 1}
-                  
+                  {hasData && <div className="dot" />}
                 </div>
               );
             }
@@ -185,7 +178,7 @@ const CalendarHome = () => {
         }
     
         return dayArr;
-      }, [selectedYear, selectedMonth, dateTotalCount]);
+      }, [selectedYear, selectedMonth, dateTotalCount, calendarData]);
     
       return (
         <>
@@ -209,14 +202,13 @@ const CalendarHome = () => {
               </S.ArrowsWrapper>
                 
             </S.CalendarHeadContainer>
-
+        
             <S.WeekWrapper>
               <div className="week">{returnWeek()}</div>
             </S.WeekWrapper>
                     
             <S.DateWrapper>
               <div className="date">{returnDay()}</div>
-              {/* <Link to={'/calendar/checkMyMind'}><div className="date">{returnDay()}</div></Link> */}
             </S.DateWrapper>
                 
           </S.CalendarContainer>
