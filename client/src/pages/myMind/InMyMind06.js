@@ -46,7 +46,7 @@ const InMyMind06 = ({index}) => {
         
         let formData = state.formData;
     
-        if (!formData.some((data) => data === "" )) {    
+        if (formData.every((data) => data && data.trim() !== "")) {    
             try {
                 const response = await fetch("http://localhost:8000/myMind/post", {
                     method: "POST",
@@ -55,11 +55,12 @@ const InMyMind06 = ({index}) => {
                     },
                     body: JSON.stringify({
                         userId:currentUser,
+                        userEmail:currentUser.email,
                         createdAt:createdAt,
                         questions:formData,
                     }),
                 });
-                console.log(response, "response data");
+                // console.log(response, "response data");
     
                 if (!response.ok) {
                     const result = await response.json();
@@ -101,7 +102,7 @@ const InMyMind06 = ({index}) => {
                 )}
                 
                 <S.SaveButtonWrapper>
-                    <Button  onClick={handleSubmit} size={"large"} border={"hoverIndigo"} variant={"indigo"} color={"white"}>제출</Button>
+                    <Button id='goToSave' onClick={handleSubmit} size={"large"} border={"hoverIndigo"} variant={"indigo"} color={"white"}>제출</Button>
                  </S.SaveButtonWrapper>
                  
              </S.Wrapper>
