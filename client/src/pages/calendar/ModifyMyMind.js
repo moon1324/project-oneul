@@ -19,10 +19,12 @@ const ModifyMyMind = () => {
     useEffect(() => {
         const getDatas = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/myMind/get?date=${date}`, {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:8000/myMind/getMyMind?date=${date}`, {
                   method: 'GET',
                   headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                   },
                 });
                 if (!response.ok) {
@@ -48,10 +50,12 @@ const ModifyMyMind = () => {
 
     const handleUpdateDatas = async () => {
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:8000/myMind/update?date=${date}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(modifiedDatas),
             });
@@ -59,6 +63,7 @@ const ModifyMyMind = () => {
                 throw new Error('데이터 업데이트에 실패했습니다.');
             }
             console.log('데이터 업데이트에 성공했습니다.');
+            navigateToCheckMyMind();
         } catch (error) {
             console.error('에러 발생:', error);
             alert('데이터 업데이트 중 오류가 발생했습니다.');
@@ -77,6 +82,7 @@ const ModifyMyMind = () => {
 
                 <S.TitleWrapper>
                     나의 마음보기
+                    <div id='date'>{date}</div>
                 </S.TitleWrapper>
 
                 <S.QuestionsWrapper>
@@ -153,10 +159,7 @@ const ModifyMyMind = () => {
                     </S.TextAreaWrapper>
 
                     <S.ButtonWrapper>
-                       <Button onClick={()=>{
-                        handleUpdateDatas();
-                        navigateToCheckMyMind();
-                       }} className="completedModifyButton" size={"large"} border={"hoverIndigo"} variant={"indigo"} color={"white"}>수정 완료</Button>
+                       <Button onClick={handleUpdateDatas} className="completedModifyButton" size={"large"} border={"hoverIndigo"} variant={"indigo"} color={"white"}>수정 완료</Button>
                     </S.ButtonWrapper>
 
                 </S.QuestionsWrapper>

@@ -10,6 +10,9 @@ const variantCSS = {
     red: css`
         background-color: ${({ theme }) => theme.PALETTE.error["red"]};
     `,
+    yellow: css`
+    background-color: ${({ theme }) => theme.PALETTE.error["yellow"]};
+    `,
     disabled: css`
         background-color: ${({ theme }) => theme.PALETTE.disabled};
     `,
@@ -37,6 +40,9 @@ const borderCSS = {
     hoverRed: css`
         border: 2px #ee6161 solid;
     `,
+    hoverYellow: css`
+    border: 2px #FFB342 solid;
+`,
 };
 
 const sizeCSS = {

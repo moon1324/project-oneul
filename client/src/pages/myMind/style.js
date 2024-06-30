@@ -52,6 +52,51 @@ S.text01=styled.p`
 S.GoToWriteButtonWrapper=styled.div`
     position: relative;
     top:10px;
+    /* line-height: 44px; */
+    & #goToWrite{
+        line-height: 44px;
+    }
+`
+S.ErrorContainer=styled.div`
+    ${flexCenterColumn};
+    position: fixed;
+    z-index:999;
+    top:228px;
+    /* padding:0px 10px; */
+    width:320px;
+    height:170px;
+    background-color: white;
+    border: 2.5px ridge #FFB342;
+    border-radius: 20px;
+    box-shadow: 0 8px 5px -5px gray,
+                -5px 0 5px -5px gray, 
+                5px 0 5px -5px gray;
+`
+S.ErrorTitle=styled.h3`
+    position: absolute;
+    top:15px;
+    font-size: 20px;
+    font-weight: 600;
+`
+S.ErrorTexts=styled.div`
+    position: absolute;
+    top:55px;
+    & div{
+        padding:0px 18px;
+        text-align: center;
+        color:#FFB342;
+        
+    }
+`
+S.OkButton=styled.div`
+    display: flex;
+    position: absolute;
+    /* top:110px; */
+    bottom:15px;
+    & #okButton{
+        line-height:44px;
+    }
+    
 `
 
 //---------------InMyMind(1~6)---------------
@@ -100,13 +145,14 @@ S.DivWrapper=styled.div`
 S.QuestionWrapper=styled.div`
     ${flexCenter};
     padding-top:50px;
-    padding-bottom:10px;
+    /* padding-bottom:10px; */
+    padding: 50px 20px 10px 20px;
     .cloudMoonIcon{
         path{
             color: #5487d3;
         }
     }
-    & p {
+    & div {
         font-size:16px;
         color:#142146;
         font-family: 'NanumSquareRound';
@@ -138,6 +184,9 @@ S.TextAreaWrapper=styled.div`
 S.SaveButtonWrapper=styled.div`
     ${flexCenter};
     padding-top:35px;
+    & #goToSave{
+        line-height: 44px;
+    }
 `
 
 //---------------InMyMind06---------------
