@@ -8,10 +8,12 @@ const DeleteMyMind = ({visible,setVisible,date}) => {
     const navigate=useNavigate();
     const handleDelete = async () => {
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch('http://localhost:8000/myMind/delete', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     createdAt:date
@@ -19,6 +21,8 @@ const DeleteMyMind = ({visible,setVisible,date}) => {
             });
             if (!response.ok) {
                 throw new Error('데이터 삭제에 실패했습니다.');
+            }else{
+                console.log("데이터를 삭제하였습니다.")
             }
             
             setVisible(false);
@@ -40,21 +44,18 @@ const DeleteMyMind = ({visible,setVisible,date}) => {
             {visible&&
             <S.DeletePageContainer>
                 <S.DeleteContainer>
-                
-                <S.DeleteTitle>삭제</S.DeleteTitle>
-                <S.DeleteTexts>
-                    <div>내용을 정말로 삭제하시겠습니까?</div>
-                    <div>삭제 시 복구할 수 없습니다.</div>
-                </S.DeleteTexts>
-
-                <S.DeleteButtons>
-                    <Button onClick={()=>{setVisible(false)}}id='button01' size={"small"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>취소</Button>
-                    <Button onClick={()=>{handleDelete(); navigateToCalendar()}}
-                    id='button02' size={"small"} border={"hoverRed"} variant={"red"} color={"white"}>삭제</Button>
-                </S.DeleteButtons>
-            
+                    <S.DeleteTitle>삭제</S.DeleteTitle>
+                    <S.DeleteTexts>
+                        <div>내용을 정말로 삭제하시겠습니까?</div>
+                        <div>삭제 시 복구할 수 없습니다.</div>
+                    </S.DeleteTexts>
+                    <S.DeleteButtons>
+                        <Button onClick={()=>{setVisible(false)}}id='button01' size={"small"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>취소</Button>
+                        <Button onClick={()=>{handleDelete(); navigateToCalendar()}}
+                        id='button02' size={"small"} border={"hoverRed"} variant={"red"} color={"white"}>삭제</Button>
+                    </S.DeleteButtons>
                 </S.DeleteContainer>
-                </S.DeletePageContainer>
+            </S.DeletePageContainer>
             }
 
         </>
