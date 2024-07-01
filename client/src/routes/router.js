@@ -40,6 +40,7 @@ import ModifyMyMind from "../pages/calendar/ModifyMyMind";
 import DeleteMyMind from "../pages/calendar/DeleteMyMind";
 import MyMindHome from "../pages/myMind/MyMindHome";
 import CalendarHome from "../pages/calendar/CalendarHome";
+import MypageEditModify from "../pages/myPage/MypageEditModify";
 
 const router = createBrowserRouter([
     {
@@ -131,6 +132,10 @@ const router = createBrowserRouter([
                     {
                         path: "/myPage/edit",
                         element: <MyPageEdit />,
+                    },
+                    {
+                        path: "/myPage/modify",
+                        element: <MypageEditModify />,
                     },
                     {
                         path: "/myPage/termsOfUse",
