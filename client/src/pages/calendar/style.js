@@ -27,7 +27,7 @@ S.CalendarHeadContainer=styled.div`
     justify-content: space-between;
     position: relative;
     height:45px;
-    margin:0px 15px;
+    margin:0px 16px;
     `
 S.ArrowsWrapper=styled.div`
     & div{
