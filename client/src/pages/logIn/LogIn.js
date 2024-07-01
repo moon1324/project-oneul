@@ -65,7 +65,7 @@ const LogIn = () => {
             dispatch(setUserStatus(true));
             localStorage.setItem("token", token);
             // 메인 페이지로 이동
-            navigate("/");
+            navigate("/", { replace: true });
         } catch (error) {
             console.error("Error during login:", error);
             setError("email", {
