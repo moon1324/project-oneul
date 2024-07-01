@@ -38,6 +38,16 @@ const loginUser = async (req, res) => {
     }
 };
 
+const logoutUser = async (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Logout failed' });
+        }
+        res.clearCookie('connect.sid'); // 세션 쿠키 이름이 'connect.sid'인 경우
+        return res.status(200).json({ message: 'Logout successful' });
+    });
+};
+
 const checkEmail = async (req, res) => {
     console.log(req.body);
     const user = await User.findOne({ email: req.body.email });
@@ -107,6 +117,7 @@ const signupUser = async (req, res) => {
             profileImg: req.body.profileImg,
             origin: req.body.origin,
             token: req.body.token,
+            statusMessage: req.body.statusMessage,
         };
         // 유저를 등록
         await User.create(register);
@@ -117,7 +128,53 @@ const signupUser = async (req, res) => {
     }
 };
 
-const updateUser = async (req, res) => {};
+const updateUser = async (req, res) => {
+    console.log(req.body)
+    try {
+        // Find the user by email
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(404).json({
+                updateSuccess: false,
+                message: "User not found.",
+            });
+        }
+
+        // Update user information
+        const updates = {
+            password: req.body.password,
+            name: req.body.name,
+            mobile: req.body.mobile,
+            nickname: req.body.nickname,
+            statusMessage: req.body.statusMessage,
+        };
+
+        // Check if there is a new profile image
+        if (req.file) {
+            updates.profileImg = req.file.path; // Assuming you store file paths
+        }
+
+        // Update the user's information in the database
+        await User.updateOne({ email: req.body.email }, { $set: updates });
+
+        // Find the updated user data to send back (excluding password)
+        const updatedUser = await User.findOne({ email: req.body.email }).select('password');
+
+        return res.status(200).json({
+            updateSuccess: true,
+            message: "User information updated successfully.",
+            user: updatedUser,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(401).json({
+            updateSuccess: false,
+            message: "An error occurred while updating user information.",
+        });
+    }
+};
+
 const deleteUser = async (req, res) => {};
 
 // passport Login
@@ -199,4 +256,4 @@ const getUserProfile = async (req, res) => {
     }
 };
 
-export { loginUser, checkEmail, checkMobile, checkNickname, uploadProfileImg, signupUser, updateUser, deleteUser, passportLogin, authLocation, getUserProfile };
+export { loginUser, logoutUser , checkEmail, checkMobile, checkNickname, uploadProfileImg, signupUser, updateUser, deleteUser, passportLogin, authLocation, getUserProfile };
