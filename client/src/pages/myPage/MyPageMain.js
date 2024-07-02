@@ -1,10 +1,38 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleRight, faUserPen} from '@fortawesome/free-solid-svg-icons'
 import S from './style';
+import {useDispatch, useSelector} from 'react-redux'
+import logout, { logoutAction } from '../../modules/logout'
 
 const MyPageMain = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state)=>state.login.currentUser);
+
+    const logoutApi = async () => {
+        try {
+            const response = await fetch("http://localhost:8000/user/logout", {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                throw new Error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    };
+
+    const handleLogout = async () => {
+        await logoutApi();
+        dispatch(logoutAction());
+        navigate('/login');
+    };
+
+
+
     return (
         <>
             <S.MypageNav>
@@ -15,14 +43,14 @@ const MyPageMain = () => {
             <S.ProfileContaier>
                 <S.ProfilePictureWrapper>
                     <div className="pictureBox">
-                        <img src={process.env.PUBLIC_URL + '/images/mypage/profile_picture.svg'}/>
+                        <img src={currentUser.profileImg}/>
                     </div>
                 </S.ProfilePictureWrapper>
                 <S.ProfileNameWrapper>
-                    <h3>마보님</h3>
+                    <h3>{currentUser.nickname}</h3>
                 </S.ProfileNameWrapper>
                 <S.ProfileStatusWrapper>
-                    <p>안녕하세요! 저는 발랄한 마보예요!</p>
+                    <p>{currentUser.statusMessage}</p>
                 </S.ProfileStatusWrapper>
                 <S.ProfileContentsWrapper>
                     <div className="totalMyminBox">
@@ -54,10 +82,10 @@ const MyPageMain = () => {
                     </Link>
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
-                    <Link to={'/logIn'}>
+                    <button onClick={handleLogout} style={{all:'unset'}}>
                         <p>로그아웃</p>
                         <FontAwesomeIcon icon={faAngleRight} />
-                    </Link>
+                    </button>
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
                     <Link to={'/myPage/secession'}>

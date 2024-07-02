@@ -1,4 +1,5 @@
 import express from "express";
+import session from 'express-session'
 import connect from "./connect/connect.js";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -10,6 +11,8 @@ import { initializePassport } from "./auth/auth.js";
 // .env 파일에서 환경변수 불러오기
 dotenv.config();
 const { PORT } = process.env;
+
+const SECRET_KEY = process.env.SECRET_KEY;
 
 // MongoDB 연결
 connect();
@@ -32,6 +35,15 @@ app.use(
         credential: true,
     })
 );
+
+//로그아웃 미들웨어 설정
+app.use(express.json());
+app.use(session({
+    secret: SECRET_KEY, 
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true } 
+}));
 
 // passport 로직 추가
 app.use(passport.initialize());

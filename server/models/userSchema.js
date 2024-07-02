@@ -10,6 +10,7 @@ const userSchema = new Schema({
     profileImg: { type: String },
     origin: { type: [String] },
     token: { type: String },
+    statusMessage : {type:String},
 });
 
 // model("객체명", 스키마, "컬렉션(테이블)명")
