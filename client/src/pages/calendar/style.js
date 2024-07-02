@@ -113,7 +113,7 @@ S.DateWrapper=styled.div`
             height: 7px;
             background-color: #5487D3;
             border-radius: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-40%, -50%);
             margin-top: 10px;
             
         }
