@@ -1,4 +1,4 @@
-import React, {useState,useRef} from 'react';
+import React, {useState,useEffect} from 'react';
 import S from './style';
 import {Link} from 'react-router-dom';
 import OneulInput from '../../components/input/OneulInput';
@@ -17,31 +17,43 @@ const MypageEditModify = () => {
 
     const {register, handleSubmit, formState: {isSubmitting,error}, setValue} = useForm({mode: "onChange"});
 
-    const [avatarURL, setAvatarURL] = useState(currentUser.profileImg || process.env.PUBLIC_URL + currentUser.profileImg);
-    const fileUploadRef = useRef();
+    const defaultProfileImg = `${process.env.PUBLIC_URL}/global/images/default.png`;
     
     const [password, setPassword, handlePasswordChange] = useInput(currentUser.password);
     const [passwordCheck, setPasswordCheck, handlePasswordCheckChange] = useInput("");
     const [name, setName, handleNameChange] = useInput(currentUser.name);
     const [mobile, setMobile] = useInput(currentUser.mobile);
+    const [nickname, setNickname, handleNicknameChange] = useInput(currentUser.nickname);
 
+    const [profileImg, setProfileImg] = useState(currentUser.profileImg || defaultProfileImg);
     const [passwordError, setPasswordError] = useState("");
     const [passwordCheckError, setPasswordCheckError] = useState("");
     const [nameError, setNameError] = useState("");
     const [mobileError, setMobileError] = useState("");
+    const [nicknameError, setNicknameError] = useState("");
     
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[!@#])[\da-zA-Z!@#]{8,}$/;
    
-    const handleImageUpload = (e) => {
-        e.preventDefault();
-        fileUploadRef.current.click();
-    }
+    useEffect(() => {
+        if (currentUser.profileImg) {
+            setProfileImg(currentUser.profileImg);
+        }
+    }, [currentUser]);
 
-    const uploadImageDisplay = async () => {
-        const uploadedFile = fileUploadRef.current.files[0];
-        const cachedURL = URL.createObjectURL(uploadedFile);
-        setAvatarURL(cachedURL);
-    }
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfileImg(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            // 파일을 올리지 않았을 때 초기화
+            setProfileImg(defaultProfileImg);
+        }
+    };
 
     const validatePassword = () => {
         const pwd = password || "";
@@ -124,14 +136,46 @@ const MypageEditModify = () => {
         }
     };
 
+    const checkNicknameDuplicate = async (nickname) => {
+        try {
+            const response = await fetch("http://localhost:8000/user/checkNickname", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ nickname }),
+            });
+            const result = await response.json();
+            return result.duplicate;
+        } catch (error) {
+            console.error("Error checking nickname:", error);
+            return false;
+        }
+    };
+
+    const validateNickname = async () => {
+        if (nickname === "") {
+            setNicknameError("required");
+            return false;
+        }
+        const isDuplicate = await checkNicknameDuplicate(nickname);
+        if (isDuplicate && nickname !== currentUser.nickname) {
+            setNicknameError("duplicate");
+            return false;
+        }
+        setNicknameError("");
+        return true;
+    };
+
 
     const onSubmit = async (data) => {
         const isPasswordValid = validatePassword();
         const isPasswordCheckValid = validatePasswordCheck();
         const isNameValid = validateName();
         const isMobileValid = await validateMobile();
+        const isNicknameValid = await validateNickname();
 
-        if (isPasswordValid && isPasswordCheckValid && isNameValid && isMobileValid) {
+        if (isPasswordValid && isPasswordCheckValid && isNameValid && isMobileValid && isNicknameValid) {
             try{
                 const response  = await fetch("http://localhost:8000/user/update", {
                     method: 'PUT',
@@ -144,11 +188,11 @@ const MypageEditModify = () => {
                         mobile : data.mobile,
                         name: data.name,
                         nickname : data.nickname,
-                        statusMessage : data.statusMessage,
                         profileImg : data.profileImg,
+                        statusMessage : data.statusMessage,
                     }),
                 });
-                // console.log(response, "response data");
+                console.log(response, "response data");
 
                 if (!response.ok) {
                     const result = await response.json();
@@ -167,16 +211,16 @@ const MypageEditModify = () => {
             <S.PageTitle>
                 <h2>프로필 변경</h2>
             </S.PageTitle>   
-            <S.ProfilePictureWrapper>
-                <div className="pictureBox">
-                    <img src={currentUser.profileImg} alt="profile image" />
-                    <form id="form" encType="multipart/form-data">
-                        <button type="button" onClick={handleImageUpload} className="uploadBtn">
-                            <FontAwesomeIcon icon={faCirclePlus} />
-                        </button>
-                        <input type="file" id="file" ref={fileUploadRef} onChange={uploadImageDisplay} hidden />
-                    </form>
-                </div>
+            <S.ProfilePictureWrapper htmlFor="profile-img">
+                <label htmlFor="profile">
+                    <S.ProfileWrapper>
+                        <S.ProfileImgWrapper>
+                            <img src={profileImg || `${process.env.PUBLIC_URL}/global/images/default.png`} alt="profile-img" />
+                        </S.ProfileImgWrapper>
+                        <FontAwesomeIcon icon={faCirclePlus} className="icon" />
+                    </S.ProfileWrapper>
+                </label>
+                <input type="file" id="profile" style={{ display: "none" }} accept=".jpg, .jpeg, .png, .svg" onChange={handleImageChange} />
             </S.ProfilePictureWrapper>
             <S.InputContainer>
                 <S.InputWrapper>
@@ -188,7 +232,14 @@ const MypageEditModify = () => {
                 <S.InputWrapper>
                     <S.Label htmlFor="currentPassword">
                         <p>비밀번호을 변경해주세요</p>
-                        <OneulInput id="currentPassword" type="password" name="currentPassword" defaultValue={currentUser.password} {...register("password")} onBlur={(e) => {setValue('password',e.target.value); setPassword(e.target.value)}}/>
+                        <OneulInput 
+                            id="currentPassword" 
+                            type="password" 
+                            name="currentPassword" 
+                            defaultValue={currentUser.password} 
+                            {...register("password")} 
+                            onBlur={(e) => {setValue('password',e.target.value); setPassword(e.target.value)}}
+                        />
                         <S.ConfirmMessageWrapper>
                             {passwordError === "pattern" && (
                                 <S.ConfirmMessage>
@@ -208,7 +259,13 @@ const MypageEditModify = () => {
                 <S.InputWrapper htmlFor="passwordCheck">
                     <S.Label htmlFor="passwordCheck">
                         <p>비밀번호을 확인해주세요</p>
-                        <OneulInput id="passwordCheck" type="password" name="passwordCheck" {...register("password")} onBlur={(e)=>{setPasswordCheck(e.target.value)}}/>
+                        <OneulInput 
+                            id="passwordCheck" 
+                            type="password" 
+                            name="passwordCheck" 
+                            {...register("password")} 
+                            onBlur={(e)=>{setPasswordCheck(e.target.value)}}
+                        />
                         <S.ConfirmMessageWrapper>
                             {passwordCheckError === "mismatch" && (
                                 <S.ConfirmMessage>
@@ -228,7 +285,13 @@ const MypageEditModify = () => {
                 <S.InputWrapper>
                     <S.Label htmlFor="name">
                         <p>이름을 변경해주세요</p>
-                        <OneulInput id="name" name="name" defaultValue={currentUser.name} {...register("name")} onBlur={(e) => setValue('name',e.target.value)}/>
+                        <OneulInput 
+                            id="name" 
+                            name="name" 
+                            defaultValue={currentUser.name} 
+                            {...register("name")} 
+                            onBlur={(e) => setValue('name',e.target.value)}
+                        />
                         <S.ConfirmMessageWrapper>
                             {nameError === "required" && (
                                 <S.ConfirmMessage>
@@ -242,7 +305,15 @@ const MypageEditModify = () => {
                 <S.InputWrapper>
                     <S.Label htmlFor="mobile">
                         <p>전화번호를 변경해주세요</p>
-                        <OneulInput id="mobile" type="tel" name="mobile" defaultValue={currentUser.mobile} {...register("mobile")} onBlur={handleMobileChange} />
+                        <OneulInput 
+                            id="mobile" 
+                            type="tel" 
+                            name="mobile" 
+                            defaultValue={currentUser.mobile} 
+                            {...register("mobile")} 
+                            maxLength={11} 
+                            onBlur={handleMobileChange} 
+                        />
                         <S.ConfirmMessageWrapper>
                             {mobileError === "required" && (
                                 <S.ConfirmMessage>
@@ -268,18 +339,51 @@ const MypageEditModify = () => {
                 <S.InputWrapper>
                     <S.Label htmlFor="nickname">
                         <p>닉네임을 변경해주세요</p>
-                        <OneulInput id="nickname"name="nickname" defaultValue={currentUser.nickname} {...register("nickname")} onBlur={(e) => setValue('nickname',e.target.value)}/>
+                        <OneulInput 
+                            id="nickname"
+                            name="nickname" 
+                            defaultValue={currentUser.nickname} 
+                            {...register("nickname")} 
+                            onBlur={(e) => setValue('nickname',e.target.value)}
+                        />
+                        <S.ConfirmMessageWrapper>
+                            {nicknameError === "required" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    닉네임을 입력해주세요.
+                                </S.ConfirmMessage>
+                            )}
+                            {nicknameError === "duplicate" && (
+                                <S.ConfirmMessage>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="icon" />
+                                    중복된 닉네임입니다.
+                                </S.ConfirmMessage>
+                            )}
+                        </S.ConfirmMessageWrapper>
                     </S.Label>
                 </S.InputWrapper>
                 <S.InputWrapper>
                     <S.Label htmlFor="statusMessage">
                         <p>상태메세지를 변경해주세요</p>
-                        <OneulInput id="statusMessage" name="statusMessage" defaultValue={currentUser.statusMessage} {...register("statusMessage")} onBlur={(e) => setValue('statusMessage',e.target.value)} />
+                        <OneulInput 
+                            id="statusMessage" 
+                            name="statusMessage" 
+                            defaultValue={currentUser.statusMessage} 
+                            {...register("statusMessage")} 
+                            onBlur={(e) => setValue('statusMessage',e.target.value)} 
+                        />
                     </S.Label>
                 </S.InputWrapper>
             </S.InputContainer>
             <S.buttonWrapper>
-                <OneulButton type="submit" variant="indigo" color="white" size="large" border="default"  disabled={isSubmitting}>
+                <OneulButton 
+                    type="submit" 
+                    variant="indigo" 
+                    color="white" 
+                    size="large" 
+                    border="default"  
+                    disabled={isSubmitting}
+                >
                     수정 완료
                 </OneulButton>
             </S.buttonWrapper>
