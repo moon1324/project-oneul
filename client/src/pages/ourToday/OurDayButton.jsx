@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import S from './style';
 import { Link } from 'react-router-dom';
 
-const OurDayButton = () => {
+const OurDayButton = ({getTabStatus}) => {
     const [tab, setTab] = useState("ourToday");
-    
+
     function activateTabToOurToday() {
         setTab("ourToday")
+        return getTabStatus("ourToday")
     }
 
     function activateTabToMyToday() {
         setTab("myToday")
+        return getTabStatus("myToday")
     }
 
     return (

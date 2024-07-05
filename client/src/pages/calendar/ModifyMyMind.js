@@ -3,11 +3,12 @@ import S from './style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import {faCloudMoon} from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import {useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../components/button/style';
+import { useSelector } from 'react-redux';
 
 const ModifyMyMind = () => {
-    
+    const currentUser = useSelector((state) => state.login.currentUser);
     const [datas,setDatas]=useState([]);
     const [modifiedDatas, setModifiedDatas] = useState([]);
     
@@ -80,8 +81,7 @@ const ModifyMyMind = () => {
                 
                 <FontAwesomeIcon onClick={navigateToCheckMyMind} icon={faCircleXmark} className='faCircleXmark'/>
 
-                <S.TitleWrapper>
-                    나의 마음보기
+                <S.TitleWrapper>나의 마음보기
                     <div id='date'>{date}</div>
                 </S.TitleWrapper>
 
@@ -89,7 +89,7 @@ const ModifyMyMind = () => {
                     {/* 1번 질문 */}
                     <S.QuestionWrapper>
                         <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-                        <p>오늘 마크(이)는 어떤 감정들을 느꼈어?</p>
+                        <p>오늘 {currentUser.nickname}(이)는 어떤 감정들을 느꼈어?</p>
                     </S.QuestionWrapper>
 
                     <S.TextAreaWrapper>
@@ -113,7 +113,7 @@ const ModifyMyMind = () => {
                     {/* 3번 질문 */}
                     <S.QuestionWrapper>
                         <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-                        <p>그럼 마크(이)는 그 상황에서 무엇을 바랐어?</p>
+                        <p>그럼 {currentUser.nickname}(이)는 그 상황에서 무엇을 바랐어?</p>
                     </S.QuestionWrapper>
 
                     <S.TextAreaWrapper>
@@ -125,7 +125,7 @@ const ModifyMyMind = () => {
                     {/* 4번 질문 */}
                     <S.QuestionWrapper>
                         <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-                        <p>그랬구나..! 마크(이)는 어떤 말이 듣고 싶어?</p>
+                        <p>그랬구나..! {currentUser.nickname}(이)는 어떤 말이 듣고 싶어?</p>
                     </S.QuestionWrapper>
 
                     <S.TextAreaWrapper>
@@ -137,7 +137,7 @@ const ModifyMyMind = () => {
                     {/* 5번 질문 */}
                     <S.QuestionWrapper>
                         <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-                        <p>마크(이)는 자신에게 어떤 말을 해주고 싶어?</p>
+                        <p>{currentUser.nickname}(이)는 자신에게 어떤 말을 해주고 싶어?</p>
                     </S.QuestionWrapper>
 
                     <S.TextAreaWrapper>

@@ -26,10 +26,10 @@ const FormProvider = ({ children }) => {
         return formData.findIndex(data => !data || data.trim() === "");
     };
 
-    useEffect(() => {
-        console.log(formData);}
-        ,[formData]
-    );
+    // useEffect(() => {
+    //     console.log(formData);}
+    //     ,[formData]
+    // );
 
     const value = {
         state : {formData:formData},

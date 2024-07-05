@@ -38,6 +38,11 @@ S.searchContainer = styled.div`
     margin-top: 20px;
     ${flexCenterColumn}
 `
+S.myMindContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+`
 
 // 나의 오늘 및 우리의 오늘 게시글을 감싸는 Container(in OurDay)
 S.cardPostContainer = styled.div`
@@ -185,12 +190,13 @@ S.reactionCountWrapper = styled.div`
 
 // 댓글 icon클릭시 나타날 댓글창(in Reaction)
 S.commentWindow = styled(motion.div)`
-    width: 100%;
-    height: 45vh;
+    width: 360px;
+    height: 350px;
     background-color: #fff;
     border: 1px solid black;
     border-radius: 20px;
-    position: absolute;
+    position: fixed;
+    bottom: 16%;
     will-change: transform;
 `;
 
@@ -313,6 +319,18 @@ S.comment = styled.input`
     box-shadow: none;
 `;
 
+S.ContentWrapper=styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    & .cloudMoonIcon{
+        path{
+            color:#5487D3;
+        }
+    }
+`
+
 // 검색 결과 존재 x시 보여주는 컴포넌트를 감싸는 Container(in EmptyPostAlarm)
 S.searchEmptyContainer = styled.div`
     display: flex;
@@ -345,5 +363,7 @@ S.searchEmptyText = styled.p`
     color: #4D4E89;
     text-align: center;
 `
+
+
 
 export default S;

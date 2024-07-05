@@ -30,11 +30,11 @@ import SignUpStep1 from "../pages/signUp/SignUpStep1";
 import SignUpMain from "../pages/signUp/SignUpMain";
 import SignUpStep3 from "../pages/signUp/SignUpStep3";
 import InMyMind01 from "../pages/myMind/InMyMind01";
-import InMyMind02 from "../pages/myMind/InMyMind02"
-import InMyMind03 from "../pages/myMind/InMyMind03"
-import InMyMind04 from "../pages/myMind/InMyMind04"
-import InMyMind05 from "../pages/myMind/InMyMind05"
-import InMyMind06 from "../pages/myMind/InMyMind06"
+import InMyMind02 from "../pages/myMind/InMyMind02";
+import InMyMind03 from "../pages/myMind/InMyMind03";
+import InMyMind04 from "../pages/myMind/InMyMind04";
+import InMyMind05 from "../pages/myMind/InMyMind05";
+import InMyMind06 from "../pages/myMind/InMyMind06";
 import CheckMyMind from "../pages/calendar/CheckMyMind";
 import ModifyMyMind from "../pages/calendar/ModifyMyMind";
 import DeleteMyMind from "../pages/calendar/DeleteMyMind";
@@ -58,54 +58,52 @@ const router = createBrowserRouter([
             {
                 path: "/ourToday",
                 element: <OurToday />,
-
             },
             {
                 path: "/writeToday",
-                element: <WriteToday/>
+                element: <WriteToday />,
             },
             {
                 path: "/myMind",
                 element: <MyMind />,
-                children:[
+                children: [
                     {
-                        path:"/myMind",
-                        element:<MyMindHome/>
+                        path: "/myMind",
+                        element: <MyMindHome />,
                     },
                     {
-                        path:"/myMind/inMyMind01",
-                        element:<InMyMind01 index={0}/>
+                        path: "/myMind/inMyMind01",
+                        element: <InMyMind01 index={0} />,
                     },
                     {
-                        path:"/myMind/inMyMind02",
-                        element:<InMyMind02 index={1}/>
+                        path: "/myMind/inMyMind02",
+                        element: <InMyMind02 index={1} />,
                     },
                     {
-                        path:"/myMind/inMyMind03",
-                        element:<InMyMind03 index={2}/>
+                        path: "/myMind/inMyMind03",
+                        element: <InMyMind03 index={2} />,
                     },
                     {
-                        path:"/myMind/inMyMind04",
-                        element:<InMyMind04 index={3}/>
+                        path: "/myMind/inMyMind04",
+                        element: <InMyMind04 index={3} />,
                     },
                     {
-                        path:"/myMind/inMyMind05",
-                        element:<InMyMind05 index={4}/>
-                     }, 
-                    {
-                        path:"/myMind/inMyMind06",
-                        element:<InMyMind06 index={5}/>
+                        path: "/myMind/inMyMind05",
+                        element: <InMyMind05 index={4} />,
                     },
-                    
-                ]
+                    {
+                        path: "/myMind/inMyMind06",
+                        element: <InMyMind06 index={5} />,
+                    },
+                ],
             },
             {
                 path: "/calendar",
                 element: <Calendar />,
-                children:[
+                children: [
                     {
-                        path:"/calendar",
-                        element:<CalendarHome/>
+                        path: "/calendar",
+                        element: <CalendarHome />,
                     },
                     {
                         path: "/calendar/checkMyMind",
@@ -113,13 +111,13 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "/calendar/checkMyMind/modifyMyMind",
-                        element: <ModifyMyMind/>,
+                        element: <ModifyMyMind />,
                     },
                     {
                         path: "/calendar/checkMyMind/deleteMyMind",
-                        element: <DeleteMyMind/>,
+                        element: <DeleteMyMind />,
                     },
-                ]
+                ],
             },
             {
                 path: "/myPage",
@@ -161,10 +159,10 @@ const router = createBrowserRouter([
         path: "/signUp",
         element: <SignUp />,
         children: [
-            {
-                path: "/signUp",
-                element: <SignUpMain />,
-            },
+            // {
+            //     path: "/signUp",
+            //     element: <SignUpMain />,
+            // },
             {
                 path: "/signUp/1",
                 element: <SignUpStep1 />,
@@ -225,12 +223,6 @@ const router = createBrowserRouter([
         path: "*",
         element: <PageNotFound />,
     },
-
-    
-   
 ]);
 
 export default router;
-
-    
-
