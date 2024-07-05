@@ -1,4 +1,4 @@
-import React, {useState,useRef} from 'react';
+import React, {useState,useRef, useEffect} from 'react';
 import S from './style';
 import {Link} from 'react-router-dom';
 import OneulInput from '../../components/input/OneulInput';
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 const MyPageEdit = () => {
 
     const dispatch = useDispatch();
+    
     const userPhoto = useSelector((state) => state.login.currentUser.profileImg);
     const userEmail = useSelector((state) => state.login.currentUser.email);
     const userPassword = useSelector((state) => state.login.currentUser.password);
@@ -18,6 +19,27 @@ const MyPageEdit = () => {
     const userMobile = useSelector((state) => state.login.currentUser.mobile);
     const userNickname = useSelector((state) => state.login.currentUser.nickname);
     const userStatus = useSelector((state) => state.login.currentUser.statusMessage);
+    
+
+    const currentUser = useSelector((state)=>state.login.currentUser);
+
+    const [profileImg, setProfileImg] = useState("");
+
+    useEffect(() => {
+        const fetchUserProfileImage = async () => {
+            if (currentUser && currentUser.email) {
+                try {
+                    const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
+                    const data = await response.json();
+                    setProfileImg(data.profileImg);
+                    console.log(data);
+                } catch (error) {
+                    console.error("Failed to fetch user profile image", error);
+                }
+            }
+        };
+        fetchUserProfileImage();
+    }, [currentUser.email]);
 
     return (
         <S.Form>
@@ -26,7 +48,7 @@ const MyPageEdit = () => {
             </S.PageTitle>   
             <S.ProfilePictureWrapper>
                 <div className="pictureBox">
-                    <img src={userPhoto} alt="userPhoto"/>
+                    <img src={profileImg} alt="userPhoto" style={{width:100}}/>
                 </div>
             </S.ProfilePictureWrapper>
             <S.InputContainer>

@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {Link,useNavigate} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleRight, faUserPen} from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +12,9 @@ const MyPageMain = () => {
     
     const isLogin = useSelector((state) => state.login.isLogin);
     const currentUser = useSelector((state)=>state.login.currentUser);
-   
+    
+    const [profileImg, setProfileImg] = useState("");
+
     const logoutApi = async () => {
         try {
             const response = await fetch("http://localhost:8000/user/logout", {
@@ -38,6 +40,23 @@ const MyPageMain = () => {
             console.error('로그아웃 오류:', error);
         }
     };
+
+    useEffect(() => {
+        const fetchUserProfileImage = async () => {
+            if (currentUser && currentUser.email) {
+                try {
+                    const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
+                    const data = await response.json();
+                    setProfileImg(data.profileImg);
+                    console.log(data);
+                } catch (error) {
+                    console.error("Failed to fetch user profile image", error);
+                }
+            }
+        };
+        fetchUserProfileImage();
+    }, [currentUser.email]);
+
 
     const clearSession = () => {
         // 쿠키 클리어
@@ -66,7 +85,7 @@ const MyPageMain = () => {
             <S.ProfileContaier>
                 <S.ProfilePictureWrapper>
                     <div className="pictureBox">
-                        <img src={currentUser.profileImg}/>
+                        <img src={profileImg} style={{width:100}}/>
                     </div>
                 </S.ProfilePictureWrapper>
                 <S.ProfileNameWrapper>
