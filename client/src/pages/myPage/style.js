@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import theme from '../../global/theme'
+import { flexCenter, flexCenterColumn } from "../../global/common";
 
 const S = {}
 
@@ -21,41 +22,48 @@ const S = {}
     S.ProfilePictureWrapper = styled.div`
         display: flex;
         justify-content: center;
-
-        & .pictureBox{
-            position: relative;
-            width: 100px;
-            height: 100px;
-            overflow: hidden;
-
-            & > img {
-                width:100%;
-                height: 100%;
-                border-radius:50%;
-                object-fit: cover;
-            }
-            
-            & button {
-                cursor: pointer;
-                position: absolute;
-                bottom: 0px;
-                right: 0px;
-                font-size: 26px;
-                border:none;
-                background-color: transparent;
-                box-shadow: none;
-            }
-        }
-
-        & .uploadBtn {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            bottom: 12px;
-            right: 12px;
-        }
     `
+    // profile
+    S.LabelCentered = styled.label`
+    ${flexCenterColumn}
+    & p {
+        margin-left: 4px;
+        margin-bottom: 4px;
+        color: ${theme.PALETTE.white};
+        font-family: "NanumSquareRound";
+    }
+    `;
+
+    S.ProfileWrapper = styled.div`
+    margin-top: 20px;
+    ${flexCenter}
+    width: 140px;
+    height: 140px;
+    position: relative;
+
+    & .icon {
+        width: 24px;
+        height: 24px;
+        right: 20px;
+        bottom: 20px;
+        position: absolute;
+        color: ${theme.PALETTE.white};
+        cursor: pointer;
+    }
+    `;
+
+    S.ProfileImgWrapper = styled.div`
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    `;
 
     S.ProfileNameWrapper = styled.div`
         text-align: center;
@@ -123,7 +131,21 @@ const S = {}
                 justify-content: space-between;
                 align-items: center;
             }
-
+        & button{
+            width:100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            background: none;
+            box-shadow: none;
+            cursor: pointer;
+            & p {
+                font-size: 16px;
+                font-family: 'Pretendard-Regular';
+            }
+        }
         & .secession { 
             color: ${theme.PALETTE.error.red};
         }
@@ -136,6 +158,11 @@ const S = {}
     `
 /* MyPageEdit.js */
 
+        S.Form = styled.form`
+            width: 100%;
+            height: 100%;
+        `
+        
         S.PageTitle = styled.div`
             text-align: center;
             padding: 2.5rem 0;
@@ -157,7 +184,7 @@ const S = {}
         `
         S.InputWrapper = styled.div`
             width: 100%;
-            padding: 0 0 1.25rem 0;
+            padding: 0 0 1.5rem 0;
             
             & p { 
                 padding: 0 0 0.5rem 0;
@@ -167,6 +194,19 @@ const S = {}
                 width: 100%;
             }
         `
+        S.Label = styled.label`
+            width:100%;
+            height: 100%;;
+        `
+        S.ConfirmMessageWrapper = styled.div`
+            width: 100%;
+            height: auto;
+        `
+        S.ConfirmMessage = styled.p`
+            font-size: 12px;
+            padding: 0.8rem 0 0 0 !important;
+        `
+
         S.buttonWrapper = styled.div`
             width: 100%;
             text-align: center;

@@ -1,4 +1,5 @@
 import User from "../../models/userSchema.js";
+import session from "express-session"
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -26,6 +27,8 @@ const loginUser = async (req, res) => {
             });
         }
 
+        req.session.userId = user._id;
+        const token = jwt.sign({ id: user._id }, jwtOptions.secretOrKey, { expiresIn: '24h' });
         const { ...userDatas } = user;
         const { password, ...others } = userDatas._doc;
         console.log(others);
@@ -34,7 +37,34 @@ const loginUser = async (req, res) => {
             user: others, // 최초 로그인시 유저정보
             loginSuccess: true, // 상태
             message: "로그인 성공!", // 메세지
+            userId: user._id,
+            token : token,
+        },)
+    }
+};
+
+const logoutUser = async (req, res) => {
+    if (req.session) {
+        req.session.destroy((err) => {
+          if (err) {
+            console.error('Failed to destroy session:', err);
+            res.status(500).send('Failed to logout');
+            return next(err);
+          } else {
+            res.clearCookie('connect.sid'); // 세션 쿠키 삭제
+            res.send('Logout successful');
+          }
         });
+      } else {
+        res.status(400).send('No active session');
+      }
+};
+
+const isAuthenticated = (req, res, next) => {
+    if (req.session && req.session.userId) {
+        return next();
+    } else {
+        return res.status(401).json({ message: "로그인이 필요합니다." });
     }
 };
 
@@ -107,6 +137,7 @@ const signupUser = async (req, res) => {
             profileImg: req.body.profileImg,
             origin: req.body.origin,
             token: req.body.token,
+            statusMessage: req.body.statusMessage,
         };
         // 유저를 등록
         await User.create(register);
@@ -117,26 +148,116 @@ const signupUser = async (req, res) => {
     }
 };
 
-const updateUser = async (req, res) => {};
-const deleteUser = async (req, res) => {};
+const updateUser = async (req, res) => {
+
+    try {
+        // Find the user by email
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(404).json({
+                updateSuccess: false,
+                message: "User not found.",
+            });
+        }
+     
+        // Update user information
+        const updates = {
+            password: req.body.password,
+            mobile: req.body.mobile,
+            name: req.body.name,
+            nickname: req.body.nickname,
+            profileImg: req.body.profileImg,
+            statusMessage: req.body.statusMessage,
+        };
+        // Check if there is a new profile image
+        if (req.file) {
+            updates.profileImg = req.file.path; // Assuming you store file paths
+        }
+        
+        // Update the user's information in the database
+        await User.updateOne({ email: req.body.email },{ $set: updates });
+        
+        // Find the updated user data to send back (excluding password)
+        const updatedUser = await User.findOne({ email: req.body.email }).select('password');
+        
+        return res.status(200).json({
+            updateSuccess: true,
+            message: "User information updated successfully.",
+            user: updatedUser,
+        });
+        console.log(req.body);
+
+    } catch (error) {
+        console.error(error);
+        return res.status(401).json({
+            updateSuccess: false,
+            message: "An error occurred while updating user information.",
+        });
+    }
+};
+
+// JWT 회원탈퇴
+const deleteUser = async (req, res) => {
+    const authenticateUser = req.user;
+    console.log(authenticateUser);
+    await User.deleteOne(authenticateUser);
+    res.status(200).json({
+        message : "회원 탈퇴가 완료되었습니다."
+    })
+};
+
+
+// JWT Strategy : HTTP Authorization 헤더에서 JWT를 추출하여 
+const configureJwtStrategy = () => {
+    return new Promise((resolve, reject) => {
+      const jwtOptions = {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: SECRET_KEY,
+      };
+  
+      const strategy = new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
+        try {
+          const user = await User.findById(jwtPayload.sub);
+          if (user) {
+            return done(null, user);
+          } else {
+            return done(null, false);
+          }
+        } catch (err) {
+          return done(err, false);
+        }
+      });
+  
+      passport.use(strategy);
+      resolve();
+    });
+  };
+
+// Passport 초기화 및 JWT Strategy 설정
+const initializePassport = async () => {
+    await configureJwtStrategy();
+    app.use(passport.initialize());
+  };
 
 // passport Login
 const passportLogin = async (req, res, next) => {
     try {
         passport.authenticate("local", (error, user, info) => {
-            if (error || !user) {
-                res.status(400).json({ message: info.reason });
-                return;
+            if (error) {
+                return res.status(500).json({ message: '서버 오류 발생' });
+            }
+            if (!user) {
+                return res.status(400).json({ message: info ? info.reason : '로그인에 실패했습니다.' });
             }
             req.login(user, { session: false }, async (loginError) => {
                 if (loginError) {
-                    res.status(401).send(loginError);
-                    return;
+                    return res.status(401).send(loginError);
                 }
-                // 여기에서 검증된 회원을 처리
                 // 검증된 회원에게 jwt토큰 생성 후 전달
                 const token = jwt.sign(
                     {
+                        id: user._id,  // id를 포함하는 것이 더 일반적임
                         email: user.email,
                         issuer: "michael",
                     },
@@ -147,7 +268,7 @@ const passportLogin = async (req, res, next) => {
                 );
 
                 // 검증 (선택) 안해도 무관
-                const loginUser = await User.findOne({ email: user.email }).lean();
+                const loginUser = await User.findById(user._id).lean();
                 console.log(loginUser);
 
                 // 민감한 정보를 제거 후
@@ -158,13 +279,13 @@ const passportLogin = async (req, res, next) => {
                     token: token,
                 });
             });
-            // console.log("authenticate", error, user, info);
         })(req, res, next);
     } catch (error) {
-        console.error(error);
+        console.error('로그인 처리 오류:', error);
         next(error);
     }
 };
+
 
 // 토큰을 이용해서 인증받은 라우팅
 const authLocation = async (req, res) => {
@@ -199,4 +320,4 @@ const getUserProfile = async (req, res) => {
     }
 };
 
-export { loginUser, checkEmail, checkMobile, checkNickname, uploadProfileImg, signupUser, updateUser, deleteUser, passportLogin, authLocation, getUserProfile };
+export { loginUser, logoutUser, checkEmail, checkMobile, checkNickname, uploadProfileImg, signupUser, updateUser, deleteUser, passportLogin, authLocation, getUserProfile, isAuthenticated, configureJwtStrategy,initializePassport};

@@ -4,7 +4,8 @@ import S from "./style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeartCircleCheck, faCalendarDays, faHouse, faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
 import SearchInput from "./SearchInput";
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"
+
 
 const Layout = () => {
 

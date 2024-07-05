@@ -1,10 +1,61 @@
-import React from 'react';
-import {Link} from 'react-router-dom'
+import React,{useState} from 'react';
+import {Link,useNavigate} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleRight, faUserPen} from '@fortawesome/free-solid-svg-icons'
 import S from './style';
+import {useDispatch, useSelector} from 'react-redux'
+import { setUserLogout } from '../../modules/logIn';
 
 const MyPageMain = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
+    const isLogin = useSelector((state) => state.login.isLogin);
+    const currentUser = useSelector((state)=>state.login.currentUser);
+   
+    const logoutApi = async () => {
+        try {
+            const response = await fetch("http://localhost:8000/user/logout", {
+                method: 'POST',
+                credentials: 'include', // 쿠키 전송 설정
+                mode: 'cors',
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify({ 
+                    // 로그아웃 요청 본문
+                }),
+            });
+    
+            if (!response.ok) {
+                throw new Error('로그아웃 실패');
+            }
+    
+            clearSession(); 
+            console.log('로그아웃 성공');
+            // 세션 관련 정보를 클리어하는 함수 호출
+        } catch (error) {
+            console.error('로그아웃 오류:', error);
+        }
+    };
+
+    const clearSession = () => {
+        // 쿠키 클리어
+        document.cookie = "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // 기타 로컬 스토리지 등의 클리어 로직 추가 가능
+    };
+
+    const handleLogout = async () => {
+        try {
+            await logoutApi();
+            dispatch(setUserLogout(null, false));
+            navigate("/logIn"); // 로그인 페이지로 리디렉션
+        } catch (error) {
+            console.error('Failed to handle logout:', error.message);
+        }
+    };
+
+
     return (
         <>
             <S.MypageNav>
@@ -15,14 +66,14 @@ const MyPageMain = () => {
             <S.ProfileContaier>
                 <S.ProfilePictureWrapper>
                     <div className="pictureBox">
-                        <img src={process.env.PUBLIC_URL + '/images/mypage/profile_picture.svg'}/>
+                        <img src={currentUser.profileImg}/>
                     </div>
                 </S.ProfilePictureWrapper>
                 <S.ProfileNameWrapper>
-                    <h3>마보님</h3>
+                    <h3>{currentUser.nickname}</h3>
                 </S.ProfileNameWrapper>
                 <S.ProfileStatusWrapper>
-                    <p>안녕하세요! 저는 발랄한 마보예요!</p>
+                    <p>{currentUser.statusMessage}</p>
                 </S.ProfileStatusWrapper>
                 <S.ProfileContentsWrapper>
                     <div className="totalMyminBox">
@@ -54,10 +105,10 @@ const MyPageMain = () => {
                     </Link>
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
-                    <Link to={'/logIn'}>
+                    <button onClick={handleLogout}>
                         <p>로그아웃</p>
                         <FontAwesomeIcon icon={faAngleRight} />
-                    </Link>
+                    </button>
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
                     <Link to={'/myPage/secession'}>
