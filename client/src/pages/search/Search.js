@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import S from "./style";
 import SearchResultPost from "./SearchResultPost";
+import SearchResultMyMind from "./SearchResultMyMind";
 
 
 const Search = () => {
@@ -14,7 +15,7 @@ const Search = () => {
                     <S.viewAll>모두보기<FontAwesomeIcon icon={faAngleRight} /></S.viewAll>
                 </S.header>
                 <S.searchContainer>
-                    <SearchResultPost />
+                    <SearchResultMyMind />
                 </S.searchContainer>
             </S.Wrapper>
             <S.searchOurDayWrapper>
