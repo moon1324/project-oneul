@@ -1,68 +1,55 @@
 import React from 'react';
 import S from './style'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark} from '@fortawesome/free-regular-svg-icons';
+import { faHeartCircleCheck,faCalendarDays, faHouse, faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom';
 
-const Banner2 = () => {
+const Banner3 = () => {
     return (
         <S.BannerContainer>
-        <S.BannerWrapper>
-            <S.BannerImageBox>
-                <img src={process.env.PUBLIC_URL+"/images/banner/banner2.svg"} alt="" srcset="" />
-            </S.BannerImageBox>
-            <S.BannerConBox>
-                <h2>마음 질문에 대한 답변을 쓰는 법을 알아보아요!</h2>
-                <p>
-                    마음 질문에 대한 답변은 하고 싶은 말을 솔직하게 형식 없이 작성하면 돼요.
-                    더 구체적일 수록 좋고 생각을 깊게 한 후에 답변을 작성해주세요.
-                    답변을 모두 작성하셨으면 오늘 마음에 대한 깨달음으로 내일은 더 성장해 있을 거에요! 
-                </p>
-                <p>아래는 질문 답변에 대한 예시에요.</p>
-                <p>
-                    🌿오늘 유정이가 느낀 감정들은 무엇이야?
-                </p>
-                <p>
-                    -막막함, 성취감, 피곤함, 즐거움, 어색함
-                </p>
-                <p>
-                    🌿어떤 상황때문에 이 감정이 느껴졌어?
-                </p>
-                <p>
-                    - 학원 코딩 강의를 듣는데 내용이 많이 어렵고 해야할게 너무 많은 것 같아 막막했어
-                    - 어려워서 못 풀 것 같은 실습을 혼자 온전히 해내서 뿌듯하고 성취감이 들었어!
-                    - 알바를 하는데 할 일이 많아서 지치고 피곤했어
-                    - 새로운 알바생을 처음 만나서 어색했는데 너무 착하고 귀여워서 얘기하는게 즐거웠어    
-                </p>
-                <p>
-                    🌿그렇구나, 그럼 유정이가 바라는 것은 무엇이야?
-                </p>
-                <p>
-                    - 앞으로도 밀리지 않고 꾸준히 코딩 공부하기
-                    - 공부 할 때 더 집중하고 딴 짓하지 않기
-                    - 알바 할 때 덜 지치기
-                    - 매장에 온 사람들에게 더 친절하게 대하기
-                    - 알바 같이 하는 친구들과 즐겁게 일하기
-                </p>
-                <p>
-                    🌿그랬구나 그럼 유정이가 다른 사람에게 듣고 싶은 말은 무엇이야?
-                </p>
-                <p>
-                    - 오늘도 공부하고 일하느라 고생했어.
-                </p>
-                <p>
-                    🌿유정이는 유정이에게 어떤 말을 해주고싶어?
-                </p>
-                <p>
-                    - 오늘 계획한 일과를 잘 수행해서 칭찬해     
-                </p>
-                <p>
-                    🌿지금 마음이 어때~?
-                </p>
-                <p>
-                    - 오늘 별 탈 없이 하루를 잘 살아서 안도감이 들어
-                </p>
-            </S.BannerConBox>
-        </S.BannerWrapper>
-    </S.BannerContainer>
+            <S.BannerWrapper id="banner2_wrapper">
+                <Link to={'/'}><FontAwesomeIcon icon={faCircleXmark} className='faCircleXmark'/></Link>
+                <S.BannerImageBox>
+                    <img id="image02"src={process.env.PUBLIC_URL+"/images/banner/banner2.svg"}  />
+                </S.BannerImageBox>
+                <S.BannerConBox>
+                    <p>'오늘'은 나의 하루 동안의 마음을 돌아보는 글을 작성하고 '오늘'을 사용하는 다른 사람들과 글로 소통할 수 있는 공간이에요.
+                        <br/><br/> '오늘'에는 크게 5가지의 공간이 있어요.<br/> 지금부터 각 공간에 대한 설명을 해드릴게요!
+                    </p>
+                    <S.IconImageTitle><FontAwesomeIcon icon={faHeartCircleCheck} className="smallIcon"/> 나의 마음보기 <FontAwesomeIcon icon={faHeartCircleCheck} className="smallIcon"/></S.IconImageTitle>
+                    <S.ImageWrapper>
+                        <FontAwesomeIcon icon={faHeartCircleCheck} className="icon" />
+                        <div id='textIntoImage'>'마음일지'를 작성하는 공간이에요.<br/> '마음일지'란 내가 오늘 하루 동안 느낀 감정에 대해 기록하는 일지에요.<br/> '마음일지'를 작성하면서 오늘 하루 느낀 감정들을 되돌아보고 성찰할 수 있어요.<br/> 하루를 마무리하는 자기 전 시간에 작성하는 것을 추천드려요.</div>
+                    </S.ImageWrapper>
+
+                    <S.IconImageTitle><FontAwesomeIcon icon={faCalendarDays} className="smallIcon"/> 캘린더 <FontAwesomeIcon icon={faCalendarDays} className="smallIcon"/></S.IconImageTitle>
+                    <S.ImageWrapper>
+                        <FontAwesomeIcon icon={faCalendarDays} className="icon" />
+                        <div id='textIntoImage'> 내가 작성했던 '마음일지'들을 볼 수 있는 공간이에요.<br/> 드롭 바나 화살표를 눌러 원하는 시기로 이동한 뒤 하단에 파란 점이 있는 날짜를 클릭하면 해당 날짜에 작성한 '마음일지'를 볼 수 있고 상단의 아이콘을 클릭하면 '마음일지'를 수정, 삭제할 수 있어요.</div>
+                    </S.ImageWrapper>
+
+                    <S.IconImageTitle><FontAwesomeIcon icon={faUsers} className="smallIcon"/> 우리의 오늘 <FontAwesomeIcon icon={faUsers} className="smallIcon"/></S.IconImageTitle>
+                    <S.ImageWrapper>
+                        <FontAwesomeIcon icon={faUsers} className="icon" />
+                        <div id='textIntoImage'>'오늘'을 사용하는 다른 사람들의 글을 읽고 댓글로 소통할 수 있는 공간이에요<br/> '나의 오늘'은 내가 오늘 하루 동안 느꼈던 생각, 감정 등을 자유롭게 적을 수 있어요. <br/>마음일지를 작성한 후 느낀 생각이나 감정을 적어도 좋아요. <br/> 작성된 '나의 오늘'은 '우리의 오늘'로 공유되어 다른 사람들이 볼 수 있어요.<br/>'우리의 오늘'에서 사람들과 함께 오늘의 하루를 나눠보아요!</div>
+                    </S.ImageWrapper>
+
+                    <S.IconImageTitle><FontAwesomeIcon icon={faHouse} className="smallIcon"/> 홈 <FontAwesomeIcon icon={faHouse} className="smallIcon"/></S.IconImageTitle>
+                    <S.ImageWrapper>
+                        <FontAwesomeIcon icon={faHouse} className="icon" />
+                        <div id='textIntoImage'>'오늘'의 주요 기능들로 이동할 수 있는 공간이에요.<br/>최상단의 검색 아이콘을 누르고 단어를 입력하면 '우리의 오늘'과 '나의 오늘'에서 해당 단어가 포함된 게시물을 검색할 수 있어요.<br/> 홈의 중앙에 위치한 슬라이드 배너는 마음에 관한 글과 '오늘'에 대한 설명이 있어요.<br/> 하단에 위치한 '우리의 오늘'에서는 사람들에게 공감을 가장 많이 받은 게시물을 볼 수 있어요. </div>
+                    </S.ImageWrapper>
+
+                    <S.IconImageTitle><FontAwesomeIcon icon={faUser} className="smallIcon"/> 마이페이지 <FontAwesomeIcon icon={faUser} className="smallIcon"/></S.IconImageTitle>
+                    <S.ImageWrapper>
+                        <FontAwesomeIcon icon={faUser} className="icon" />
+                        <div id='textIntoImage'>우측 상단의 프로필 아이콘을 클릭하면 내 정보를 수정할 수 있어요.<br/> 중앙에 위치한 '마음일지 작성 일수'에서는 지금까지의 마음일지 작성 일수를 볼 수 있고 '공유된 나의 마음'에서는 '우리의 오늘'에서 내가 지금까지 쓴 나의 마음의 개수를 볼 수 있어요.</div>
+                    </S.ImageWrapper>
+                </S.BannerConBox>
+            </S.BannerWrapper>
+        </S.BannerContainer>
     );
 };
 
-export default Banner2;
+export default Banner3;

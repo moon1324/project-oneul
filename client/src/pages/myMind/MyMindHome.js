@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import S from "./style"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeartCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import {} from "@fortawesome/free-regular-svg-icons"
 import Button from "../../components/button/style";
 import {useNavigate} from "react-router-dom";
-
-import { faHeartCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 const MyMindHome = () => {
     
