@@ -8,6 +8,7 @@ import { useSelector } from "react-redux"
 
 
 const Layout = () => {
+
     // useLocation을 써서 메인, 우리의오늘, 검색일때 화면에 header 표시
     const location = useLocation();
     const path = location.pathname;

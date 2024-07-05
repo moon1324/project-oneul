@@ -18,7 +18,7 @@ const postMyMind = async (req, res) => {
 };
 
 const getTodayExistence = async (req, res) => {
-    
+    const { createdAt } = req.body;
     const { date } = req.query;
     const userEmail = req.user.email;
     try {

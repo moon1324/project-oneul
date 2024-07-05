@@ -7,7 +7,7 @@ const EmptyPostAlarm = () => {
     return (
         <S.searchEmptyContainer>
             <S.searchEmptyIconWrapper>
-            <img src={`${process.env.PUBLIC_URL}/global/images/heartCrack.png`} alt="heartCrack" />
+                <img src={`${process.env.PUBLIC_URL}/global/images/heartCrack.png`} alt="heartCrack" />
             </S.searchEmptyIconWrapper>
             <S.searchEmptyTextWrapper>
                 <S.searchEmptyText>

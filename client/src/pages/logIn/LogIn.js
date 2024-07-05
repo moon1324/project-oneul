@@ -146,7 +146,7 @@ const LogIn = () => {
                     </OneulButton>
                 </S.LoginForm>
                 <S.ToSignUp>
-                    <Link to={"/signUp"}>
+                    <Link to={"/signUp/1"}>
                         <OneulButton variant={"indigo"} border={"default"} size={"large"} color={"white"}>
                             회원가입
                         </OneulButton>

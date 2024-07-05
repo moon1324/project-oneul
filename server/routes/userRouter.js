@@ -7,6 +7,7 @@ import {
     checkNickname,
     deleteUser,
     getUserProfile,
+    isAuthenticated,
     loginUser,
     logoutUser,
     passportLogin,
@@ -32,13 +33,16 @@ const userRouter = express.Router();
 
 userRouter.post("/login", loginUser);
 userRouter.post("/logout", logoutUser);
+userRouter.get("/protected-route", isAuthenticated, (req, res) => {
+    res.send('This is a protected route');
+});
 userRouter.post("/checkEmail", checkEmail);
 userRouter.post("/checkMobile", checkMobile);
 userRouter.post("/checkNickname", checkNickname);
 userRouter.post("/uploadProfileImg", upload.single("profileImg"), uploadProfileImg);
 userRouter.post("/signup", signupUser);
 userRouter.put("/update", updateUser);
-userRouter.delete("/delete", deleteUser);
+userRouter.delete('/delete', passport.authenticate("jwt", {session : false}),deleteUser);
 
 // passport 추가
 userRouter.post("/passportLogin", passportLogin);

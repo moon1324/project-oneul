@@ -1,36 +1,59 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {Link,useNavigate} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleRight, faUserPen} from '@fortawesome/free-solid-svg-icons'
 import S from './style';
 import {useDispatch, useSelector} from 'react-redux'
-import logout, { logoutAction } from '../../modules/logout'
+import { setUserLogout } from '../../modules/logIn';
 
 const MyPageMain = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    
+    const isLogin = useSelector((state) => state.login.isLogin);
     const currentUser = useSelector((state)=>state.login.currentUser);
-
+   
     const logoutApi = async () => {
         try {
             const response = await fetch("http://localhost:8000/user/logout", {
                 method: 'POST',
-                credentials: 'include',
+                credentials: 'include', // 쿠키 전송 설정
+                mode: 'cors',
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify({ 
+                    // 로그아웃 요청 본문
+                }),
             });
+    
             if (!response.ok) {
-                throw new Error('Logout failed');
+                throw new Error('로그아웃 실패');
             }
+    
+            clearSession(); 
+            console.log('로그아웃 성공');
+            // 세션 관련 정보를 클리어하는 함수 호출
         } catch (error) {
-            console.error('Error during logout:', error);
+            console.error('로그아웃 오류:', error);
         }
     };
 
-    const handleLogout = async () => {
-        await logoutApi();
-        dispatch(logoutAction());
-        navigate('/login');
+    const clearSession = () => {
+        // 쿠키 클리어
+        document.cookie = "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // 기타 로컬 스토리지 등의 클리어 로직 추가 가능
     };
 
+    const handleLogout = async () => {
+        try {
+            await logoutApi();
+            dispatch(setUserLogout(null, false));
+            navigate("/logIn"); // 로그인 페이지로 리디렉션
+        } catch (error) {
+            console.error('Failed to handle logout:', error.message);
+        }
+    };
 
 
     return (
@@ -82,7 +105,7 @@ const MyPageMain = () => {
                     </Link>
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
-                    <button onClick={handleLogout} style={{all:'unset'}}>
+                    <button onClick={handleLogout}>
                         <p>로그아웃</p>
                         <FontAwesomeIcon icon={faAngleRight} />
                     </button>

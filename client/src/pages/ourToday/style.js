@@ -57,6 +57,7 @@ S.writingButton = styled.button`
     cursor: pointer;
 `;
 
+
 // 나의 오늘 및 우리의 오늘 게시글을 감싸는 Container(in OurDay)
 S.cardPostContainer = styled.div`
     width: 320px;
@@ -66,7 +67,9 @@ S.cardPostContainer = styled.div`
     margin: 0 auto;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
     ${flexCenterColumn}
+    margin-bottom: 20px;
 `;
+
 
 // 게시글의 프로필 이미지 및 username을 감싸는 Container(in OurDay)
 S.postProfileContainer = styled.div`
@@ -98,11 +101,109 @@ S.userNameWrapper = styled.div`
     margin-left: 20px;
 `;
 
+S.correctionButtonContainer = styled.div`
+    display: flex;
+    margin-left: auto;
+    margin-right: 10px;
+`
+
+S.correctionButtonWrapper = styled.div`
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+S.correctionButton = styled.button`
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-size: 16px;
+        box-shadow: none;
+
+        & .pen path{
+            color : #142146;
+        }
+        & .pen:hover path{
+            color : #5f81f7;
+        }
+
+        & .trash path{
+            color: #142146;
+        }
+        & .trash:hover path{
+            color: #ec6863;
+        }
+        & .check path{
+            color: #142146;
+        }
+        & .exit path{
+            color: #142146;
+        }
+`
+
 // 게시글 본문 내용을 감싸는 wrapper(in OurDay)
 S.postContentWrapper = styled.div`
     width : 100%;
     height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
+
+S.todayPostText = styled.textarea`
+    width: 300px;
+    height: 180px;
+    font-family: 'Pretendard';
+    font-size: 15px;
+    border: none;
+    resize: none;
+`
+
+// 게시글 수정 상태시 버튼을 가지고 있는 container(in OurTodayCardPost)
+S.updateButtonContainer = styled.div`
+    width: 100%;
+    height: 15%;
+    display: flex;
+    align-items: center;
+`
+
+S.updateButtonWrapper =styled.div`
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+S.updateButton = styled.button`
+    border-radius: 20px;
+    border: none;
+    width: 100px;
+    height: 70%;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    background-color: #5487D3;
+    cursor: pointer;
+    & .check path{
+        color: white;
+        font-size: 18px;
+    }
+`
+
+S.cancelUpdateButton = styled.button`
+    border-radius: 20px;
+    border: none;
+    width: 100px;
+    height: 70%;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    background-color: #EE6161;
+    cursor: pointer;
+    & .exit path{
+        color: white;
+        font-size: 18px;
+    }
+`
 
 // 게시글의 Reaction이 차지할 공간을 만드는 Container(in OurDay)
 S.reactionContainer = styled.div`
@@ -145,7 +246,14 @@ S.commentIconContainer = styled.div`
 // 댓글 icon을 직접적으로 감싸는 wrapper(in Reaction)
 S.commentIconWrapper = styled.div`
     margin-left: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
+
+S.commentCount = styled.p`
+    margin-left: 10px;
+`
 
 // emotion(좋아요, 하트, 화남, 슬픔 등)이 차지할 공간을 마련할 Container(in Reaction)
 S.emotionContainer = styled.div`
@@ -201,21 +309,31 @@ S.reactionCountWrapper = styled.div`
     text-align: center;
 `;
 
+S.gap = styled.div`
+    width: 100%;
+    height: 70px;
+`
+
 // 댓글 icon클릭시 나타날 댓글창(in Reaction)
 S.commentWindow = styled(motion.div)`
-    width: 100%;
-    height: 45vh;
+    width: 360px;
+    height: 350px;
     background-color: #fff;
     border: 1px solid black;
     border-radius: 20px;
-    position: absolute;
-    will-change: transform;
+    position: fixed;
+    bottom: 95px;
+    overflow: scroll;
+    bottom: 16%;
+    &::-webkit-scrollbar{
+        width: 8px;
+        border-radius: 10px
+    }
 `;
 
 
 // 댓글창에서 댓글의 수를 감싸는 wrapper(in CommentInsert)
 S.commentCountWrapper = styled.div`
-    position: relative;
     width: 55px;
     height: 20px;
     margin: 15px 0 10px 16px;
@@ -223,7 +341,6 @@ S.commentCountWrapper = styled.div`
 
 // 댓글 입력구간이 차지할 공간을 나타내는 container(in CommentInsert)
 S.commentInputContainer = styled.div`
-    position: relative;
     width: 360px;
     height: 60px;
     display: flex;
@@ -236,7 +353,6 @@ S.commentInputContainer = styled.div`
 
 // 댓글 입력구간에서 입력란 옆의 user의 이미지를 감싸줄 wrapper(in CommentInsert)
 S.commentThumbnailWrapper = styled.div`
-    position: relative;
     width: 36px;
     height: 36px;
     margin-left: 16px;
@@ -250,25 +366,31 @@ S.commentThumbnailWrapper = styled.div`
     }
 `;
 
-// 댓글 입력란(in CommentInsert)
-S.commentInput = styled.input`
-    position: relative;
-    width: 235px;
+S.commentInputWrapper = styled.div`
+    width: 270px;
     height: 60%;
     margin-left: 10px;
+    display: flex;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 20px;
+`
+
+// 댓글 입력란(in CommentInsert)
+S.commentInput = styled.input`
+    width: 235px;
+    height: 100%;
     border: none;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    padding-left: 20px;
 `;
 
 // 댓글 입력시 누를 수 있는 button(in CommentInsert)
 S.commentForwardButton = styled.button`
-    position: relative;
     width: 35px;
-    height: 60%;
+    height: 100%;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -288,45 +410,55 @@ S.commentForwardButton = styled.button`
 
 // 각각의 댓글을 목록화하는 ul태그(in Reaction)
 S.commentUnorderedList = styled.ul`
-    position: relative;
     list-style-type: none;
-    ${flexCenterColumn}
+    display: flex;
+    flex-direction: column;
 `;
 
 // 각각의 comment list를 감쌀 Container(in Comment)
 S.commentContainer = styled.div`
-    position: relative;
     width: 360px;
     margin-top: 10px;
 `
 // 각 댓글의 user 정보(프로필 사진 및 이름)를 감싸는 wrapper(in Comment)
 S.commentUserInfoWrapper = styled.div`
-    position: relative;
     display: flex;
     align-items: center;
-    width: 255px;
+    width: 100%;
 `
+
+S.commentNameAndDate = styled.div`
+    display: flex;
+    align-items: center;
+`
+
 // 각 댓글의 user이름을 감싸는 p태그(in Comment)
 S.commentUserName = styled.p`
-    position: relative;
     font-size: 14px;
     margin-left: 16px;
 `
+S.commentDate = styled.p`
+    font-size: 8px;
+    color: #BEC1C5;
+    margin-left: 16px;
+`
+
 
 // 각 댓글의 내용을 감싸는 wrapper(in Comment)
 S.commentWrapper = styled.div`
-    position: relative;
     display: flex;
     align-items: center;
     width: 360px;
-    margin-top: 2px;
+    margin-top: 5px;
+    margin-left: 70px;
+    margin-bottom: 20px;
 `;
 
 // 각 댓글의 내용이 들어있는 input요소(in Comment)
 S.comment = styled.input`
-    position: relative;
-    width : 310px;
-    margin-left: 16px;
+    width : 270px;
+    height: 25px;
+    margin-left: 65px;
     border: none;
     box-shadow: none;
 `;
@@ -381,6 +513,85 @@ S.completeWriteButton = styled.button`
     color: #fff;
     background-color: #4D4E89;
     border: none;
+    cursor: pointer;
+`
+
+S.modalContainer = styled.div`
+    width: 360px;
+    height: 640px;
+    position: fixed;
+    top: 146px;
+    left: 674px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+`
+
+S.modalWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 999;
+    top: 240px;
+    width: 320px;
+    height: 170px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+`
+
+S.modalTitle = styled.h3`
+    position: absolute;
+    top: 15px;
+    font-size: 20px;
+    font-weight: 600;
+`
+
+S.modalDescriptionWrapper = styled.div`
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+S.modalDescription = styled.p`
+    text-align: center;
+    color: #EE6161;
+`
+
+S.modalButtonContainer = styled.div`
+    width : 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+`
+
+S.modalButtonWrapper = styled.div`
+    width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+S.modalCancelButton = styled.button`
+    background-color: #5487D3;
+    border: 2px #5487d3 solid;
+    width: 100px;
+    height: 44px;
+    color: #FFFFFF;
+    cursor: pointer;
+`
+
+S.modalDeleteButton = styled.button`
+    background-color: #EE6161;
+    border: 2px #ee6161 solid;
+    width: 100px;
+    height: 44px;
+    color: #FFFFFF;
     cursor: pointer;
 `
 
