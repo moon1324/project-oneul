@@ -11,7 +11,7 @@ const CalendarHome = () => {
 
     const today = {
         year: new Date().getFullYear(), //오늘 연도
-        month: new Date().getMonth()+1,  //오늘 월
+        month: new Date().getMonth()+1, //오늘 월
         date: new Date().getDate(), //오늘 날짜
         day: new Date().getDay(), //오늘 요일
     };
@@ -44,12 +44,9 @@ const CalendarHome = () => {
           }
       }
       fetchData(); 
-  }, [selectedYear, selectedMonth]);
+    }, [selectedYear, selectedMonth]);
 
-  // console.log(calendarData);
-
-
-  const prevMonth = useCallback(() => {
+      const prevMonth = useCallback(() => {
         //이전 달 보기 보튼
         if (selectedMonth === 1) {
           setSelectedMonth(12);
@@ -172,7 +169,6 @@ const CalendarHome = () => {
               );
             }
           } else {
-            // 키 값 추가
             dayArr.push(<div className="weekday" key={`weekday-${nowDay}`}></div>);
           }
         }
