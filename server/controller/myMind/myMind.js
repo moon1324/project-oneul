@@ -40,7 +40,7 @@ const getCalendar = async (req, res) => {
         console.error('에러 발생:', error);
         res.status(500).json({ message: '서버 에러가 발생했습니다.' });
     }
-    
+     
 };
 
 const getMyMind = async (req, res) => {

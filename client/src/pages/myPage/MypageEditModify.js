@@ -25,7 +25,7 @@ const MypageEditModify = () => {
     const [mobile, setMobile] = useInput(currentUser.mobile);
     const [nickname, setNickname, handleNicknameChange] = useInput(currentUser.nickname);
 
-    const [profileImg, setProfileImg] = useState(currentUser.profileImg || defaultProfileImg);
+    const [profileImg, setProfileImg] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [passwordCheckError, setPasswordCheckError] = useState("");
     const [nameError, setNameError] = useState("");
@@ -54,6 +54,22 @@ const MypageEditModify = () => {
             setProfileImg(defaultProfileImg);
         }
     };
+
+    useEffect(() => {
+        const fetchUserProfileImage = async () => {
+            if (currentUser && currentUser.email) {
+                try {
+                    const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
+                    const data = await response.json();
+                    setProfileImg(data.profileImg);
+                    console.log(data);
+                } catch (error) {
+                    console.error("Failed to fetch user profile image", error);
+                }
+            }
+        };
+        fetchUserProfileImage();
+    }, [currentUser.email]);
 
     const validatePassword = () => {
         const pwd = password || "";
