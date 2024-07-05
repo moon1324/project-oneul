@@ -135,6 +135,12 @@ S.correctionButton = styled.button`
         & .trash:hover path{
             color: #ec6863;
         }
+        & .check path{
+            color: #142146;
+        }
+        & .exit path{
+            color: #142146;
+        }
 `
 
 // 게시글 본문 내용을 감싸는 wrapper(in OurDay)
@@ -153,6 +159,50 @@ S.todayPostText = styled.textarea`
     font-size: 15px;
     border: none;
     resize: none;
+`
+
+// 게시글 수정 상태시 버튼을 가지고 있는 container(in OurTodayCardPost)
+S.updateButtonContainer = styled.div`
+    width: 100%;
+    height: 15%;
+    display: flex;
+    align-items: center;
+`
+
+S.updateButtonWrapper =styled.div`
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+S.updateButton = styled.button`
+    border-radius: 20px;
+    border: none;
+    width: 100px;
+    height: 70%;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    background-color: #5487D3;
+    cursor: pointer;
+    & .check path{
+        color: white;
+        font-size: 18px;
+    }
+`
+
+S.cancelUpdateButton = styled.button`
+    border-radius: 20px;
+    border: none;
+    width: 100px;
+    height: 70%;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    background-color: #EE6161;
+    cursor: pointer;
+    & .exit path{
+        color: white;
+        font-size: 18px;
+    }
 `
 
 // 게시글의 Reaction이 차지할 공간을 만드는 Container(in OurDay)
@@ -272,7 +322,13 @@ S.commentWindow = styled(motion.div)`
     border: 1px solid black;
     border-radius: 20px;
     position: fixed;
+    bottom: 95px;
+    overflow: scroll;
     bottom: 16%;
+    &::-webkit-scrollbar{
+        width: 8px;
+        border-radius: 10px
+    }
 `;
 
 
@@ -325,6 +381,9 @@ S.commentInput = styled.input`
     width: 235px;
     height: 100%;
     border: none;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding-left: 20px;
 `;
 
 // 댓글 입력시 누를 수 있는 button(in CommentInsert)
@@ -352,7 +411,8 @@ S.commentForwardButton = styled.button`
 // 각각의 댓글을 목록화하는 ul태그(in Reaction)
 S.commentUnorderedList = styled.ul`
     list-style-type: none;
-    ${flexCenterColumn}
+    display: flex;
+    flex-direction: column;
 `;
 
 // 각각의 comment list를 감쌀 Container(in Comment)
@@ -390,11 +450,14 @@ S.commentWrapper = styled.div`
     align-items: center;
     width: 360px;
     margin-top: 5px;
+    margin-left: 70px;
+    margin-bottom: 20px;
 `;
 
 // 각 댓글의 내용이 들어있는 input요소(in Comment)
 S.comment = styled.input`
     width : 270px;
+    height: 25px;
     margin-left: 65px;
     border: none;
     box-shadow: none;
@@ -458,7 +521,7 @@ S.modalContainer = styled.div`
     height: 640px;
     position: fixed;
     top: 146px;
-    left: 276px;
+    left: 674px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -17,7 +17,6 @@ const WriteToday = () => {
     // },[])
     const onSubmit = async (data) => {
         console.log(data);
-        console.log(postValue);
         console.log(currentUser.profileImg);
         try {
             const response = await fetch("http://localhost:8000/ourToday/write", {
@@ -59,7 +58,8 @@ const WriteToday = () => {
                 <S.textWrapper>
                     <S.todayText className='writeTodayText' 
                         value={postValue}
-                        onChange={handlePostChange}  
+                        onChange={handlePostChange}
+                        autoFocus  
                         {...register('content', { required: true })}
                     />
                 </S.textWrapper>

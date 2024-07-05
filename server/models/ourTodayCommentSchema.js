@@ -3,8 +3,8 @@ import { getCurrentTime } from "../utils/utils.js";
 
 const commentSchema = new Schema({
     postId : { type:Schema.Types.ObjectId, ref: 'OurToday' },
-    commentCount : { type: Schema.Types.ObjectId, default: 0 },
-    commentUser : { type: Schema.Types.ObjectId,  ref: 'User' },
+    commentUser : { type: String,  ref: 'User' },
+    commentUserNickName : { type: String, ref: 'User'},
     commentProfileImg : String,
     commentText : String,
     createdAt : {type: String, default: getCurrentTime},

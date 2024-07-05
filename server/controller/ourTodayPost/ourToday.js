@@ -1,6 +1,6 @@
 import OurToday from "../../models/ourTodaySchema.js";
 import User from "../../models/userSchema.js"
-
+import Comment from "../../models/ourTodayCommentSchema.js"
 
 const createPostOurToday = async (req, res) => {
         console.log(req.body);
@@ -64,7 +64,7 @@ const createPostOurToday = async (req, res) => {
 
 const getOurTodayPost = async(req, res) => {
     try{
-        const posts = await OurToday.find().sort({ createdAt: -1 });
+        const posts = await OurToday.find().sort({"_id": -1});
         console.log(posts);
         if(posts){
             return res.status(200).json(posts);
@@ -80,15 +80,99 @@ const getOurTodayPost = async(req, res) => {
     }
 }
 
-const getMyTodayPost = async(req, res) => {
-    console.log(req.body)
+
+
+const updateOurTodayPost = async(req, res) => {
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        const content = req.body.content;
+        const user = {_id:findPost._id}
+        const updatedPost = {content: content} 
+        await OurToday.updateOne(user, {"$set" : updatedPost });
+        const getPost = await OurToday.findOne({_id: req.body.id}).lean();
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const deleteOurTodayPost = async(req, res) => {
+    try {
+        const deletedId = req.body._id;
+        await OurToday.deleteOne({_id: deletedId});
+        res.status(200).json({ message: '데이터 삭제 성공' });
+    } catch (error) {
+        // 에러 발생 시 클라이언트에 에러 응답 전송
+        console.error('데이터 삭제 중 에러:', error);
+        res.status(500).json({ error: '데이터 삭제에 실패했습니다.' });
+    }
+}
+
+const updateOurTodayPostLikeReaction = async(req, res) => {
+    console.log(req.body);
+    // const posts = await OurToday.find({})
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        const heartCount = req.body.heartCount;
+        const insertUser = await OurToday.insertOne({heart: {heartUser: req.body.userEmail}});
+        const post = {_id:findPost._id}
+        const updatedPostReaction = {heartUser: insertUser.heart.heartUser, heart: {heartCount: heartCount}} 
+        await OurToday.updateOne(post, {"$set" : updatedPostReaction });
+        const getPost = await OurToday.findOne({_id: req.body.id}).lean();
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const deleteOurTodayPostLikeReaction = async(req, res) => {
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        const heartCount = req.body.heartCount;
+        const deleteUser = await OurToday.deleteOne({heart: {heartUser: req.body.userEmail}});
+        const post = {_id:findPost._id}
+        const deletedPostReaction = {heartUser: deleteUser.heart.heartUser, heart: {heartCount: heartCount}} 
+        await OurToday.updateOne(post, {"$set" : deletedPostReaction });
+        const getPost = await OurToday.findOne({_id: req.body.id}).lean();
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const createCommentOurToday = async(req, res) => {
+    try {
+        const { postId, commentUserNickName,commentText, commentUser, commentProfileImg} = req.body;
+        const commentDetail = {
+            postId: postId,
+            commentText: commentText,
+            commentUser: commentUser,
+            commentUserNickName: commentUserNickName,
+            commentProfileImg: commentProfileImg,
+            createdAt: new Date().toISOString()
+        };
+        const savedComment = await Comment.create(commentDetail);
+        res.status(201).json(savedComment);
+    } catch (error) {
+        console.error('Error creating comment:', error);
+        res.status(500).json({ message: 'Failed to create comment', error });
+    }
+}
+
+
+const getOurTodayComment = async(req, res) => {
     try{
-        const posts = await OurToday.find({userEmail : req.body.userEmail});
-        if(posts){
-            return res.status(200).json(posts);
+        console.log("댓글 fetch요청")
+        const comments = await Comment.find({})
+        console.log(comments);
+        if(comments){
+            return res.status(200).json(comments);
         }else{
             return res.status(404).json({
-                message: '게시글이 존재하지 않습니다.'
+                message: '댓글이 존재하지 않습니다.'
             });
         }
     }catch(error){
@@ -98,34 +182,31 @@ const getMyTodayPost = async(req, res) => {
     }
 }
 
-const updateOurTodayPost = async(req, res) => {
+const updateOurTodayComment = async (req, res) => {
     try {
-        let updatedOurToday = await OurToday.updateOne(
-            { _id : OurToday._id },
-            { $set : { content : req.body.content} }
-        );        
-        res.status(200).json(updatedOurToday);
+        const findComment = await Comment.findOne({_id: req.body.id}).lean();
+        const commentText = req.body.commentText;
+        const comment = {_id:findComment._id}
+        const updatedComment = {commentText: commentText} 
+        await Comment.updateOne(comment, {"$set" : updatedComment });
+        const getComment = await Comment.findOne({_id: req.body.id}).lean();
+        res.status(200).json(getComment);
     } catch (error) {
         console.error('데이터 업데이트 실패:', error);
         res.status(500).json({ message: '서버 에러가 발생했습니다.' });
     }
 }
 
-const deleteOurTodayPost = async(req, res) => {
-    console.log(req.body);
-    // const { _id } = req.body;
-    // try {
-    //     const deletedData = await MyMind.deleteOne({ _id : id });
-    //     if (deletedData.deletedCount === 0) {
-    //         throw new Error('삭제할 데이터를 찾지 못했습니다.');
-    //     }
-    //     // 클라이언트에 성공 응답 전송
-    //     res.status(200).json({ message: '데이터 삭제 성공' });
-    // } catch (error) {
-    //     // 에러 발생 시 클라이언트에 에러 응답 전송
-    //     console.error('데이터 삭제 중 에러:', error);
-    //     res.status(500).json({ error: '데이터 삭제에 실패했습니다.' });
-    // }
+const deleteOurTodayComment = async(req, res) => {
+    try {
+        const deletedId = req.body._id;
+        await Comment.deleteOne({_id: deletedId});
+        res.status(200).json({ message: '데이터 삭제 성공' });
+    } catch (error) {
+        // 에러 발생 시 클라이언트에 에러 응답 전송
+        console.error('데이터 삭제 중 에러:', error);
+        res.status(500).json({ error: '데이터 삭제에 실패했습니다.' });
+    }
 }
 
-export { createPostOurToday, getOurTodayPost, getMyTodayPost, updateOurTodayPost, deleteOurTodayPost };
+export { createPostOurToday, getOurTodayPost, updateOurTodayPost, deleteOurTodayPost, updateOurTodayPostLikeReaction, deleteOurTodayPostLikeReaction, createCommentOurToday, getOurTodayComment, updateOurTodayComment, deleteOurTodayComment };

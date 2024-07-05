@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import OurDayButton from "./OurDayButton";
-import OurDay from "./OurDay";
 import S from "./style";
+import OurTodayCardPostContainer from "./OurTodayCardPostContainer";
 
 const OurToday = () => {
-    const [tabActive, setTabActive] = useState();
+    const [tabActive, setTabActive] = useState("ourToday");
 
     const getTabStatus = (tabText) => {
         setTabActive(tabText);
@@ -14,7 +14,7 @@ const OurToday = () => {
         <>
             <S.ourTodayContainer>
                 <OurDayButton getTabStatus={getTabStatus}/>
-                <OurDay tabActive={tabActive} setTabActive={setTabActive}/>
+                <OurTodayCardPostContainer tabActive={tabActive} setTabActive={setTabActive}/>
             </S.ourTodayContainer>
         </>
     );

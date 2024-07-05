@@ -56,7 +56,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/ourToday",
-                element: <OurToday />,
+                element: <OurToday />
 
             },
             {

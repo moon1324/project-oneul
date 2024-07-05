@@ -24,7 +24,7 @@ const ourTodaySchema = new Schema({
         sadCount : {type : Number, default: 0 },
     },
     angry : {
-        angryUsers : [ { type: String,  default: "" } ],
+        angryUsers : [{ type: String,  default: "" }],
         angryCount : {type : Number, default: 0 },
     },
 });

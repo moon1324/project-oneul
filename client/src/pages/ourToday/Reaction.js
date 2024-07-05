@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { faFaceAngry as regularAngry, faFaceSadTear as regularSadTear, faFaceSmile as regularSmile, faHeart as regularHeart, faThumbsUp as regularThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { faFaceAngry as solidAngry, faFaceSadTear as solidSadTear, faFaceSmile as solidSmile, faHeart as solidHeart, faMessage, faThumbsUp as solidThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import S from './style';
 import CommentInsert from './CommentInsert';
-import Comment from './Comment';
+import { useSelector } from 'react-redux';
+import CommentContainer from './CommentContainer';
 
 // {comments, isCommentUpdate, setIsCommentUpdate}
-const Reaction = () => {
+const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate, 
+    isDeleteOk, setIsDeleteOk,
+    deleteModalStatus, setDeleteModalStatus, }) => {
+    const postId = post._id;
+    const currentUser = useSelector((state)=>state.login.currentUser);
+    const [ourTodayCommentUpdate, setOurTodayCommentUpdate] = useState(false);
     // 하트 icon 클릭 및 하트 수 상태변화 관리
     const [heartChange, setHeartChange] = useState(false);
+    const [isHeartUpdate, setIsHeartUpdate] = useState(false);
     const [heartCount, setHeartCount] = useState(0);
     // 좋아요 icon 클릭 및 좋아요 수 상태변화 관리
     const [thumbsUpChange, setThumbsUpChange] = useState(false);
@@ -27,15 +34,22 @@ const Reaction = () => {
     const [showWindow, setShowWindow] = useState(false);
     // 지금 요소를 드래그하고 있는지에 대한 상태관리
     const [isDragging, setIsDragging] = useState(false);
+    const [commentLength, setCommentLength] = useState();
     // isDragging을 반대로 바꿔주어 드래그가 가능해지도록 설정
     const onDragStart = (e) => {
         setIsDragging(!isDragging);
+        setOurTodayCommentUpdate(!ourTodayCommentUpdate)
     }
     // showWindow의 값을 반대로 바꾸어 상태를 변화시킴
     // (궁극적으로 창을 보이게 하거나 안보이게 이벤트를 걸어줄 예정)
     const activateCommentWindow = () => {
         setShowWindow(!showWindow);
     }
+
+    const getCommentLength = (length) => {
+        return setCommentLength(length);
+    }
+
 
 
 //     // 💡PanInfo 객체란?
@@ -58,11 +72,12 @@ const Reaction = () => {
     // 하트 클릭 이벤트 및 하트 수 변화 이벤트
     const handleHeart = () => {
         setHeartChange(!heartChange)
-        if(heartChange){
-           return setHeartCount(heartCount - 1);
-        }else{
-            return setHeartCount(heartCount + 1);
-        }
+        setIsHeartUpdate(!isHeartUpdate)
+        // if(heartChange){
+        //    return setHeartCount(heartCount - 1);
+        // }else{
+        //     return setHeartCount(heartCount + 1);
+        // }
     }
     // 좋아요 클릭 이벤트 및 좋아요 수 변화 이벤트
     const handleThumbsUp = () => {
@@ -101,7 +116,55 @@ const Reaction = () => {
          }
     }
 
-
+    useEffect(()=>{
+        const handleUpdateLikeReaction = async() => {
+            console.log(post.heart.heartUser)
+        
+            // let url = `http://localhost:8000/ourToday/plusPostLikeReaction`;
+            // if(findHeartUser){
+            //     url = `http://localhost:8000/ourToday/minusPostLikeReaction`;
+            //     const response = await fetch(url, {
+            //         method: 'PUT',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+            //         body: JSON.stringify({
+            //             id: postId,
+            //             userEmail: currentUser.email,
+            //             heartCount: post.heart.heartCount-1,
+            //         })
+            //     })
+            //     if (response.ok) {
+            //         console.log("게시글이 정상적으로 수정되었습니다.");
+            //     } else {
+            //         console.error('Failed to update post');
+            //     }
+            // }else{
+            //     const response = await fetch(url, {
+            //         method: 'PUT',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+            //         body: JSON.stringify({
+            //             id: postId,
+            //             userEmail: currentUser.email,
+            //             heartCount: post.heart.heartCount+1,
+            //         })
+            //     })
+            //     if (response.ok) {
+            //         console.log("게시글이 정상적으로 수정되었습니다.");
+            //     } else {
+            //         console.error('Failed to update post');
+            //     }
+            // }
+        }
+        if(isHeartUpdate){
+            handleUpdateLikeReaction().then(()=>{
+                setIsHeartUpdate(!isHeartUpdate)
+            })
+        }
+    }, [heartChange, isHeartUpdate])
+    
 
 
     // 댓글 관련 이벤트 처리
@@ -131,25 +194,25 @@ const Reaction = () => {
             <S.commentIconContainer>
                 <S.commentIconWrapper onClick={activateCommentWindow}>
                     <FontAwesomeIcon icon = {faMessage} className='comment'/>
-                    <S.commentCount>1</S.commentCount>
+                    <S.commentCount>{commentLength}</S.commentCount>
                 </S.commentIconWrapper>
             </S.commentIconContainer>
             <S.emotionContainer>
                 <S.emotionWrapper>
                     <label>
-                      <S.emotionList onClick={handleHeart}><FontAwesomeIcon icon = {heartChange ? solidHeart : regularHeart} className='heart'/><S.reactionCountWrapper>{heartCount}</S.reactionCountWrapper></S.emotionList>
+                      <S.emotionList onClick={handleHeart}><FontAwesomeIcon icon = {heartChange ? solidHeart : regularHeart} className='heart'/><S.reactionCountWrapper>{post.heart.heartCount}</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleThumbsUp}><FontAwesomeIcon icon = {thumbsUpChange ? solidThumbsUp : regularThumbsUp} className='thumbsUp'/><S.reactionCountWrapper>{thumbsUpCount}</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleThumbsUp}><FontAwesomeIcon icon = {thumbsUpChange ? solidThumbsUp : regularThumbsUp} className='thumbsUp'/><S.reactionCountWrapper>{post.like.thumbsUpCount}</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleSmile}><FontAwesomeIcon icon = {smileChange ? solidSmile : regularSmile} className='smile'/><S.reactionCountWrapper>{smileCount}</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleSmile}><FontAwesomeIcon icon = {smileChange ? solidSmile : regularSmile} className='smile'/><S.reactionCountWrapper>{post.smile.smileCount}</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleSad}><FontAwesomeIcon icon = {sadChange ? solidSadTear : regularSadTear} className='sad'/><S.reactionCountWrapper>{sadCount}</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleSad}><FontAwesomeIcon icon = {sadChange ? solidSadTear : regularSadTear} className='sad'/><S.reactionCountWrapper>{post.sad.sadCount}</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleAngry}><FontAwesomeIcon icon = {angryChange ? solidAngry : regularAngry} className='angry'/><S.reactionCountWrapper>{angryCount}</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleAngry}><FontAwesomeIcon icon = {angryChange ? solidAngry : regularAngry} className='angry'/><S.reactionCountWrapper>{post.angry.angryCount}</S.reactionCountWrapper></S.emotionList>
                     </label>
                 </S.emotionWrapper>
             </S.emotionContainer>
@@ -176,9 +239,15 @@ const Reaction = () => {
                 {/* CommentInsert(댓글 입력창)에 comments={comments}
                     setIsCommentUpdate={setIsCommentUpdate}
                     isCommentUpdate={isCommentUpdate} 전달할 것 */}
-                <CommentInsert/>
-                <S.commentUnorderedList>
-                    <Comment/>
+                <CommentInsert post={post} showWindow={showWindow} setOurTodayCommentUpdate={setOurTodayCommentUpdate} ourTodayCommentUpdate={ourTodayCommentUpdate} getCommentLength={getCommentLength} commentLength={commentLength}/>
+                <S.commentContainer>
+                    <CommentContainer post={post} showWindow={showWindow} 
+                        setOurTodayCommentUpdate={setOurTodayCommentUpdate} 
+                        ourTodayCommentUpdate={ourTodayCommentUpdate} 
+                        getCommentLength={getCommentLength}
+                        isDeleteOk={isDeleteOk} setIsDeleteOk={setIsDeleteOk}
+                        deleteModalStatus={deleteModalStatus} setDeleteModalStatus={setDeleteModalStatus}
+                    />
                     {/* 각 comment가 추가 될때마다 댓글이 나타나도록 Comment 컴포넌트화 */}
                     {/* {comments.map((comment, i) => {
                         <Comment
@@ -189,7 +258,7 @@ const Reaction = () => {
                             isCommentUpdate={isCommentUpdate}
                         />
                     })} */}
-                </S.commentUnorderedList> 
+                </S.commentContainer> 
             </S.commentWindow> }
         </S.reactionWrapper> 
     );
