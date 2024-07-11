@@ -46,7 +46,6 @@ const SearchInput = () => {
                 }
             }
         };
-
         fetchUserProfileImage();
     }, [currentUser.email]);
 

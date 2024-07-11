@@ -13,22 +13,16 @@ const MyPageMain = () => {
     const isLogin = useSelector((state) => state.login.isLogin);
     const currentUser = useSelector((state)=>state.login.currentUser);
     
+    const [nickname, setNickname] = useState();
+    const [statusMessage, setStatusMessage] = useState();
     const [profileImg, setProfileImg] = useState("");
 
     const logoutApi = async () => {
         try {
             const response = await fetch("http://localhost:8000/user/logout", {
                 method: 'POST',
-                credentials: 'include', // 쿠키 전송 설정
-                mode: 'cors',
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify({ 
-                    // 로그아웃 요청 본문
-                }),
             });
-    
+
             if (!response.ok) {
                 throw new Error('로그아웃 실패');
             }
@@ -48,14 +42,15 @@ const MyPageMain = () => {
                     const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
                     const data = await response.json();
                     setProfileImg(data.profileImg);
-                    console.log(data);
                 } catch (error) {
                     console.error("Failed to fetch user profile image", error);
                 }
             }
         };
         fetchUserProfileImage();
-    }, [currentUser.email]);
+        setNickname(currentUser.nickname);
+        setStatusMessage(currentUser.statusMessage);
+    }, [currentUser]);
 
 
     const clearSession = () => {
@@ -89,10 +84,10 @@ const MyPageMain = () => {
                     </div>
                 </S.ProfilePictureWrapper>
                 <S.ProfileNameWrapper>
-                    <h3>{currentUser.nickname}</h3>
+                    <h3>{nickname}</h3>
                 </S.ProfileNameWrapper>
                 <S.ProfileStatusWrapper>
-                    <p>{currentUser.statusMessage}</p>
+                    <p>{statusMessage}</p>
                 </S.ProfileStatusWrapper>
                 <S.ProfileContentsWrapper>
                     <div className="totalMyminBox">

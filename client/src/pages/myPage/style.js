@@ -28,9 +28,6 @@ const S = {}
             border-radius: 50%;
             overflow: hidden;
         }
-        &.profileImg{
-                width: 100%;
-            }
     `
     // profile
     S.LabelCentered = styled.label`
