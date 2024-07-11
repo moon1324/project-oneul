@@ -13,8 +13,8 @@ const MyPageMain = () => {
     const isLogin = useSelector((state) => state.login.isLogin);
     const currentUser = useSelector((state)=>state.login.currentUser);
     
-    const [nickname, setNickname] = useState();
-    const [statusMessage, setStatusMessage] = useState();
+    const [nickname, setNickname] = useState(null);
+    const [statusMessage, setStatusMessage] = useState(null);
     const [profileImg, setProfileImg] = useState("");
 
     const logoutApi = async () => {
@@ -47,9 +47,11 @@ const MyPageMain = () => {
                 }
             }
         };
-        fetchUserProfileImage();
-        setNickname(currentUser.nickname);
-        setStatusMessage(currentUser.statusMessage);
+        if (currentUser) {
+            fetchUserProfileImage();
+            setNickname(currentUser.nickname);
+            setStatusMessage(currentUser.statusMessage);
+        }
     }, [currentUser]);
 
 
