@@ -14,26 +14,11 @@ const createPostOurToday = async (req, res) => {
                 content: req.body.content,
                 userProfileImg: req.body.userProfileImg,
                 userNickname: req.body.userNickname,
-                like: {
-                    thumbsUpUsers : [],
-                    thumbsUpCount : 0,
-                },
-                heart: {
-                    heartUsers : [],
-                    heartCount : 0,
-                },
-                smile: {
-                    smileUsers : [],
-                    smileCount : 0,
-                },
-                angry: {
-                    angryUsers : [],
-                    angryCount : 0,
-                },
-                sad: {
-                    sadUsers : [],
-                    sadCount : 0,
-                },
+                like: req.body.like,
+                heart: req.body.heart,
+                smile: req.body.smile,
+                angry: req.body.angry,
+                sad: req.body.sad,
             };
 
             // 새 게시글 생성
@@ -100,7 +85,12 @@ const updateOurTodayPost = async(req, res) => {
 const deleteOurTodayPost = async(req, res) => {
     try {
         const deletedId = req.body._id;
-        await OurToday.deleteOne({_id: deletedId});
+        const deletedPost = await OurToday.findOne({_id: deletedId}).lean();
+        const deletedComment = await Comment.find({postId: deletedId}).lean();
+        const deletedPostId = deletedPost._id;
+        console.log("찾은 아이디", deletedPost)
+        await Comment.deleteMany(deletedComment);
+        await OurToday.deleteOne(deletedPostId);
         res.status(200).json({ message: '데이터 삭제 성공' });
     } catch (error) {
         // 에러 발생 시 클라이언트에 에러 응답 전송
@@ -109,17 +99,48 @@ const deleteOurTodayPost = async(req, res) => {
     }
 }
 
-const updateOurTodayPostLikeReaction = async(req, res) => {
-    console.log(req.body);
-    // const posts = await OurToday.find({})
+const updateOurTodayPostHeartReaction = async(req, res) => {
     try {
         const findPost = await OurToday.findOne({_id: req.body.id}).lean();
-        const heartCount = req.body.heartCount;
-        const insertUser = await OurToday.insertOne({heart: {heartUser: req.body.userEmail}});
-        const post = {_id:findPost._id}
-        const updatedPostReaction = {heartUser: insertUser.heart.heartUser, heart: {heartCount: heartCount}} 
-        await OurToday.updateOne(post, {"$set" : updatedPostReaction });
-        const getPost = await OurToday.findOne({_id: req.body.id}).lean();
+        console.log("Heart 반응 게시글")
+        console.log(findPost);
+        const heartUser = req.body.userEmail;
+        const updateUser = await OurToday.updateOne({_id: findPost._id}, {$push : { heart : heartUser}});
+        console.log("업데이트 직후")
+        console.log(updateUser);
+        const getPost = await OurToday.findOne({_id: findPost._id}).lean();
+        console.log(getPost);
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const deleteOurTodayPostHeartReaction = async(req, res) => {
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        const deleteUser = req.body.userEmail; 
+        await OurToday.updateOne({_id: findPost._id}, {$pull: {heart: deleteUser} });
+        const getPost = await OurToday.findOne({_id: findPost._id}).lean();
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const updateOurTodayPostLikeReaction = async(req, res) => {
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        console.log("Like 반응 게시글")
+        console.log(findPost);
+        const likeUser = req.body.userEmail;
+        const updateUser = await OurToday.updateOne({_id: findPost._id}, {$push : { like : likeUser}});
+        console.log("업데이트 직후")
+        console.log(updateUser);
+        const getPost = await OurToday.findOne({_id: findPost._id}).lean();
+        console.log(getPost);
         res.status(200).json(getPost);
     } catch (error) {
         console.error('데이터 업데이트 실패:', error);
@@ -130,12 +151,102 @@ const updateOurTodayPostLikeReaction = async(req, res) => {
 const deleteOurTodayPostLikeReaction = async(req, res) => {
     try {
         const findPost = await OurToday.findOne({_id: req.body.id}).lean();
-        const heartCount = req.body.heartCount;
-        const deleteUser = await OurToday.deleteOne({heart: {heartUser: req.body.userEmail}});
-        const post = {_id:findPost._id}
-        const deletedPostReaction = {heartUser: deleteUser.heart.heartUser, heart: {heartCount: heartCount}} 
-        await OurToday.updateOne(post, {"$set" : deletedPostReaction });
-        const getPost = await OurToday.findOne({_id: req.body.id}).lean();
+        const deleteUser = req.body.userEmail; 
+        await OurToday.updateOne({_id: findPost._id}, {$pull: {like: deleteUser} });
+        const getPost = await OurToday.findOne({_id: findPost._id}).lean();
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const updateOurTodayPostSmileReaction = async(req, res) => {
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        console.log("Like 반응 게시글")
+        console.log(findPost);
+        const smileUser = req.body.userEmail;
+        const updateUser = await OurToday.updateOne({_id: findPost._id}, {$push : { smile : smileUser}});
+        console.log("업데이트 직후")
+        console.log(updateUser);
+        const getPost = await OurToday.findOne({_id: findPost._id}).lean();
+        console.log(getPost);
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const deleteOurTodayPostSmileReaction = async(req, res) => {
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        const deleteUser = req.body.userEmail; 
+        await OurToday.updateOne({_id: findPost._id}, {$pull: {smile: deleteUser} });
+        const getPost = await OurToday.findOne({_id: findPost._id}).lean();
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const updateOurTodayPostSadReaction = async(req, res) => {
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        console.log("Like 반응 게시글")
+        console.log(findPost);
+        const sadUser = req.body.userEmail;
+        const updateUser = await OurToday.updateOne({_id: findPost._id}, {$push : { sad : sadUser}});
+        console.log("업데이트 직후")
+        console.log(updateUser);
+        const getPost = await OurToday.findOne({_id: findPost._id}).lean();
+        console.log(getPost);
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const deleteOurTodayPostSadReaction = async(req, res) => {
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        const deleteUser = req.body.userEmail; 
+        await OurToday.updateOne({_id: findPost._id}, {$pull: {sad: deleteUser} });
+        const getPost = await OurToday.findOne({_id: findPost._id}).lean();
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const updateOurTodayPostAngryReaction = async(req, res) => {
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        console.log("Like 반응 게시글")
+        console.log(findPost);
+        const angryUser = req.body.userEmail;
+        const updateUser = await OurToday.updateOne({_id: findPost._id}, {$push : { angry : angryUser}});
+        console.log("업데이트 직후")
+        console.log(updateUser);
+        const getPost = await OurToday.findOne({_id: findPost._id}).lean();
+        console.log(getPost);
+        res.status(200).json(getPost);
+    } catch (error) {
+        console.error('데이터 업데이트 실패:', error);
+        res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+}
+
+const deleteOurTodayPostAngryReaction = async(req, res) => {
+    try {
+        const findPost = await OurToday.findOne({_id: req.body.id}).lean();
+        const deleteUser = req.body.userEmail; 
+        await OurToday.updateOne({_id: findPost._id}, {$pull: {angry: deleteUser} });
+        const getPost = await OurToday.findOne({_id: findPost._id}).lean();
         res.status(200).json(getPost);
     } catch (error) {
         console.error('데이터 업데이트 실패:', error);
@@ -209,4 +320,23 @@ const deleteOurTodayComment = async(req, res) => {
     }
 }
 
-export { createPostOurToday, getOurTodayPost, updateOurTodayPost, deleteOurTodayPost, updateOurTodayPostLikeReaction, deleteOurTodayPostLikeReaction, createCommentOurToday, getOurTodayComment, updateOurTodayComment, deleteOurTodayComment };
+const getOurTodayBestPost = async(req, res) => {
+    try{
+        console.log("베스트 게시물 찾기")
+        const bestPost = await OurToday.findOne().sort({"heart.length": -1});
+        console.log(bestPost);
+        if(bestPost){
+            return res.status(200).json(bestPost);
+        }else{
+            return res.status(404).json({
+                message: '게시글이 존재하지 않습니다.'
+            });
+        }
+    }catch(error){
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+}
+
+export { createPostOurToday, getOurTodayPost, updateOurTodayPost, deleteOurTodayPost, updateOurTodayPostHeartReaction, deleteOurTodayPostHeartReaction, updateOurTodayPostLikeReaction, deleteOurTodayPostLikeReaction, updateOurTodayPostSmileReaction, deleteOurTodayPostSmileReaction, updateOurTodayPostSadReaction, deleteOurTodayPostSadReaction, updateOurTodayPostAngryReaction, deleteOurTodayPostAngryReaction, createCommentOurToday, getOurTodayComment, updateOurTodayComment, deleteOurTodayComment, getOurTodayBestPost};
