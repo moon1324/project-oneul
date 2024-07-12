@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {Link,useNavigate} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleRight, faUserPen} from '@fortawesome/free-solid-svg-icons'
@@ -12,21 +12,17 @@ const MyPageMain = () => {
     
     const isLogin = useSelector((state) => state.login.isLogin);
     const currentUser = useSelector((state)=>state.login.currentUser);
-   
+    
+    const [nickname, setNickname] = useState(null);
+    const [statusMessage, setStatusMessage] = useState(null);
+    const [profileImg, setProfileImg] = useState("");
+
     const logoutApi = async () => {
         try {
             const response = await fetch("http://localhost:8000/user/logout", {
                 method: 'POST',
-                credentials: 'include', // 쿠키 전송 설정
-                mode: 'cors',
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify({ 
-                    // 로그아웃 요청 본문
-                }),
             });
-    
+
             if (!response.ok) {
                 throw new Error('로그아웃 실패');
             }
@@ -38,6 +34,26 @@ const MyPageMain = () => {
             console.error('로그아웃 오류:', error);
         }
     };
+
+    useEffect(() => {
+        const fetchUserProfileImage = async () => {
+            if (currentUser && currentUser.email) {
+                try {
+                    const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
+                    const data = await response.json();
+                    setProfileImg(data.profileImg);
+                } catch (error) {
+                    console.error("Failed to fetch user profile image", error);
+                }
+            }
+        };
+        if (currentUser) {
+            fetchUserProfileImage();
+            setNickname(currentUser.nickname);
+            setStatusMessage(currentUser.statusMessage);
+        }
+    }, [currentUser]);
+
 
     const clearSession = () => {
         // 쿠키 클리어
@@ -66,14 +82,14 @@ const MyPageMain = () => {
             <S.ProfileContaier>
                 <S.ProfilePictureWrapper>
                     <div className="pictureBox">
-                        <img src={currentUser.profileImg}/>
+                        <img src={profileImg} style={{width:100}}/>
                     </div>
                 </S.ProfilePictureWrapper>
                 <S.ProfileNameWrapper>
-                    <h3>{currentUser.nickname}</h3>
+                    <h3>{nickname}</h3>
                 </S.ProfileNameWrapper>
                 <S.ProfileStatusWrapper>
-                    <p>{currentUser.statusMessage}</p>
+                    <p>{statusMessage}</p>
                 </S.ProfileStatusWrapper>
                 <S.ProfileContentsWrapper>
                     <div className="totalMyminBox">

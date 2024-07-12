@@ -54,7 +54,8 @@ S.GoToWriteButtonWrapper=styled.div`
     top:10px;
     /* line-height: 44px; */
     & #goToWrite{
-        line-height: 44px;
+        font-family: 'Pretandard-Regular' ;
+        /* line-height: 44px; */
     }
 `
 S.ErrorContainer=styled.div`
@@ -62,7 +63,6 @@ S.ErrorContainer=styled.div`
     position: fixed;
     z-index:999;
     top:228px;
-    /* padding:0px 10px; */
     width:320px;
     height:170px;
     background-color: white;
@@ -94,7 +94,8 @@ S.OkButton=styled.div`
     /* top:110px; */
     bottom:15px;
     & #okButton{
-        line-height:44px;
+        font-family: 'Pretandard-Regular' ;
+        /* line-height:44px; */
     }
     
 `
@@ -144,19 +145,19 @@ S.DivWrapper=styled.div`
 `
 S.QuestionWrapper=styled.div`
     ${flexCenter};
+    
     padding-top:50px;
-    /* padding-bottom:10px; */
     padding: 50px 20px 10px 20px;
     .cloudMoonIcon{
         path{
             color: #5487d3;
         }
     }
-    & div {
+    & p {
+        font-family: 'NanumSquareRound';
         font-size:16px;
         color:#142146;
-        font-family: 'NanumSquareRound';
-     }
+    }
 `
 S.TextAreaWrapper=styled.div`
     width: 320px;
@@ -178,14 +179,17 @@ S.TextAreaWrapper=styled.div`
     & textarea::placeholder {
         line-height: 250px;
         text-align: center;
-        font-family: 'Pretandard-Regular';
+        font-family: 'NanumSquareRound';
+        font-size:14px;
     }
 `
 S.SaveButtonWrapper=styled.div`
     ${flexCenter};
     padding-top:35px;
     & #goToSave{
-        line-height: 44px;
+        font-family: 'Pretandard-Regular';
+        position:relative;
+        
     }
 `
 
@@ -200,7 +204,7 @@ S.AlertWrapper = styled.div`
         color: white;
     }
     position:fixed;
-    top:450px;
+    top:430px;
     background-color: #FFB342;
     padding: 10px;
     margin-top: 10px;

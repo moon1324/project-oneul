@@ -22,6 +22,12 @@ const S = {}
     S.ProfilePictureWrapper = styled.div`
         display: flex;
         justify-content: center;
+        & .pictureBox{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
     `
     // profile
     S.LabelCentered = styled.label`

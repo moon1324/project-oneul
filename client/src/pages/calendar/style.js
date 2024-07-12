@@ -27,7 +27,7 @@ S.CalendarHeadContainer=styled.div`
     justify-content: space-between;
     position: relative;
     height:45px;
-    margin:0px 15px;
+    margin:0px 16px;
     `
 S.ArrowsWrapper=styled.div`
     & div{
@@ -44,7 +44,6 @@ S.ArrowsWrapper=styled.div`
         }
        & button{
         cursor: pointer;
-        /* color:#142146; */
         color:#555657;
         font-size:15px;
         background: none;
@@ -57,7 +56,6 @@ S.ArrowsWrapper=styled.div`
     }
 `
 S.SelectWrapper=styled.h3`
-    font-family:'Pretandard-Regular';
     position:relative;
     & select {
         cursor: pointer;
@@ -79,8 +77,9 @@ S.SelectWrapper=styled.h3`
     }
 `
 S.WeekWrapper=styled.div`
-    font-family:'Pretandard-Regular';
+    font-family: 'NanumSquareRound';
     font-weight: 600;
+    margin-top: 13px;
     & .week{
         display: flex;
         position: relative;
@@ -94,7 +93,7 @@ S.WeekWrapper=styled.div`
 `
 S.DateWrapper=styled.div`
     font-family:'Pretandard-Regular';
-    font-weight: 600;
+    font-weight:600;
     & .date{
         position: relative;
         cursor: pointer;
@@ -182,18 +181,23 @@ S.IconsWrapper=styled.div`
 `
 S.ContentWrapper=styled.div`
     display: flex;
-    font-size: 16px;
-    margin:0px 32.5px;
+    font-family: 'Pretandard-Regular';
+    font-size: 14px;
+    margin:0px 20px;
     padding-bottom: 20px;
+    font-weight: 600;
     & .cloudMoonIcon{
         path{
             color:#5487D3;
         }
     }
     & div .answer{
-        font-size: 12px;
+        font-size: 14px;
+        font-weight: 400;
         padding-top:5px;
-        word-break: break-all;
+        /* word-break: break-all; */
+        font-family: 'Pretandard-Regular';
+        line-height:1.5;
     }
 `
 S.ButtonWrapper=styled.div`
@@ -258,9 +262,11 @@ S.QuestionWrapper=styled.div`
         }
     }
     & p {
+        /* font-family: 'Pretandard-Regular'; */
+        font-family: 'NanumSquareRound';
         font-size:16px;
         color:#142146;
-        font-family: 'NanumSquareRound';
+        
      }
 `
 
@@ -303,13 +309,12 @@ S.DeleteButtons=styled.div`
     position: absolute;
     bottom:15px;
     & #button01{
+        font-family: 'Pretandard-Regular';
         margin:0 20px;
-        line-height: 44px;
     }
     & #button02{
+        font-family: 'Pretandard-Regular';
         margin:0 20px;
-        line-height: 44px;
-
     }
 `
 export default S;

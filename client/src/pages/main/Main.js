@@ -80,13 +80,15 @@ const Main = () => {
                                             <FontAwesomeIcon icon={faUsers} />
                                         ):(
                                             data.map((item, i)=>{
-                                                const itemDate = new Date(item.createdAt).toISOString().split('T')[0];
-                                                const formattedDate = `${todayObject.year}-${todayObject.month}-${todayObject.date}`;
-                                                const hasData = calendarData.some(some => some.createdAt === formattedDate);
-                                                if(hasData){
-                                                        return <FontAwesomeIcon icon={faHeartCircleCheck} />    
-                                                }else{
-                                                   return <FontAwesomeIcon icon={faUsers} />
+                                                if(i === 0){
+                                                    const itemDate = new Date(item.createdAt).toISOString().split('T')[0];
+                                                    const formattedDate = `${todayObject.year}-${todayObject.month}-${todayObject.date}`;
+                                                    const hasData = calendarData.some(some => some.createdAt === formattedDate);
+                                                    if(hasData){
+                                                            return <FontAwesomeIcon icon={faHeartCircleCheck} />    
+                                                    }else{
+                                                    return <FontAwesomeIcon icon={faUsers} />
+                                                    }
                                                 }
                                             })
                                         )
@@ -105,27 +107,29 @@ const Main = () => {
                                             </div>
                                         ) : (
                                             data.map((item, i) => {
-                                                const itemDate = new Date(item.createdAt).toISOString().split('T')[0];
-                                                const formattedDate = `${todayObject.year}-${todayObject.month}-${todayObject.date}`;
-                                                const hasData = calendarData.some(some => some.createdAt === formattedDate);
-                                                if (hasData) {
-                                                    return (
-                                                        <div key={i}>
-                                                            <Link to={'/ourToday'}>
-                                                                <p>오늘의 일지를 작성하셨네요!</p>
-                                                                <p>우리의 오늘에서 사람들과 소통해볼까요?</p>
-                                                            </Link>
-                                                        </div>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <div key={i}>
-                                                            <Link to={'/myMind'}>
-                                                                <p>오늘 하루는 어떠셨나요?</p>
-                                                                <p>오늘의 일지를 작성하러 가볼까요?</p>
-                                                            </Link>
-                                                        </div>
-                                                    );
+                                                if(i === 0){
+                                                    const itemDate = new Date(item.createdAt).toISOString().split('T')[0];
+                                                    const formattedDate = `${todayObject.year}-${todayObject.month}-${todayObject.date}`;
+                                                    const hasData = calendarData.some(some => some.createdAt === formattedDate);
+                                                    if (hasData) {
+                                                        return (
+                                                            <div key={0}>
+                                                                <Link to={'/ourToday'}>
+                                                                    <p>오늘의 일지를 작성하셨네요!</p>
+                                                                    <p>우리의 오늘에서 사람들과 소통해볼까요?</p>
+                                                                </Link>
+                                                            </div>
+                                                        );
+                                                    } else {
+                                                        return (
+                                                            <div key={0}>
+                                                                <Link to={'/myMind'}>
+                                                                    <p>오늘 하루는 어떠셨나요?</p>
+                                                                    <p>오늘의 일지를 작성하러 가볼까요?</p>
+                                                                </Link>
+                                                            </div>
+                                                        );
+                                                    }
                                                 }
                                             })
                                         )

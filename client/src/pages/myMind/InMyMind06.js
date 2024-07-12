@@ -60,15 +60,15 @@ const InMyMind06 = ({index}) => {
                         questions:formData,
                     }),
                 });
-                // console.log(response, "response data");
-    
-                if (!response.ok) {
+                
+            if (!response.ok) {
                     const result = await response.json();
                     throw new Error(result.message || "myMindPost failed");
                 }
             } catch(error){
                 console.error('error in fetch:', error);
             }
+            console.log("마음일지 작성이 완료되었습니다.")
             navigate("/")
             handleReset();
         }else {
