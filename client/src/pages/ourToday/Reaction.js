@@ -51,7 +51,6 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
     }
 
 
-
 //     // 💡PanInfo 객체란?
 // 다음 값들에 대한 x, y값을 가진 객체를 의미합니다.
 
@@ -116,54 +115,53 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
          }
     }
 
+
     useEffect(()=>{
         const handleUpdateLikeReaction = async() => {
-            console.log(post.heart.heartUser)
+            console.log(post.heart.heartUsers)
         
-            // let url = `http://localhost:8000/ourToday/plusPostLikeReaction`;
-            // if(findHeartUser){
-            //     url = `http://localhost:8000/ourToday/minusPostLikeReaction`;
-            //     const response = await fetch(url, {
-            //         method: 'PUT',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //         body: JSON.stringify({
-            //             id: postId,
-            //             userEmail: currentUser.email,
-            //             heartCount: post.heart.heartCount-1,
-            //         })
-            //     })
-            //     if (response.ok) {
-            //         console.log("게시글이 정상적으로 수정되었습니다.");
-            //     } else {
-            //         console.error('Failed to update post');
-            //     }
-            // }else{
-            //     const response = await fetch(url, {
-            //         method: 'PUT',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //         body: JSON.stringify({
-            //             id: postId,
-            //             userEmail: currentUser.email,
-            //             heartCount: post.heart.heartCount+1,
-            //         })
-            //     })
-            //     if (response.ok) {
-            //         console.log("게시글이 정상적으로 수정되었습니다.");
-            //     } else {
-            //         console.error('Failed to update post');
-            //     }
-            // }
+            let url = `http://localhost:8000/ourToday/plusPostLikeReaction`;
+            if(post.heart.heartUsers.includes(currentUser.email)){
+                url = `http://localhost:8000/ourToday/minusPostLikeReaction`;
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: postId,
+                        userEmail: currentUser.email,
+                    })
+                })
+                if (response.ok) {
+                    console.log("게시글이 정상적으로 수정되었습니다.");
+                } else {
+                    console.error('Failed to update post');
+                }
+            }else{
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: postId,
+                        userEmail: currentUser.email,
+                    })
+                })
+                if (response.ok) {
+                    console.log("게시글이 정상적으로 수정되었습니다.");
+                } else {
+                    console.error('Failed to update post');
+                }
+            }
         }
         if(isHeartUpdate){
             handleUpdateLikeReaction().then(()=>{
                 setIsHeartUpdate(!isHeartUpdate)
             })
         }
-    }, [heartChange, isHeartUpdate])
+    }, [heartChange])
     
 
 
@@ -200,19 +198,19 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
             <S.emotionContainer>
                 <S.emotionWrapper>
                     <label>
-                      <S.emotionList onClick={handleHeart}><FontAwesomeIcon icon = {heartChange ? solidHeart : regularHeart} className='heart'/><S.reactionCountWrapper>{post.heart.heartCount}</S.reactionCountWrapper></S.emotionList>
+                      <S.emotionList onClick={handleHeart}><FontAwesomeIcon icon = {post.heart.heartUsers.includes(currentUser.email) ? solidHeart : regularHeart} className='heart'/><S.reactionCountWrapper>{post.heart.heartUsers.length}</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleThumbsUp}><FontAwesomeIcon icon = {thumbsUpChange ? solidThumbsUp : regularThumbsUp} className='thumbsUp'/><S.reactionCountWrapper>{post.like.thumbsUpCount}</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleThumbsUp}><FontAwesomeIcon icon = {thumbsUpChange ? solidThumbsUp : regularThumbsUp} className='thumbsUp'/><S.reactionCountWrapper>0</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleSmile}><FontAwesomeIcon icon = {smileChange ? solidSmile : regularSmile} className='smile'/><S.reactionCountWrapper>{post.smile.smileCount}</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleSmile}><FontAwesomeIcon icon = {smileChange ? solidSmile : regularSmile} className='smile'/><S.reactionCountWrapper>0</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleSad}><FontAwesomeIcon icon = {sadChange ? solidSadTear : regularSadTear} className='sad'/><S.reactionCountWrapper>{post.sad.sadCount}</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleSad}><FontAwesomeIcon icon = {sadChange ? solidSadTear : regularSadTear} className='sad'/><S.reactionCountWrapper>0</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleAngry}><FontAwesomeIcon icon = {angryChange ? solidAngry : regularAngry} className='angry'/><S.reactionCountWrapper>{post.angry.angryCount}</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleAngry}><FontAwesomeIcon icon = {angryChange ? solidAngry : regularAngry} className='angry'/><S.reactionCountWrapper>0</S.reactionCountWrapper></S.emotionList>
                     </label>
                 </S.emotionWrapper>
             </S.emotionContainer>
