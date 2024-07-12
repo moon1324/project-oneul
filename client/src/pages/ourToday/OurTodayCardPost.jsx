@@ -9,7 +9,7 @@ import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 
 const OurTodayCardPost = ({
     posts, post, tabActive, isDeleteOk, setIsDeleteOk, 
-    deleteModalStatus, setDeleteModalStatus,
+    postModalStatus, setPostModalStatus,
     setOurTodayUpdate, ourTodayUpdate
 }) => {
     const postId = post._id;
@@ -23,12 +23,12 @@ const OurTodayCardPost = ({
         setPostValue(post.content)
     }
 
-    const handlePostEdit = (post) => {
+    const handlePostEdit = () => {
         setIsPostEdit(!isPostEdit)
     }
 
     const handleOpenDeleteModal = () => {
-        return setDeleteModalStatus(!deleteModalStatus)
+        return setPostModalStatus(!postModalStatus)
     }
 
 
@@ -86,7 +86,6 @@ const OurTodayCardPost = ({
                         }),
                     });
                     if (response.ok) {
-                        setDeleteModalStatus(!deleteModalStatus);
                         setOurTodayUpdate(!ourTodayUpdate);
                         console.log("정상적으로 삭제가 완료되었습니다.");
                     } else {
@@ -98,12 +97,11 @@ const OurTodayCardPost = ({
             };
         if (isDeleteOk) {
             handleDeletePost().then(()=>{
-                setDeleteModalStatus(!deleteModalStatus);
                 setOurTodayUpdate(!ourTodayUpdate);
                 setIsDeleteOk(false);
             });
         }
-    }, [isDeleteOk, deleteModalStatus, ourTodayUpdate]);
+    }, [isDeleteOk]);
 
 
     return (
@@ -150,8 +148,6 @@ const OurTodayCardPost = ({
                             <S.reactionContainer>
                                 <Reaction post={post} setOurTodayUpdate={setOurTodayUpdate}
                                  ourTodayUpdate={ourTodayUpdate}
-                                 isDeleteOk={isDeleteOk} setIsDeleteOk={setIsDeleteOk}
-                                 deleteModalStatus={deleteModalStatus} setDeleteModalStatus={setDeleteModalStatus} 
                                 />
                             </S.reactionContainer>
                         </>) : 
