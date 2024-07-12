@@ -12,24 +12,9 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
     isDeleteOk, setIsDeleteOk,
     deleteModalStatus, setDeleteModalStatus, }) => {
     const postId = post._id;
-    const currentUser = useSelector((state)=>state.login.currentUser);
+    const currentUser = useSelector((state) => state.login.currentUser);
     const [ourTodayCommentUpdate, setOurTodayCommentUpdate] = useState(false);
-    // 하트 icon 클릭 및 하트 수 상태변화 관리
-    const [heartChange, setHeartChange] = useState(false);
-    const [isHeartUpdate, setIsHeartUpdate] = useState(false);
-    const [heartCount, setHeartCount] = useState(0);
-    // 좋아요 icon 클릭 및 좋아요 수 상태변화 관리
-    const [thumbsUpChange, setThumbsUpChange] = useState(false);
-    const [thumbsUpCount, setThumbsUpCount] = useState(0);
-    // 즐거움 icon 클릭 및 즐거움 수 상태변화 관리
-    const [smileChange, setSmileChange] = useState(false);
-    const [smileCount, setSmileCount] = useState(0);
-    // 슬픔 icon 클릭 및 슬픔 수 상태변화 관리
-    const [sadChange, setSadChange] = useState(false);
-    const [sadCount, setSadCount] = useState(0);
-    // 화남 icon 클릭 및 화남 수 상태변화 관리
-    const [angryChange, setAngryChange] = useState(false);
-    const [angryCount, setAngryCount] = useState(0);
+    
     // 댓글 버튼 클릭시 창을 보이게 하기 위한 상태변화 준비
     const [showWindow, setShowWindow] = useState(false);
     // 지금 요소를 드래그하고 있는지에 대한 상태관리
@@ -67,103 +52,199 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
 // threshold를 100으로 설정하고 증가될 때마다 보이도록 했다.
 // 사각형을 드래그하면, 사각형이 축을 따라 이동할 때까지, 몇 픽셀이 남았는지를 보여주는 ghost 사각형을 보여줄 수 있다.
 
-    
-    // 하트 클릭 이벤트 및 하트 수 변화 이벤트
-    const handleHeart = () => {
-        setHeartChange(!heartChange)
-        setIsHeartUpdate(!isHeartUpdate)
-        // if(heartChange){
-        //    return setHeartCount(heartCount - 1);
-        // }else{
-        //     return setHeartCount(heartCount + 1);
-        // }
-    }
-    // 좋아요 클릭 이벤트 및 좋아요 수 변화 이벤트
-    const handleThumbsUp = () => {
-        setThumbsUpChange(!thumbsUpChange)
-        if(thumbsUpChange){
-            return setThumbsUpCount(thumbsUpCount - 1);
-        }else{
-             return setThumbsUpCount(thumbsUpCount + 1);
-        }
-    }
-    // 즐거움 클릭 이벤트 및 즐거움 수 변화 이벤트
-    const handleSmile = () => {
-        setSmileChange(!smileChange)
-        if(smileChange){
-            return setSmileCount(smileCount - 1);
-        }else{
-            return setSmileCount(smileCount + 1);
-        }
-    }
-    // 슬픔 클릭 이벤트 및 슬픔 수 변화 이벤트
-    const handleSad = () => {
-        setSadChange(!sadChange)
-        if(sadChange){
-            return setSadCount(sadCount - 1);
-         }else{
-             return setSadCount(sadCount + 1);
-         }
-    }
-    // 화남 클릭 이벤트 및 화남 수 변화 이벤트
-    const handleAngry = () => {
-        setAngryChange(!angryChange)
-        if(angryChange){
-            return setAngryCount(angryCount - 1);
-         }else{
-             return setAngryCount(angryCount + 1);
-         }
-    }
 
 
-    useEffect(()=>{
-        const handleUpdateLikeReaction = async() => {
-            console.log(post.heart.heartUsers)
-        
-            let url = `http://localhost:8000/ourToday/plusPostLikeReaction`;
-            if(post.heart.heartUsers.includes(currentUser.email)){
-                url = `http://localhost:8000/ourToday/minusPostLikeReaction`;
-                const response = await fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id: postId,
-                        userEmail: currentUser.email,
-                    })
+
+    const handleUpdateHeartReaction = async() => {
+        console.log(post.heart)
+        if(post.heart.includes(currentUser.email)){
+            const response = await fetch(`http://localhost:8000/ourToday/minusPostHeartReaction`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postId,
+                    userEmail: currentUser.email,
                 })
-                if (response.ok) {
-                    console.log("게시글이 정상적으로 수정되었습니다.");
-                } else {
-                    console.error('Failed to update post');
-                }
-            }else{
-                const response = await fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id: postId,
-                        userEmail: currentUser.email,
-                    })
+            })
+            if (response.ok) {
+                console.log("게시글이 정상적으로 수정되었습니다.");
+                setOurTodayUpdate(!ourTodayUpdate);
+            } else {
+                console.error('Failed to update post');
+            }
+        }else{
+            const response = await fetch(`http://localhost:8000/ourToday/plusPostHeartReaction`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postId,
+                    userEmail: currentUser.email,
                 })
-                if (response.ok) {
-                    console.log("게시글이 정상적으로 수정되었습니다.");
-                } else {
-                    console.error('Failed to update post');
-                }
+            })
+            if (response.ok) {
+                console.log("게시글이 정상적으로 수정되었습니다.");
+                setOurTodayUpdate(!ourTodayUpdate);
+            } else {
+                console.error('Failed to update post');
             }
         }
-        if(isHeartUpdate){
-            handleUpdateLikeReaction().then(()=>{
-                setIsHeartUpdate(!isHeartUpdate)
+    }
+        
+    const handleUpdateLikeReaction = async() => {
+        if(post.like.includes(currentUser.email)){
+            const response = await fetch(`http://localhost:8000/ourToday/minusPostLikeReaction`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postId,
+                    userEmail: currentUser.email,
+                })
             })
+            if (response.ok) {
+                console.log("게시글이 정상적으로 수정되었습니다.");
+                setOurTodayUpdate(!ourTodayUpdate);
+            } else {
+                console.error('Failed to update post');
+            }
+        }else{
+            const response = await fetch(`http://localhost:8000/ourToday/plusPostLikeReaction`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postId,
+                    userEmail: currentUser.email,
+                })
+            })
+            if (response.ok) {
+                console.log("게시글이 정상적으로 수정되었습니다.");
+                setOurTodayUpdate(!ourTodayUpdate);
+            } else {
+                console.error('Failed to update post');
+            }
         }
-    }, [heartChange])
-    
+    }    
 
+    const handleUpdateSmileReaction = async() => {
+        if(post.smile.includes(currentUser.email)){
+            const response = await fetch(`http://localhost:8000/ourToday/minusPostSmileReaction`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postId,
+                    userEmail: currentUser.email,
+                })
+            })
+            if (response.ok) {
+                console.log("게시글이 정상적으로 수정되었습니다.");
+                setOurTodayUpdate(!ourTodayUpdate);
+            } else {
+                console.error('Failed to update post');
+            }
+        }else{
+            const response = await fetch(`http://localhost:8000/ourToday/plusPostSmileReaction`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postId,
+                    userEmail: currentUser.email,
+                })
+            })
+            if (response.ok) {
+                console.log("게시글이 정상적으로 수정되었습니다.");
+                setOurTodayUpdate(!ourTodayUpdate);
+            } else {
+                console.error('Failed to update post');
+            }
+        }
+    }
+
+    const handleUpdateSadReaction = async() => {
+        if(post.sad.includes(currentUser.email)){
+            const response = await fetch(`http://localhost:8000/ourToday/minusPostSadReaction`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postId,
+                    userEmail: currentUser.email,
+                })
+            })
+            if (response.ok) {
+                console.log("게시글이 정상적으로 수정되었습니다.");
+                setOurTodayUpdate(!ourTodayUpdate);
+            } else {
+                console.error('Failed to update post');
+            }
+        }else{
+            const response = await fetch(`http://localhost:8000/ourToday/plusPostSadReaction`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postId,
+                    userEmail: currentUser.email,
+                })
+            })
+            if (response.ok) {
+                console.log("게시글이 정상적으로 수정되었습니다.");
+                setOurTodayUpdate(!ourTodayUpdate);
+            } else {
+                console.error('Failed to update post');
+            }
+        }
+    }
+
+    const handleUpdateAngryReaction = async() => {
+        if(post.angry.includes(currentUser.email)){
+            const response = await fetch(`http://localhost:8000/ourToday/minusPostAngryReaction`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postId,
+                    userEmail: currentUser.email,
+                })
+            })
+            if (response.ok) {
+                console.log("게시글이 정상적으로 수정되었습니다.");
+                setOurTodayUpdate(!ourTodayUpdate);
+            } else {
+                console.error('Failed to update post');
+            }
+        }else{
+            const response = await fetch(`http://localhost:8000/ourToday/plusPostAngryReaction`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postId,
+                    userEmail: currentUser.email,
+                })
+            })
+            if (response.ok) {
+                console.log("게시글이 정상적으로 수정되었습니다.");
+                setOurTodayUpdate(!ourTodayUpdate);
+            } else {
+                console.error('Failed to update post');
+            }
+        }
+    }
 
     // 댓글 관련 이벤트 처리
     // const [ comments, setComments ] = useState([])
@@ -198,19 +279,19 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
             <S.emotionContainer>
                 <S.emotionWrapper>
                     <label>
-                      <S.emotionList onClick={handleHeart}><FontAwesomeIcon icon = {post.heart.heartUsers.includes(currentUser.email) ? solidHeart : regularHeart} className='heart'/><S.reactionCountWrapper>{post.heart.heartUsers.length}</S.reactionCountWrapper></S.emotionList>
+                      <S.emotionList onClick={handleUpdateHeartReaction}><FontAwesomeIcon icon = {post.heart.includes(currentUser.email) ? solidHeart : regularHeart} className='heart'/><S.reactionCountWrapper>{post.heart.length}</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleThumbsUp}><FontAwesomeIcon icon = {thumbsUpChange ? solidThumbsUp : regularThumbsUp} className='thumbsUp'/><S.reactionCountWrapper>0</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleUpdateLikeReaction}><FontAwesomeIcon icon = {post.like.includes(currentUser.email) ? solidThumbsUp : regularThumbsUp} className='thumbsUp'/><S.reactionCountWrapper>{post.like.length}</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleSmile}><FontAwesomeIcon icon = {smileChange ? solidSmile : regularSmile} className='smile'/><S.reactionCountWrapper>0</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleUpdateSmileReaction}><FontAwesomeIcon icon = {post.smile.includes(currentUser.email) ? solidSmile : regularSmile} className='smile'/><S.reactionCountWrapper>{post.smile.length}</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleSad}><FontAwesomeIcon icon = {sadChange ? solidSadTear : regularSadTear} className='sad'/><S.reactionCountWrapper>0</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleUpdateSadReaction}><FontAwesomeIcon icon = {post.sad.includes(currentUser.email) ? solidSadTear : regularSadTear} className='sad'/><S.reactionCountWrapper>{post.sad.length}</S.reactionCountWrapper></S.emotionList>
                     </label>
                     <label>
-                        <S.emotionList onClick={handleAngry}><FontAwesomeIcon icon = {angryChange ? solidAngry : regularAngry} className='angry'/><S.reactionCountWrapper>0</S.reactionCountWrapper></S.emotionList>
+                        <S.emotionList onClick={handleUpdateAngryReaction}><FontAwesomeIcon icon = {post.angry.includes(currentUser.email) ? solidAngry : regularAngry} className='angry'/><S.reactionCountWrapper>{post.angry.length}</S.reactionCountWrapper></S.emotionList>
                     </label>
                 </S.emotionWrapper>
             </S.emotionContainer>
