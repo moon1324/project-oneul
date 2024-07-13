@@ -100,7 +100,7 @@ const OurTodayCardPost = ({
                 setIsDeleteOk(false);
             });
         }
-    }, [isDeleteOk]);
+    }}, [isDeleteOk]);
 
 
     return (
