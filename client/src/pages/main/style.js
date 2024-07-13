@@ -19,6 +19,7 @@ const S = {}
 
             & .body{
                 width: 100%;
+                padding: 20px 0 50px;
             }
 
 

@@ -6,14 +6,22 @@ import { faAngleRight, faHeartCircleCheck, faUsers } from "@fortawesome/free-sol
 import S from "./style";
 import BannerMain from "../banner/BannerMain";
 import { useSelector } from "react-redux";
+import OurTodayCardPost from "../ourToday/OurTodayCardPost";
 
-const Main = () => {
-    const isLogin = useSelector((state) => state.login.isLogin);
+const Main = ({
+    post, isDeleteOk, setIsDeleteOk, 
+    deleteModalStatus, setDeleteModalStatus,
+    setOurTodayUpdate,\ ourTodayUpdate
+}) => {
     const navigate = useNavigate();
+
+    const isLogin = useSelector((state) => state.login.isLogin);
+    const currentUser = useSelector((state) => state.login.currentUser);
     
     const [data, setData] = useState([]);
     const [calendarData, setCalendarData] = useState([]);
-    
+    const [posts, setPosts] = useState([]);
+
     const todayObject = {
         year: new Date().getFullYear(), //오늘 연도
         month: new Date().getMonth()+1,  //오늘 월
@@ -61,8 +69,17 @@ const Main = () => {
                 console.error('데이터를 불러오는 중 에러 발생:', error);
             }
         }
-        fetchData(); 
+        const getPost = async () => {
+            const response = await fetch(`http://localhost:8000/ourToday/checkPost`);
+            const dayPosts = await response.json();
+            return dayPosts;
+        }
+
+        fetchData();
+        getPost().then(setPosts); 
     },[])
+    
+    console.log("dddd",po);
 
     return (
         <>
@@ -152,7 +169,20 @@ const Main = () => {
                             </p>
                         </Link>
                     </div>
-                    <div className="body"></div>
+                    <div className="body">
+                        { posts.map((post, i) =>
+                            <OurTodayCardPost 
+                            post={post}
+                            key={i}
+                            posts={posts} 
+                            isDeleteOk={isDeleteOk}
+                            setIsDeleteOk={setIsDeleteOk}
+                            ourTodayUpdate={ourTodayUpdate}
+                            setOurTodayUpdate={setOurTodayUpdate}
+                            deleteModalStatus={deleteModalStatus} setDeleteModalStatus={setDeleteModalStatus}
+                            />
+                        )}
+                    </div>
                 </S.BoxForOurToday>
             </S.Wrapper>
         </>
