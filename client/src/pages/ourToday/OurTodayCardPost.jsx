@@ -93,7 +93,6 @@ const OurTodayCardPost = ({
                     }
                 } catch (error) {
                     console.error('An error occurred while deleting the post:', error);
-                }
             };
         if (isDeleteOk) {
             handleDeletePost().then(()=>{
@@ -101,7 +100,7 @@ const OurTodayCardPost = ({
                 setIsDeleteOk(false);
             });
         }
-    }, [isDeleteOk]);
+    }}, [isDeleteOk]);
 
 
     return (
