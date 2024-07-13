@@ -28,7 +28,7 @@ const DeleteModal = ({
         // 컨테이너의 의존성 배열을 바꾼다.
         setOurTodayUpdate(!ourTodayUpdate);
         // delete쿼리
-        setIsDeleteOk(true);
+        setIsDeleteOk(!isDeleteOk);
         return;
     }
 
