@@ -351,7 +351,7 @@ const deleteOurTodayComment = async(req, res) => {
 const getOurTodayBestPost = async(req, res) => {
     try{
         console.log("베스트 게시물 찾기")
-        const bestPost = await OurToday.findOne().sort({"heart.length": -1});
+        const bestPost = await OurToday.find().sort({"heart.length": 1});
         console.log(bestPost);
         if(bestPost){
             return res.status(200).json(bestPost);

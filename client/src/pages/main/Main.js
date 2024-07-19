@@ -6,14 +6,22 @@ import { faAngleRight, faHeartCircleCheck, faUsers } from "@fortawesome/free-sol
 import S from "./style";
 import BannerMain from "../banner/BannerMain";
 import { useSelector } from "react-redux";
+import OurTodayCardPost from "../ourToday/OurTodayCardPost";
 
-const Main = () => {
-    const isLogin = useSelector((state) => state.login.isLogin);
+const Main = ({
+    posts,post, isDeleteOk, setIsDeleteOk, 
+    deleteModalStatus, setDeleteModalStatus,
+    setOurTodayUpdate, ourTodayUpdate
+}) => {
     const navigate = useNavigate();
+
+    const isLogin = useSelector((state) => state.login.isLogin);
+    const currentUser = useSelector((state) => state.login.currentUser);
     
     const [data, setData] = useState([]);
     const [calendarData, setCalendarData] = useState([]);
-    
+    const [postData, setPostData] = useState([]);
+
     const todayObject = {
         year: new Date().getFullYear(), //오늘 연도
         month: new Date().getMonth()+1,  //오늘 월
@@ -26,8 +34,6 @@ const Main = () => {
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     const todayDate = `${year}-${month}-${day}`;
-
-
 
     useEffect(() => {
         if (!isLogin) {
@@ -61,8 +67,20 @@ const Main = () => {
                 console.error('데이터를 불러오는 중 에러 발생:', error);
             }
         }
-        fetchData(); 
-    },[])
+  
+        const getBestPost = async() => {
+            const response = await fetch(`http://localhost:8000/ourToday/checkBestPost`);
+            const dayBestPost = await response.json();
+            return dayBestPost; 
+        }
+        
+        getBestPost().then(setPostData);
+        fetchData();
+        // getPost().then(setPosts); 
+    },[]);
+
+    console.log("dDDd",postData);
+
 
     return (
         <>
@@ -85,9 +103,9 @@ const Main = () => {
                                                     const formattedDate = `${todayObject.year}-${todayObject.month}-${todayObject.date}`;
                                                     const hasData = calendarData.some(some => some.createdAt === formattedDate);
                                                     if(hasData){
-                                                            return <FontAwesomeIcon icon={faHeartCircleCheck} />    
+                                                            return <FontAwesomeIcon icon={faHeartCircleCheck} key={i}/>    
                                                     }else{
-                                                    return <FontAwesomeIcon icon={faUsers} />
+                                                    return <FontAwesomeIcon icon={faUsers} key={i}/>
                                                     }
                                                 }
                                             })
@@ -152,7 +170,24 @@ const Main = () => {
                             </p>
                         </Link>
                     </div>
-                    <div className="body"></div>
+                    <div className="body">
+                        { postData && postData.map((post, i) =>{
+                            if(i === 0){
+                                 return <OurTodayCardPost 
+                                 post={post}
+                                 key={i}
+                                 posts={posts} 
+                                 isDeleteOk={isDeleteOk}
+                                 setIsDeleteOk={setIsDeleteOk}
+                                 ourTodayUpdate={ourTodayUpdate}
+                                 setOurTodayUpdate={setOurTodayUpdate}
+                                 deleteModalStatus={deleteModalStatus} 
+                                 setDeleteModalStatus={setDeleteModalStatus}
+                                 />
+                            }
+                        })
+                        }
+                    </div>
                 </S.BoxForOurToday>
             </S.Wrapper>
         </>

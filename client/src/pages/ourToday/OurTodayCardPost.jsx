@@ -92,29 +92,36 @@ const OurTodayCardPost = ({
         }
     }
 
-    // 게시글의 삭제를 요청할 fetch DELETE method
-    const handleDeletePost = async () => {
-        try {
-            const response = await fetch(`http://localhost:8000/ourToday/delete`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    _id: postId
-                }),
-            });
-            if (response.ok) {
+    useEffect(() => {
+            const handleDeletePost = async () => {
+                console.log(postId)
+                try {
+                    const response = await fetch(`http://localhost:8000/ourToday/delete`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            _id: postId
+                        }),
+                    });
+                    if (response.ok) {
+                        setOurTodayUpdate(!ourTodayUpdate);
+                        console.log("정상적으로 삭제가 완료되었습니다.");
+                    } else {
+                        console.error('Failed to delete post');
+                    }
+                } catch (error) {
+                    console.error('An error occurred while deleting the post:', error);
+                }
+            };
+        if (isDeleteOk) {
+            handleDeletePost().then(()=>{
                 setOurTodayUpdate(!ourTodayUpdate);
-                setPostModalStatus(!postModalStatus);
-                console.log("정상적으로 삭제가 완료되었습니다.");
-            } else {
-                console.error('Failed to delete post');
-            }
-        } catch (error) {
-            console.error('An error occurred while deleting the post:', error);
+                setIsDeleteOk(false);
+            });
         }
-    };
+    }, [isDeleteOk]);
 
 
     return (
