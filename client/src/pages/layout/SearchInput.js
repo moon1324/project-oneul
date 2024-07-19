@@ -11,6 +11,7 @@ const SearchInput = () => {
     const navigate = useNavigate();
     // 검색버튼 눌렀을 시 검색 인풋 활성화
     const [isSearchActive, setIsSearchActive] = useState(false);
+    const [searchResults, setSearchResults] = useState({ myMindResults: [], ourtodayResults: [] });
 
     // useInput hook 사용
     const [searchValue, setSearchValue, handleSearchChange] = useInput("");
@@ -23,9 +24,27 @@ const SearchInput = () => {
         setIsSearchActive(!isSearchActive);
     };
 
-    const handleSearchSubmit = () => {
+    const handleSearchSubmit = async () => {
         navigate(`/search?value=${searchValue}`);
-        // console.log(searchValue);
+
+        // try {
+        //     const token = localStorage.getItem("token");
+        //     console.log(searchValue);
+        //     const response = await fetch(`http://localhost:8000/search?value=${searchValue}`, {
+        //         method: "GET",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             Authorization: `Bearer ${token}`,
+        //         },
+        //     });
+        //     const data = await response.json();
+        //     console.log(data);
+        //     setSearchResults(data);
+
+        //     navigate(`/search?value=${searchValue}`);
+        // } catch (error) {
+        //     console.error("Failed to search", error);
+        // }
     };
 
     const handleKeyPress = (e) => {
@@ -46,7 +65,6 @@ const SearchInput = () => {
                 }
             }
         };
-
         fetchUserProfileImage();
     }, [currentUser.email]);
 

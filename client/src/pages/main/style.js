@@ -7,7 +7,7 @@ const S = {}
         padding: 0 1.25rem;
         margin: 2.5rem 0;
 
-        & div {
+        & >div {
             width: 100%;
 
             & .header{
@@ -19,6 +19,12 @@ const S = {}
 
             & .body{
                 width: 100%;
+                padding: 20px 0 50px;
+
+                li {
+                   list-style: none;
+                }
+
             }
 
 

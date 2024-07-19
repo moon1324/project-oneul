@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import S from './style';
 import Comment from './Comment';
-import DeleteModal from './DeleteModal';
 
-// 변수로 {comment, getComments, setComments, isCommentUpdate, setIsCommentUpdate}을 받을 것
 const CommentContainer = ({post, showWindow, setOurTodayCommentUpdate, 
     ourTodayCommentUpdate, getCommentLength,
-    isDeleteOk, setIsDeleteOk,
-    deleteModalStatus, setDeleteModalStatus,
+    handleCommentModal,
 }) => {
+    // 댓글 데이터 정보를 담기 위한 상태관리
     const [ comments, setComments ] = useState();
+    // post id를 저장하기 위한 postId 변수 선언
     const postId = post._id
-        
-    // ${postId}
+    
+    // 댓글 데이터 정보를 얻기 위한 fetch get method
     useEffect(()=>{ 
         const getComment = async () => {
-            const response = await fetch(`http://localhost:8000/ourToday/checkPostComment`);
+            const response = await fetch(`http://localhost:8000/ourToday/checkPostComment/${postId}`);
             const dayComments = await response.json();
             return dayComments
         }
@@ -24,31 +23,18 @@ const CommentContainer = ({post, showWindow, setOurTodayCommentUpdate,
             return getCommentLength(dayComments.length);
         });
     }, [showWindow, ourTodayCommentUpdate])
-   
+
     return (
-        <>
-            <S.commentUnorderedList>
-                    {comments && comments.map((replyComment, i) => 
-                        <Comment key={i} replyComment={replyComment} 
-                            showWindow={showWindow} setOurTodayCommentUpdate={setOurTodayCommentUpdate} 
-                            ourTodayCommentUpdate={ourTodayCommentUpdate}
-                            isDeleteOk={isDeleteOk}
-                            setIsDeleteOk={setIsDeleteOk}
-                            deleteModalStatus={deleteModalStatus} 
-                            setDeleteModalStatus={setDeleteModalStatus}
-                        />
-                    )}
-                <S.gap></S.gap>
-            </S.commentUnorderedList>
-            <DeleteModal 
-                isDeleteOk={isDeleteOk}
-                setIsDeleteOk={setIsDeleteOk}
-                deleteModalStatus={deleteModalStatus} 
-                setDeleteModalStatus={setDeleteModalStatus}
-                ourTodayCommentUpdate={ourTodayCommentUpdate}
-                setOurTodayCommentUpdate={setOurTodayCommentUpdate}
-            />
-        </>
+        <S.commentUnorderedList>
+                {comments && comments.map((replyComment, i) => 
+                    <Comment key={i} replyComment={replyComment} 
+                        showWindow={showWindow} setOurTodayCommentUpdate={setOurTodayCommentUpdate} 
+                        ourTodayCommentUpdate={ourTodayCommentUpdate}
+                        handleCommentModal={handleCommentModal}
+                    />
+                )}
+            <S.gap></S.gap>
+        </S.commentUnorderedList>
     );
 };
 
