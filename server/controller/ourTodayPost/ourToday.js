@@ -86,11 +86,17 @@ const deleteOurTodayPost = async(req, res) => {
     try {
         const deletedId = req.body._id;
         const deletedPost = await OurToday.findOne({_id: deletedId}).lean();
-        const deletedComment = await Comment.find({postId: deletedId}).lean();
+        // console.log("게시글 확인")
+        // console.log(deletedPost)
+        // const deletedComment = await Comment.find({postId: deletedId}).lean();
+        // console.log("댓글 확인")
+        // console.log(deletedComment)
         const deletedPostId = deletedPost._id;
-        console.log("찾은 아이디", deletedPost)
-        await Comment.deleteMany(deletedComment);
-        await OurToday.deleteOne(deletedPostId);
+        // console.log("찾은 아이디", deletedPost)
+        await Comment.deleteMany({postId: deletedPostId});
+        // console.log("관련 댓글 삭제 완료")
+        await OurToday.deleteOne({_id: deletedPostId});
+        // console.log("관련 게시글 삭제 완료")
         res.status(200).json({ message: '데이터 삭제 성공' });
     } catch (error) {
         // 에러 발생 시 클라이언트에 에러 응답 전송
@@ -276,8 +282,10 @@ const createCommentOurToday = async(req, res) => {
 
 const getOurTodayComment = async(req, res) => {
     try{
+        const { postId } = req.params;
         console.log("댓글 fetch요청")
-        const comments = await Comment.find({})
+        console.log(postId);
+        const comments = await Comment.find({postId: postId})
         console.log(comments);
         if(comments){
             return res.status(200).json(comments);
@@ -285,6 +293,26 @@ const getOurTodayComment = async(req, res) => {
             return res.status(404).json({
                 message: '댓글이 존재하지 않습니다.'
             });
+        }
+    }catch(error){
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+}
+
+const getCommentCount = async (req, res) => {
+    try{
+        const { postId } = req.params;
+        if (!postId) {
+            return res.status(400).json({ message: "postId is required" });
+        }else{
+            console.log("댓글 fetch요청")
+            console.log(postId);
+            const commentCount = await Comment.find({postId: postId}).count();
+            console.log("댓글 수 확인")
+            console.log("count :", commentCount);
+            return res.status(200).json({count: commentCount});
         }
     }catch(error){
         return res.status(500).json({
@@ -339,4 +367,4 @@ const getOurTodayBestPost = async(req, res) => {
     }
 }
 
-export { createPostOurToday, getOurTodayPost, updateOurTodayPost, deleteOurTodayPost, updateOurTodayPostHeartReaction, deleteOurTodayPostHeartReaction, updateOurTodayPostLikeReaction, deleteOurTodayPostLikeReaction, updateOurTodayPostSmileReaction, deleteOurTodayPostSmileReaction, updateOurTodayPostSadReaction, deleteOurTodayPostSadReaction, updateOurTodayPostAngryReaction, deleteOurTodayPostAngryReaction, createCommentOurToday, getOurTodayComment, updateOurTodayComment, deleteOurTodayComment, getOurTodayBestPost};
+export { createPostOurToday, getOurTodayPost, updateOurTodayPost, deleteOurTodayPost, updateOurTodayPostHeartReaction, deleteOurTodayPostHeartReaction, updateOurTodayPostLikeReaction, deleteOurTodayPostLikeReaction, updateOurTodayPostSmileReaction, deleteOurTodayPostSmileReaction, updateOurTodayPostSadReaction, deleteOurTodayPostSadReaction, updateOurTodayPostAngryReaction, deleteOurTodayPostAngryReaction, createCommentOurToday, getOurTodayComment, getCommentCount, updateOurTodayComment, deleteOurTodayComment, getOurTodayBestPost};
