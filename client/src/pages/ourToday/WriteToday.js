@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import S from './style';
 import useTextarea from '../../hooks/useTextarea';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const WriteToday = () => {
@@ -12,9 +12,6 @@ const WriteToday = () => {
 
     const currentUser = useSelector((state)=>state.login.currentUser);
 
-    // useEffect(()=>{
-
-    // },[])
     const onSubmit = async (data) => {
         console.log(data);
         console.log(currentUser.profileImg);
@@ -59,12 +56,16 @@ const WriteToday = () => {
                     <S.todayText className='writeTodayText' 
                         value={postValue}
                         onChange={handlePostChange}
+                        placeholder='나의 오늘을 작성해주세요'
                         autoFocus  
                         {...register('content', { required: true })}
                     />
                 </S.textWrapper>
                 <S.writeButtonWrapper> 
                     <S.completeWriteButton type="submit" disabled={isSubmitting} >작성 완료</S.completeWriteButton>
+                </S.writeButtonWrapper>
+                <S.writeButtonWrapper> 
+                    <Link to={'/ourToday'}><S.cancleWriteButton type="button" >취소</S.cancleWriteButton></Link>
                 </S.writeButtonWrapper>
             </S.writeForm>
         </S.writeTodayContainer>

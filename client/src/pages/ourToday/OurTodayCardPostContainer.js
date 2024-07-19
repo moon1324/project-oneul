@@ -1,15 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import S from './style';
 import { useSelector } from 'react-redux';
 import OurTodayCardPost from './OurTodayCardPost';
 
 const OurTodayCardPostContainer = ({tabActive, setTabActive}) => {
+    // 게시글 데이터 정보를 담기위한 상태관리
     const [posts, setPosts] = useState([]);
-    const [postModalStatus, setPostModalStatus] = useState(false)
-    const [isDeleteOk, setIsDeleteOk] = useState(false)
+    // 게시글의 정보가 update됨을 관리할 상태 관리
     const [ourTodayUpdate, setOurTodayUpdate] = useState(false);
+    // currentUser 전역변수
     const currentUser = useSelector((state) => state.login.currentUser);
 
+    // 게시글의 데이터 정보를 불러올 fetch GET method
     const getPost = async () => {
         const response = await fetch(`http://localhost:8000/ourToday/checkPost`);
         const dayPosts = await response.json();
@@ -22,32 +24,10 @@ const OurTodayCardPostContainer = ({tabActive, setTabActive}) => {
         }
     }
             
+    // getPost 함수의 side effect를 제어하고 getPost함수를 실행할 useEffect 함수
     useEffect(()=>{ 
         getPost().then(setPosts);
     }, [tabActive, ourTodayUpdate])
-
-    const modalBackground = useRef();
-
-    const handleCloseModal = () => {
-       return setPostModalStatus(!postModalStatus)
-    }
-
-    const handleBackgroundModal = (e) => {
-        if(e.target === modalBackground.current) {
-            setPostModalStatus(!postModalStatus)
-        }
-    }
-
-    const handleDeleteOk = () => {
-        // 모달을 끈다.
-        setPostModalStatus(!postModalStatus)
-        // // 컨테이너의 의존성 배열을 바꾼다.
-        // setOurTodayUpdate(!ourTodayUpdate);
-        // delete쿼리
-        setIsDeleteOk(!isDeleteOk);
-        return;
-    }
-
 
 
     return (
@@ -57,36 +37,12 @@ const OurTodayCardPostContainer = ({tabActive, setTabActive}) => {
                         post={post}
                         key={i}
                         tabActive={tabActive}
+                        setTabActive={setTabActive}
                         posts={posts} 
-                        isDeleteOk={isDeleteOk}
-                        setIsDeleteOk={setIsDeleteOk}
                         ourTodayUpdate={ourTodayUpdate}
                         setOurTodayUpdate={setOurTodayUpdate}
-                        postModalStatus={postModalStatus} setPostModalStatus={setPostModalStatus}
                     />
                 )
-            }
-            {
-                postModalStatus && 
-                <S.modalContainer ref={modalBackground} onClick={handleBackgroundModal}>
-                    <S.modalWrapper>
-                        <S.modalTitle>삭제</S.modalTitle>
-                        <S.modalDescriptionWrapper>
-                            <S.modalDescription>
-                            게시물을 정말로 삭제하시겠습니까?<br/>
-                            삭제 시 복구할 수 없습니다.
-                            </S.modalDescription>
-                        </S.modalDescriptionWrapper>
-                        <S.modalButtonContainer>
-                            <S.modalButtonWrapper>
-                                <S.modalCancelButton onClick={handleCloseModal}>취소</S.modalCancelButton>
-                            </S.modalButtonWrapper>
-                            <S.modalButtonWrapper>
-                                <S.modalDeleteButton onClick={handleDeleteOk}>삭제</S.modalDeleteButton>
-                            </S.modalButtonWrapper>
-                        </S.modalButtonContainer>
-                    </S.modalWrapper>
-                </S.modalContainer>
             }
             <S.gap></S.gap>
         </ul>

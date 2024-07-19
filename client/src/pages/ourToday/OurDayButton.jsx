@@ -3,13 +3,16 @@ import S from './style';
 import { Link } from 'react-router-dom';
 
 const OurDayButton = ({getTabStatus}) => {
+    // 게시글의 탭 관리를 위한 상태관리
     const [tab, setTab] = useState("ourToday");
 
+    // 우리의 오늘 탭이 활성화될시 실행되는 함수
     function activateTabToOurToday() {
         setTab("ourToday")
         return getTabStatus("ourToday")
     }
 
+    // 나의 오늘 탭이 활성화될시 실행되는 함수
     function activateTabToMyToday() {
         setTab("myToday")
         return getTabStatus("myToday")

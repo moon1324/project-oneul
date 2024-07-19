@@ -6,30 +6,32 @@ import { useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
 
 const Comment = ({replyComment, showWindow, setOurTodayCommentUpdate, 
-    ourTodayCommentUpdate,
-    isDeleteOk, setIsDeleteOk,
-    deleteModalStatus, setDeleteModalStatus,
+    ourTodayCommentUpdate, handleCommentModal
 }) => {
+    // 댓글의 프로필 이미지를 띄울 상태관리
     const [todayCommentProfileImg, setTodayCommentProfileImg] = useState("");
+    // 댓글의 수정 상태 관리
     const [isCommentEdit, setIsCommentEdit] = useState(false);
+    // 댓글의 입력 시간을 관리하기 위한 상태관리
+    const [timeAgo, setTimeAgo] = useState('');
+    // 댓글의 input태그에 대한 훅함수
     const [commentValue, setCommentValue, handleCommentChange] = useInput();
+    // 댓글의 입력창에 프로필 이미지를 띄우기 위한 currentUser 전역변수
     const currentUser = useSelector((state)=>state.login.currentUser);
-    const date = replyComment.createdAt.split("T05")
+    // 각 댓글의 comment id
     const commentId = replyComment._id;
 
+    // 댓글의 수정 상태 open
     const handleOpenCommentEdit = (replyComment) => {
         setIsCommentEdit(!isCommentEdit)
         setCommentValue(replyComment.commentText)
     }
-
+    // 댓글의 수정 상태 변화를 위한 함수
     const handleCommentEdit = () => {
         setIsCommentEdit(!isCommentEdit)
     }
 
-    const handleOpenDeleteModal = () => {
-        return setDeleteModalStatus(!deleteModalStatus)
-    }
-
+    // 프로필 이미지를 띄우기 위한 fetch 요청
     useEffect(() => {
         const fetchUserProfileImage = async () => {
             try {
@@ -43,8 +45,9 @@ const Comment = ({replyComment, showWindow, setOurTodayCommentUpdate,
         fetchUserProfileImage();
     }, [showWindow]);
 
+    // 댓글의 수정 요청을 위한 fetch의 PUT Method
     const handleUpdateComment = async () => {
-        console.log(commentValue)
+        // console.log(commentValue)
         try {
             const response = await fetch(`http://localhost:8000/ourToday/updateComment`, {
                 method: 'PUT',
@@ -69,81 +72,77 @@ const Comment = ({replyComment, showWindow, setOurTodayCommentUpdate,
         }
     }
 
-    useEffect(() => {
-        const handleDeleteComment = async () => {
-            console.log(commentId)
-            try {
-                const response = await fetch(`http://localhost:8000/ourToday/deleteComment`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        _id: commentId
-                    }),
-                });
-                if (response.ok) {
-                    setDeleteModalStatus(!deleteModalStatus);
-                    setOurTodayCommentUpdate(!ourTodayCommentUpdate);
-                    console.log("정상적으로 삭제가 완료되었습니다.");
-                } else {
-                    console.error('Failed to delete post');
-                }
-            } catch (error) {
-                console.error('An error occurred while deleting the post:', error);
+    // 댓글의 입력 시간을 형식 변환하기 위한 함수 선언
+    const updateTimeStamp = () => {
+        // 경과한 시간 계산 (1초 = 1000)
+        const timeElapsed = Math.floor((new Date() - new Date(replyComment.createdAt)) / 1000);
+
+            if (timeElapsed < 60) {
+            setTimeAgo(`방금 전`);
+            } else if (timeElapsed < (60 * 60)) {
+            const minutes = Math.floor(timeElapsed / 60);
+            setTimeAgo(`${minutes}분 전`);
+            } else if (timeElapsed < (60 * 60 * 24)) {
+            const hours = Math.floor(timeElapsed / (60 * 60));
+            setTimeAgo(`${hours}시간 전`);
+            } else if (timeElapsed < (60 * 60 * 24 * 7)) {
+            const days = Math.floor(timeElapsed / (60 * 60 * 24));
+            setTimeAgo(`${days}일 전`);
+            } else {
+            // 일주일 이상 지난 아이템에 대해서는 YYYY-MM-DD로 표기
+            const date = new Date(replyComment.createdAt).toISOString().slice(0, 10);
+            setTimeAgo(date);
             }
-        };
-        if (isDeleteOk) {
-            handleDeleteComment().then(()=>{
-                setDeleteModalStatus(!deleteModalStatus);
-                setOurTodayCommentUpdate(!ourTodayCommentUpdate);
-                setIsDeleteOk(false);
-            });
-        }
-    }, [isDeleteOk, deleteModalStatus, ourTodayCommentUpdate]);
+    };
+
+    useEffect(() => {
+        updateTimeStamp();
+    }, [replyComment.createdAt]);
+
+
 
     return (
-        <li>
-                    <S.commentUserInfoWrapper>
-                        <S.commentThumbnailWrapper>
-                            <img src={todayCommentProfileImg} alt="profile-img" />
-                        </S.commentThumbnailWrapper>
-                        <S.commentNameAndDate>
-                            <S.commentUserName>{replyComment.commentUserNickName}</S.commentUserName>
-                            <S.commentDate>{date[0]}</S.commentDate>
-                        </S.commentNameAndDate>
-                            {currentUser.email === replyComment.commentUser ? (
-                                <S.correctionButtonContainer>
-                                    {!isCommentEdit ? (
-                                    <>
-                                        <S.correctionButtonWrapper>
-                                            <S.correctionButton onClick={()=>handleOpenCommentEdit(replyComment)}><FontAwesomeIcon icon={faPenToSquare} className='pen' /></S.correctionButton>
-                                        </S.correctionButtonWrapper>
-                                        <S.correctionButtonWrapper>
-                                            <S.correctionButton onClick={handleOpenDeleteModal}><FontAwesomeIcon icon={faTrashCan} className='trash' /></S.correctionButton>
-                                        </S.correctionButtonWrapper>
-                                    </>) : (
-                                    <>
-                                        <S.correctionButtonWrapper>
-                                            <S.correctionButton onClick={handleUpdateComment}><FontAwesomeIcon icon={faCheck} className='check'/></S.correctionButton>
-                                        </S.correctionButtonWrapper>
-                                        <S.correctionButtonWrapper>
-                                            <S.correctionButton onClick={handleCommentEdit}><FontAwesomeIcon icon={faX} className='exit'/></S.correctionButton>
-                                        </S.correctionButtonWrapper>
-                                    </>)}
-                                </S.correctionButtonContainer>
-                            ):(<></>)}
-                    </S.commentUserInfoWrapper>
-                    {isCommentEdit ? (
-                    <S.comment type="text" className='comment' 
-                        value={commentValue}
-                        onChange={handleCommentChange}   
-                    />):(
-                        <S.commentWrapper>
-                            {replyComment.commentText}
-                        </S.commentWrapper>
-                    )}
-        </li>
+            <li>
+                        <S.commentUserInfoWrapper>
+                            <S.commentThumbnailWrapper>
+                                <img src={todayCommentProfileImg} alt="profile-img" />
+                            </S.commentThumbnailWrapper>
+                            <S.commentNameAndDate>
+                                <S.commentUserName>{replyComment.commentUserNickName}</S.commentUserName>
+                                <S.commentDate>{timeAgo}</S.commentDate>
+                            </S.commentNameAndDate>
+                                {currentUser.email === replyComment.commentUser ? (
+                                    <S.correctionButtonContainer>
+                                        {!isCommentEdit ? (
+                                        <>
+                                            <S.correctionButtonWrapper>
+                                                <S.correctionButton onClick={()=>handleOpenCommentEdit(replyComment)}><FontAwesomeIcon icon={faPenToSquare} className='pen' /></S.correctionButton>
+                                            </S.correctionButtonWrapper>
+                                            <S.correctionButtonWrapper>
+                                                <S.correctionButton onClick={()=>handleCommentModal(commentId)}><FontAwesomeIcon icon={faTrashCan} className='trash' /></S.correctionButton>
+                                            </S.correctionButtonWrapper>
+                                        </>) : (
+                                        <>
+                                            <S.correctionButtonWrapper>
+                                                <S.correctionButton onClick={handleUpdateComment}><FontAwesomeIcon icon={faCheck} className='check'/></S.correctionButton>
+                                            </S.correctionButtonWrapper>
+                                            <S.correctionButtonWrapper>
+                                                <S.correctionButton onClick={handleCommentEdit}><FontAwesomeIcon icon={faX} className='exit'/></S.correctionButton>
+                                            </S.correctionButtonWrapper>
+                                        </>)}
+                                    </S.correctionButtonContainer>
+                                ):(<></>)}
+                        </S.commentUserInfoWrapper>
+                        {isCommentEdit ? (
+                        <S.comment type="text" className='comment' 
+                            value={commentValue}
+                            onChange={handleCommentChange}   
+                        />):(
+                            <S.commentWrapper>
+                                {replyComment.commentText}
+                            </S.commentWrapper>
+                        )}
+            </li>
     );
 };
 
