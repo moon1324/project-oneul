@@ -92,36 +92,29 @@ const OurTodayCardPost = ({
         }
     }
 
-    useEffect(() => {
-            const handleDeletePost = async () => {
-                console.log(postId)
-                try {
-                    const response = await fetch(`http://localhost:8000/ourToday/delete`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            _id: postId
-                        }),
-                    });
-                    if (response.ok) {
-                        setOurTodayUpdate(!ourTodayUpdate);
-                        console.log("정상적으로 삭제가 완료되었습니다.");
-                    } else {
-                        console.error('Failed to delete post');
-                    }
-                } catch (error) {
-                    console.error('An error occurred while deleting the post:', error);
-                }
-            };
-        if (isDeleteOk) {
-            handleDeletePost().then(()=>{
-                setOurTodayUpdate(!ourTodayUpdate);
-                setIsDeleteOk(false);
+    const handleDeletePost = async () => {
+        console.log(postId)
+        try {
+            const response = await fetch(`http://localhost:8000/ourToday/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    _id: postId
+                }),
             });
+            if (response.ok) {
+                setOurTodayUpdate(!ourTodayUpdate);
+                setPostModalStatus(!postModalStatus)
+                console.log("정상적으로 삭제가 완료되었습니다.");
+            } else {
+                console.error('Failed to delete post');
+            }
+        } catch (error) {
+            console.error('An error occurred while deleting the post:', error);
         }
-    }, [isDeleteOk]);
+    };
 
 
     return (
@@ -150,19 +143,19 @@ const OurTodayCardPost = ({
                         ) 
                         : <></>}
                     </S.postProfileContainer>
-                    <S.postContentWrapper>
+                    <S.postContentContainer>
                         { isPostEdit ? 
                             (<S.todayPostText 
                                 defaultValue={postValue}
                                 onChange={handlePostChange}
                                 autoFocus
                             ></S.todayPostText>) : (
-                                <>
+                                <S.postContentWrapper>
                                     {post.content}
-                                </>
+                                </S.postContentWrapper>
                             )}
                         
-                    </S.postContentWrapper>
+                    </S.postContentContainer>
                     {!isPostEdit ? 
                         (<>
                             <S.reactionContainer>

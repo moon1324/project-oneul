@@ -8,11 +8,7 @@ import BannerMain from "../banner/BannerMain";
 import { useSelector } from "react-redux";
 import OurTodayCardPost from "../ourToday/OurTodayCardPost";
 
-const Main = ({
-    posts,post, isDeleteOk, setIsDeleteOk, 
-    deleteModalStatus, setDeleteModalStatus,
-    setOurTodayUpdate, ourTodayUpdate
-}) => {
+const Main = () => {
     const navigate = useNavigate();
 
     const isLogin = useSelector((state) => state.login.isLogin);
@@ -21,6 +17,8 @@ const Main = ({
     const [data, setData] = useState([]);
     const [calendarData, setCalendarData] = useState([]);
     const [postData, setPostData] = useState([]);
+    // 게시글의 정보가 update됨을 관리할 상태 관리
+    const [ourTodayUpdate, setOurTodayUpdate] = useState(false);
 
     const todayObject = {
         year: new Date().getFullYear(), //오늘 연도
@@ -67,7 +65,11 @@ const Main = ({
                 console.error('데이터를 불러오는 중 에러 발생:', error);
             }
         }
-  
+
+        fetchData();
+    },[]);
+
+    useEffect(()=>{
         const getBestPost = async() => {
             const response = await fetch(`http://localhost:8000/ourToday/checkBestPost`);
             const dayBestPost = await response.json();
@@ -75,10 +77,7 @@ const Main = ({
         }
         
         getBestPost().then(setPostData);
-        fetchData();
-        // getPost().then(setPosts); 
-    },[]);
-
+    },[ourTodayUpdate])
     console.log("dDDd",postData);
 
 
@@ -176,13 +175,9 @@ const Main = ({
                                  return <OurTodayCardPost 
                                  post={post}
                                  key={i}
-                                 posts={posts} 
-                                 isDeleteOk={isDeleteOk}
-                                 setIsDeleteOk={setIsDeleteOk}
+                                 posts={postData} 
                                  ourTodayUpdate={ourTodayUpdate}
                                  setOurTodayUpdate={setOurTodayUpdate}
-                                 deleteModalStatus={deleteModalStatus} 
-                                 setDeleteModalStatus={setDeleteModalStatus}
                                  />
                             }
                         })

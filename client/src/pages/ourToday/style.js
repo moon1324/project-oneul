@@ -149,10 +149,19 @@ S.correctionButton = styled.button`
         }
 `
 
-// 게시글 본문 내용을 감싸는 wrapper
-S.postContentWrapper = styled.div`
+// 게시글 본문 내용을 감싸는 Container
+S.postContentContainer = styled.div`
     width : 100%;
     height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+// 게시글 본문 내용을 감싸는 wrapper
+S.postContentWrapper = styled.div`
+    width: 300px;
+    height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -520,6 +529,9 @@ S.textWrapper = styled.div`
 // 나의 오늘을 쓰고 보내기 위한 form 태그
 S.writeForm = styled.form`
     ${flexCenterColumn};
+    & textarea:focus {
+        border: none;
+    }
 `
 
 // 나의 오늘을 작성할 textarea
