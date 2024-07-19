@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { faFaceAngry as regularAngry, faFaceSadTear as regularSadTear, faFaceSmile as regularSmile, faHeart as regularHeart, faThumbsUp as regularThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { faFaceAngry as solidAngry, faFaceSadTear as solidSadTear, faFaceSmile as solidSmile, faHeart as solidHeart, faMessage, faThumbsUp as solidThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,18 +8,25 @@ import { useSelector } from 'react-redux';
 import CommentContainer from './CommentContainer';
 
 // {comments, isCommentUpdate, setIsCommentUpdate}
-const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate, 
-    isDeleteOk, setIsDeleteOk,
-    deleteModalStatus, setDeleteModalStatus, }) => {
+const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpdate}) => {
     const postId = post._id;
     const currentUser = useSelector((state) => state.login.currentUser);
-    const [ourTodayCommentUpdate, setOurTodayCommentUpdate] = useState(false);
-    
+    const commentModalBackground = useRef();
+    // 댓글의 update 상태를 관리할 상태관리 
+    const [ourTodayCommentUpdate, setOurTodayCommentUpdate] = useState(false)
+
     // 댓글 버튼 클릭시 창을 보이게 하기 위한 상태변화 준비
     const [showWindow, setShowWindow] = useState(false);
+    // 댓글 삭제시 댓글의 id를 받아올 상태관리
+    const [commentIdToDelete, setCommentIdToDelete] = useState("");
+    // 댓글의 삭제 모달창을 관리할 상태관리
+    const [commentModalStatus, setCommentModalStatus] = useState(false);
     // 지금 요소를 드래그하고 있는지에 대한 상태관리
     const [isDragging, setIsDragging] = useState(false);
+    // 댓글 bottom sheet에 표시할 댓글의 수를 받아올 상태관리
     const [commentLength, setCommentLength] = useState();
+    // 게시글에 표시할 댓글의 수를 받아올 상태관리
+    const [commentCount, setCommentCount] = useState();
     // isDragging을 반대로 바꿔주어 드래그가 가능해지도록 설정
     const onDragStart = (e) => {
         setIsDragging(!isDragging);
@@ -31,6 +38,7 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
         setShowWindow(!showWindow);
     }
 
+    // CommentContainer로부터 댓글의 수를 받아올 함수
     const getCommentLength = (length) => {
         return setCommentLength(length);
     }
@@ -53,8 +61,7 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
 // 사각형을 드래그하면, 사각형이 축을 따라 이동할 때까지, 몇 픽셀이 남았는지를 보여주는 ghost 사각형을 보여줄 수 있다.
 
 
-
-
+    // 하트 reaction 클릭시 클릭한 유저의 이메일 데이터를 받을 fetch PUT 요청
     const handleUpdateHeartReaction = async() => {
         console.log(post.heart)
         if(post.heart.includes(currentUser.email)){
@@ -93,7 +100,8 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
             }
         }
     }
-        
+    
+    // Like 리액션 클릭시 클릭한 유저의 이메일을 추가 또는 삭제할 fetch요청
     const handleUpdateLikeReaction = async() => {
         if(post.like.includes(currentUser.email)){
             const response = await fetch(`http://localhost:8000/ourToday/minusPostLikeReaction`, {
@@ -132,6 +140,7 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
         }
     }    
 
+    // 웃는 표정 reaction 클릭시 유저의 이메일 정보를 받아 처리할 fetch요청
     const handleUpdateSmileReaction = async() => {
         if(post.smile.includes(currentUser.email)){
             const response = await fetch(`http://localhost:8000/ourToday/minusPostSmileReaction`, {
@@ -170,6 +179,7 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
         }
     }
 
+    // 슬플 reaction 클릭시 유저의 이메일 정보를 받아 처리할 fetch 요청
     const handleUpdateSadReaction = async() => {
         if(post.sad.includes(currentUser.email)){
             const response = await fetch(`http://localhost:8000/ourToday/minusPostSadReaction`, {
@@ -208,6 +218,7 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
         }
     }
 
+    // 화남 reaction 클릭시 유저의 이메일 정보를 받아 처리할 fetch 요청
     const handleUpdateAngryReaction = async() => {
         if(post.angry.includes(currentUser.email)){
             const response = await fetch(`http://localhost:8000/ourToday/minusPostAngryReaction`, {
@@ -246,100 +257,148 @@ const Reaction = ({post, setOurTodayUpdate, ourTodayUpdate,
         }
     }
 
-    // 댓글 관련 이벤트 처리
-    // const [ comments, setComments ] = useState([])
-    // const [ error, setError ] = useState(false);
-    // const [ isCommentUpdate, setIsCommentUpdate ] = useState(false);
+    // 댓글의 삭제 버튼 클릭시 각 댓글의 id를 받아오고, 모달창을 여는 함수
+    const handleCommentModal = (id) => {
+        setCommentIdToDelete(id);
+        setCommentModalStatus(!commentModalStatus);
+        console.log("commentModalStatus:", !commentModalStatus);
+     }
 
-    // const getComments = async () => {
-    //     try {
-    //         const response = await fetch('http://localhost:3000/ourToday');
-    //         const datas = await response.json()
-    //         return datas
-    //     } catch (error) {
-    //         setError(error)
-    //     }
-    // }    
+    // 댓글의 삭제 모달창의 배경을 클릭시 모달창을 닫을 함수
+    const handleCommentBackgroundModal = (e) => {
+        if(e.target === commentModalBackground.current) {
+            setCommentModalStatus(!commentModalStatus)
+        }
+    }
 
-    // useEffect(() => {
-    //     getComments().then(setComments)
-    // }, [isCommentUpdate])
+    // 게시글에 표시할 댓글의 수를 받아오는 fetch 요청
+    useEffect(()=>{ 
+        const getCommentCount = async () => {
+            try{
+                const response = await fetch(`http://localhost:8000/ourToday/checkCommentCount/${postId}`);
+                const {count} = await response.json();
+                setCommentCount(count);
+            }catch (error) {
+                console.error('Failed to fetch comment length', error);
+            }
+            // if(tabActive === "myToday") {
+            //     const todayPosts = dayPosts.filter((dayPost) => currentUser.email === dayPost.userEmail);
+            //     return todayPosts
+            // }else if(tabActive === "ourToday"){
+            //     const todayPosts = dayPosts
+            //     return todayPosts
+            // }
+        }
+        getCommentCount()
+    }, [tabActive, ourTodayCommentUpdate])
 
-    // console.log(comments && comments.length)
+    // 각 댓글의 삭제 모달 확인 버튼 클릭시 삭제를 요청할 fetch
+    const handleDeleteComment = async () => {
+        console.log(commentIdToDelete)
+        try {
+            const response = await fetch(`http://localhost:8000/ourToday/deleteComment`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    _id: commentIdToDelete
+                }),
+            });
+            if (response.ok) {
+                setCommentModalStatus(!commentModalStatus);
+                setOurTodayCommentUpdate(!ourTodayCommentUpdate);
+                console.log("정상적으로 삭제가 완료되었습니다.");
+            } else {
+                console.error('Failed to delete post');
+            }
+        } catch (error) {
+            console.error('An error occurred while deleting the post:', error);
+        }
+    };
 
 
     return (
-        <S.reactionWrapper>
-            <S.commentIconContainer>
-                <S.commentIconWrapper onClick={activateCommentWindow}>
-                    <FontAwesomeIcon icon = {faMessage} className='comment'/>
-                    <S.commentCount>{commentLength}</S.commentCount>
-                </S.commentIconWrapper>
-            </S.commentIconContainer>
-            <S.emotionContainer>
-                <S.emotionWrapper>
-                    <label>
-                      <S.emotionList onClick={handleUpdateHeartReaction}><FontAwesomeIcon icon = {post.heart.includes(currentUser.email) ? solidHeart : regularHeart} className='heart'/><S.reactionCountWrapper>{post.heart.length}</S.reactionCountWrapper></S.emotionList>
-                    </label>
-                    <label>
-                        <S.emotionList onClick={handleUpdateLikeReaction}><FontAwesomeIcon icon = {post.like.includes(currentUser.email) ? solidThumbsUp : regularThumbsUp} className='thumbsUp'/><S.reactionCountWrapper>{post.like.length}</S.reactionCountWrapper></S.emotionList>
-                    </label>
-                    <label>
-                        <S.emotionList onClick={handleUpdateSmileReaction}><FontAwesomeIcon icon = {post.smile.includes(currentUser.email) ? solidSmile : regularSmile} className='smile'/><S.reactionCountWrapper>{post.smile.length}</S.reactionCountWrapper></S.emotionList>
-                    </label>
-                    <label>
-                        <S.emotionList onClick={handleUpdateSadReaction}><FontAwesomeIcon icon = {post.sad.includes(currentUser.email) ? solidSadTear : regularSadTear} className='sad'/><S.reactionCountWrapper>{post.sad.length}</S.reactionCountWrapper></S.emotionList>
-                    </label>
-                    <label>
-                        <S.emotionList onClick={handleUpdateAngryReaction}><FontAwesomeIcon icon = {post.angry.includes(currentUser.email) ? solidAngry : regularAngry} className='angry'/><S.reactionCountWrapper>{post.angry.length}</S.reactionCountWrapper></S.emotionList>
-                    </label>
-                </S.emotionWrapper>
-            </S.emotionContainer>
-            {/* handleWindowY()함수를 반환함으로써 함수의 실행결과가 S.commentWindow의 props로 반환된다.
-                onMouseDown은 마우스를 누를때 이벤트를 설정해주는 것으로 onDragStart 함수를 실행해주어 drag가 가능해지도록 설정 */}
-            { showWindow && <S.commentWindow drag="y" onMouseDown={onDragStart} 
-                                dragConstraints={{top: 0, bottom: 0}} 
-                                animate={{ y: -45 }}
-                                exit={{ y: 45 }}
-                                transition={{
-                                    type: 'spring',
-                                }}
-                                onDragEnd={(info) => {
-                                // y가 음수이면 위로, 양수이면 아래로
+        <>
+            <S.reactionWrapper>
+                <S.commentIconContainer>
+                    <S.commentIconWrapper onClick={activateCommentWindow}>
+                        <FontAwesomeIcon icon = {faMessage} className='comment'/>
+                        <S.commentCount>{commentCount}</S.commentCount>
+                    </S.commentIconWrapper>
+                </S.commentIconContainer>
+                <S.emotionContainer>
+                    <S.emotionWrapper>
+                        <label>
+                            <S.emotionList onClick={handleUpdateHeartReaction}><FontAwesomeIcon icon = {post.heart.includes(currentUser.email) ? solidHeart : regularHeart} className='heart'/><S.reactionCountWrapper>{post.heart.length}</S.reactionCountWrapper></S.emotionList>
+                        </label>
+                        <label>
+                            <S.emotionList onClick={handleUpdateLikeReaction}><FontAwesomeIcon icon = {post.like.includes(currentUser.email) ? solidThumbsUp : regularThumbsUp} className='thumbsUp'/><S.reactionCountWrapper>{post.like.length}</S.reactionCountWrapper></S.emotionList>
+                        </label>
+                        <label>
+                            <S.emotionList onClick={handleUpdateSmileReaction}><FontAwesomeIcon icon = {post.smile.includes(currentUser.email) ? solidSmile : regularSmile} className='smile'/><S.reactionCountWrapper>{post.smile.length}</S.reactionCountWrapper></S.emotionList>
+                        </label>
+                        <label>
+                            <S.emotionList onClick={handleUpdateSadReaction}><FontAwesomeIcon icon = {post.sad.includes(currentUser.email) ? solidSadTear : regularSadTear} className='sad'/><S.reactionCountWrapper>{post.sad.length}</S.reactionCountWrapper></S.emotionList>
+                        </label>
+                        <label>
+                            <S.emotionList onClick={handleUpdateAngryReaction}><FontAwesomeIcon icon = {post.angry.includes(currentUser.email) ? solidAngry : regularAngry} className='angry'/><S.reactionCountWrapper>{post.angry.length}</S.reactionCountWrapper></S.emotionList>
+                        </label>
+                    </S.emotionWrapper>
+                </S.emotionContainer>
+                {/* handleWindowY()함수를 반환함으로써 함수의 실행결과가 S.commentWindow의 props로 반환된다.
+                    onMouseDown은 마우스를 누를때 이벤트를 설정해주는 것으로 onDragStart 함수를 실행해주어 drag가 가능해지도록 설정 */}
+                { showWindow && <S.commentWindow drag="y" onMouseDown={onDragStart} 
+                                    dragConstraints={{top: 0, bottom: 0}} 
+                                    animate={{ y: -45 }}
+                                    exit={{ y: 45 }}
+                                    transition={{
+                                        type: 'spring',
+                                    }}
+                                    onDragEnd={(info) => {
+                                    // y가 음수이면 위로, 양수이면 아래로
 
-                                const offsetThreshold = 30;
+                                    const offsetThreshold = 30;
 
-                                const isOverOffsetThreshold = Math.abs(info.offsetY) > offsetThreshold;
+                                    const isOverOffsetThreshold = Math.abs(info.offsetY) > offsetThreshold;
 
-                                if (!isOverOffsetThreshold) return;
+                                    if (!isOverOffsetThreshold) return;
 
-                                activateCommentWindow();
-                                }}>
-                {/* CommentInsert(댓글 입력창)에 comments={comments}
-                    setIsCommentUpdate={setIsCommentUpdate}
-                    isCommentUpdate={isCommentUpdate} 전달할 것 */}
-                <CommentInsert post={post} showWindow={showWindow} setOurTodayCommentUpdate={setOurTodayCommentUpdate} ourTodayCommentUpdate={ourTodayCommentUpdate} getCommentLength={getCommentLength} commentLength={commentLength}/>
-                <S.commentContainer>
-                    <CommentContainer post={post} showWindow={showWindow} 
-                        setOurTodayCommentUpdate={setOurTodayCommentUpdate} 
-                        ourTodayCommentUpdate={ourTodayCommentUpdate} 
-                        getCommentLength={getCommentLength}
-                        isDeleteOk={isDeleteOk} setIsDeleteOk={setIsDeleteOk}
-                        deleteModalStatus={deleteModalStatus} setDeleteModalStatus={setDeleteModalStatus}
-                    />
-                    {/* 각 comment가 추가 될때마다 댓글이 나타나도록 Comment 컴포넌트화 */}
-                    {/* {comments.map((comment, i) => {
-                        <Comment
-                            key={i}
-                            comment={comment}
-                            getComments={getComments}
-                            setIsCommentUpdate={setIsCommentUpdate}
-                            isCommentUpdate={isCommentUpdate}
+                                    activateCommentWindow();
+                                    }}>
+                    <CommentInsert post={post} showWindow={showWindow} setOurTodayCommentUpdate={setOurTodayCommentUpdate} ourTodayCommentUpdate={ourTodayCommentUpdate} getCommentLength={getCommentLength} commentLength={commentLength}/>
+                    <S.commentContainer>
+                        <CommentContainer post={post} showWindow={showWindow} 
+                            setOurTodayCommentUpdate={setOurTodayCommentUpdate} 
+                            ourTodayCommentUpdate={ourTodayCommentUpdate} 
+                            getCommentLength={getCommentLength}
+                            handleCommentModal={handleCommentModal}
                         />
-                    })} */}
-                </S.commentContainer> 
-            </S.commentWindow> }
-        </S.reactionWrapper> 
+                    </S.commentContainer> 
+                </S.commentWindow> }
+            </S.reactionWrapper>
+            {commentModalStatus && 
+                (<S.modalContainer ref={commentModalBackground} onClick={handleCommentBackgroundModal}>
+                    <S.modalWrapper>
+                        <S.modalTitle>삭제</S.modalTitle>
+                        <S.modalDescriptionWrapper>
+                            <S.modalDescription>
+                            내용을 정말로 삭제하시겠습니까?<br/>
+                            삭제 시 복구할 수 없습니다.
+                            </S.modalDescription>
+                        </S.modalDescriptionWrapper>
+                        <S.modalButtonContainer>
+                            <S.modalButtonWrapper>
+                                <S.modalCancelButton onClick={handleCommentModal}>취소</S.modalCancelButton>
+                            </S.modalButtonWrapper>
+                            <S.modalButtonWrapper>
+                                <S.modalDeleteButton onClick={handleDeleteComment}>삭제</S.modalDeleteButton>
+                            </S.modalButtonWrapper>
+                        </S.modalButtonContainer>
+                    </S.modalWrapper>
+                </S.modalContainer>)
+            }
+        </> 
     );
 };
 
