@@ -4,7 +4,7 @@ import { authenticateToken } from "../controller/myMind/authenticateToken.js";
 
 const myMindRouter = express.Router();
 
-myMindRouter.post("/post", postMyMind);
+myMindRouter.post("/post",authenticateToken, postMyMind);
 myMindRouter.get("/getTodayExistence",authenticateToken,getTodayExistence);
 myMindRouter.get("/getCalendar",authenticateToken,getCalendar);
 myMindRouter.get("/getMyMind", authenticateToken,getMyMind);

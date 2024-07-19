@@ -10,7 +10,9 @@ const MyMindHome = () => {
     
     const [hasWrittenToday, setHasWrittenToday] = useState(false);
     const [showErrorContainer, setShowErrorContainer] = useState(false);
+    
     const navigate=useNavigate();
+    
     const today = {
         year: new Date().getFullYear(), 
         month: new Date().getMonth()+1, 
@@ -20,6 +22,8 @@ const MyMindHome = () => {
 
     useEffect(() => {
         const getTodayExistence = async () => {
+
+            //오늘 날짜 마음일지 가져오기
             try {
                 const token = localStorage.getItem('token');
                 const response = await fetch(`http://localhost:8000/myMind/getTodayExistence?date=${checkToday}`, {
@@ -44,13 +48,11 @@ const MyMindHome = () => {
     const handleButtonClick = () => {
         if (hasWrittenToday) {
             setShowErrorContainer(true);
-            // console.log(showErrorContainer);
         }else{
             navigate('/myMind/inMyMind01');
         }
     };
     
-    // console.log(hasWrittenToday)
     return (
         <>
             <S.ImageWrapper>
@@ -59,26 +61,29 @@ const MyMindHome = () => {
                     <p id='firstPage'>나의 마음보기</p>
                 </S.TitleWrapper>
                 
-                <S.text01>나의 마음과 대화하면서 편안해지길 바라요
+                <S.text01>
+                    나의 마음과 대화하면서 편안해지길 바라요
                     <FontAwesomeIcon icon={faHeartCircleCheck} className="faHeartCircleCheck" />
                 </S.text01>
 
                 {showErrorContainer&&
                 <S.ErrorContainer>
-                <S.ErrorTitle>오늘의 마음일지 작성 완료</S.ErrorTitle>
+                    <S.ErrorTitle>오늘의 마음일지 작성 완료</S.ErrorTitle>
                     <S.ErrorTexts>
                         <div>작성된 마음일지는 캘린더에서 날짜를 클릭해 조회, 수정, 삭제할 수 있습니다.</div>
                     </S.ErrorTexts>
-                    
                     <S.OkButton>
-                        <Button id='okButton'
-                        onClick={() => setShowErrorContainer(false)}
-                        size={"small"} border={"hoverYellow"} variant={"yellow"} color={"white"}>확인</Button>
+                        <Button id='okButton' onClick={() => setShowErrorContainer(false)} size={"small"} border={"hoverYellow"} variant={"yellow"} color={"white"}>
+                            확인
+                        </Button>
                     </S.OkButton>
                 </S.ErrorContainer>
                 }
+
                 <S.GoToWriteButtonWrapper>
-                    <Button onClick={handleButtonClick} id='goToWrite' size={"large"} border={"hoverIndigo"} variant={"indigo"} color={"white"}>마음일지 적으러 가기</Button>
+                    <Button onClick={handleButtonClick} id='goToWrite' size={"large"} border={"hoverIndigo"} variant={"indigo"} color={"white"}>
+                        마음일지 적으러 가기
+                    </Button>
                 </S.GoToWriteButtonWrapper>
                 
             </S.ImageWrapper>
@@ -88,4 +93,3 @@ const MyMindHome = () => {
 
 export default MyMindHome;
 
-// <br/> 내일 또 만나요 ^o^ ~!

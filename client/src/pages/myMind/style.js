@@ -52,10 +52,8 @@ S.text01=styled.p`
 S.GoToWriteButtonWrapper=styled.div`
     position: relative;
     top:10px;
-    /* line-height: 44px; */
     & #goToWrite{
         font-family: 'Pretandard-Regular' ;
-        /* line-height: 44px; */
     }
 `
 S.ErrorContainer=styled.div`
@@ -91,15 +89,12 @@ S.ErrorTexts=styled.div`
 S.OkButton=styled.div`
     display: flex;
     position: absolute;
-    /* top:110px; */
     bottom:15px;
     & #okButton{
         font-family: 'Pretandard-Regular' ;
-        /* line-height:44px; */
     }
     
 `
-
 //---------------InMyMind(1~6)---------------
 
 S.Wrapper = styled.div`
@@ -192,7 +187,6 @@ S.SaveButtonWrapper=styled.div`
         
     }
 `
-
 //---------------InMyMind06---------------
 
 S.LastPageWrapper=styled.div`

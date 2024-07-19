@@ -34,15 +34,17 @@ const InMyMind03 = ({index}) => {
                      <p>그럼 {currentUser.nickname}(이)는 그 상황에서 무엇을 바랐어?</p>
                  </S.QuestionWrapper>
  
-                 <form action="" method="post">
-                     <S.TextAreaWrapper >
-                         <textarea value={value} onChange={onChangeValue} placeholder="내가 정말로 원했던 것은 뭘까?"></textarea>
-                     </S.TextAreaWrapper>
-                 </form>
+                 <S.TextAreaWrapper >
+                    <textarea value={value} onChange={onChangeValue} placeholder="내가 정말로 원했던 것은 뭘까?"></textarea>
+                </S.TextAreaWrapper>
                  
-                 <S.SaveButtonWrapper>
-                     <Link to={'/myMind/inMyMind04'}><Button id='goToSave' onClick={handleSave} size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>저장</Button></Link>
-                 </S.SaveButtonWrapper>
+                <S.SaveButtonWrapper>
+                     <Link to={'/myMind/inMyMind04'}>
+                        <Button id='goToSave' onClick={handleSave} size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>
+                            저장
+                        </Button>
+                    </Link>
+                </S.SaveButtonWrapper>
             
              </S.Wrapper>
         </>

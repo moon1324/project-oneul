@@ -8,7 +8,7 @@ const authenticateToken = (req, res, next) => {
     if (!user) {
       return res.status(401).json({ message: '유효하지 않은 토큰입니다.' });
     }
-    req.user = user; // 유저 정보를 요청 객체에 추가
+    req.user = user; 
     next();
   })(req, res, next);
 };

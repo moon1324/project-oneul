@@ -23,6 +23,7 @@ const CalendarHome = () => {
     const [calendarData, setCalendarData] = useState([]);
 
     useEffect(() => {
+      //마음일지 데이터 가져오기
       const fetchData = async () => {
         
           try {
@@ -46,8 +47,8 @@ const CalendarHome = () => {
       fetchData(); 
     }, [selectedYear, selectedMonth]);
 
+      //이전 달 보기 보튼
       const prevMonth = useCallback(() => {
-        //이전 달 보기 보튼
         if (selectedMonth === 1) {
           setSelectedMonth(12);
           setSelectedYear(selectedYear - 1);
@@ -58,9 +59,9 @@ const CalendarHome = () => {
           setSelectedMonth(selectedMonth - 1);
         }
       }, [selectedMonth]);
-    
+      
+      //다음 달 보기 버튼
       const nextMonth = useCallback(() => {
-        //다음 달 보기 버튼
         if (selectedMonth === 12) {
           setSelectedMonth(1);
           setSelectedYear(selectedYear + 1);
@@ -72,8 +73,8 @@ const CalendarHome = () => {
         }
       }, [selectedMonth]);
     
+    //달 선택박스에서 고르기
     const monthControl = useCallback(() => {
-        //달 선택박스에서 고르기
         let monthArr = [];
         for (let i = 0; i < 12; i++) {
           monthArr.push(
@@ -89,8 +90,8 @@ const CalendarHome = () => {
         );
     }, [selectedMonth]);
 
+    //연도 선택박스에서 고르기
     const yearControl = useCallback(() => {
-        //연도 선택박스에서 고르기
         let yearArr = [];
         const startYear = today.year; 
         const endYear = today.year+4; 
@@ -118,8 +119,8 @@ const CalendarHome = () => {
         setSelectedYear(Number(e.target.value));
       };
 
+      //요일 반환 함수
       const returnWeek = useCallback(() => {
-        //요일 반환 함수
         let weekArr = [];
         week.forEach((v) => {
           weekArr.push(
@@ -128,10 +129,10 @@ const CalendarHome = () => {
         });
         return weekArr;
       }, []);
+
+      //선택된 달의 날짜들 반환 함수
       const returnDay = useCallback(() => {
-        //선택된 달의 날짜들 반환 함수
         let dayArr = [];
-        
         const handleClick = (date) => {
           const formattedDate=`${selectedYear}-${selectedMonth}-${date}`
           const hasData = calendarData.some(data => data.createdAt === formattedDate);
