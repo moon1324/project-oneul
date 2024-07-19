@@ -10,15 +10,13 @@ const CheckMyMind = () => {
     
     const [datas,setDatas]=useState([]);
     const [visible,setVisible]=useState(false);
-    
     const [searchParams] = useSearchParams();
     const date = searchParams.get('date');
-    
     const navigate=useNavigate();
-    
     
     useEffect(() => {
         const getDatas = async () => {
+            //쿼리스트링으로 받은 날짜와 일치하는 마음일지 가져오기
             try {
                 const token = localStorage.getItem('token');
                 const response = await fetch(`http://localhost:8000/myMind/getMyMind?date=${date}`, {
@@ -46,9 +44,8 @@ const CheckMyMind = () => {
         <>
         {visible&&<DeleteMyMind visible={visible} setVisible={setVisible} date={date}/>}
             <S.Container>
-            <S.GrayBackground className={visible?'grayBackground':''}>
-                <S.CheckMyMindContainer>
-                    
+                <S.GrayBackground className={visible?'grayBackground':''}>
+                    <S.CheckMyMindContainer>
                         <S.IconsWrapper>
                             <FontAwesomeIcon icon={faPenToSquare} className='faPenToSquare' 
                             onClick={() => navigate(`/calendar/checkMyMind/modifyMyMind?date=${date}`)}/>
@@ -104,9 +101,8 @@ const CheckMyMind = () => {
                                 <div className='answer'> {datas[5]} </div>
                             </div>
                         </S.ContentWrapper>
-                        
-                </S.CheckMyMindContainer>
-            </S.GrayBackground>
+                    </S.CheckMyMindContainer>
+                </S.GrayBackground>
             </S.Container>
         </>
     );

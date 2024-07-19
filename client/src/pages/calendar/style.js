@@ -3,6 +3,7 @@ import { flexCenter, flexCenterColumn } from "../../global/common";
 const S = {};
 
 //-----------------Calendar-----------------
+
 S.TitleWrapper=styled.div`
     font-size: 26px;
     font-family: 'NanumSquareRound';
@@ -70,9 +71,7 @@ S.SelectWrapper=styled.h3`
             cursor: pointer;
             padding: 4px;
             font-size: 16px;
-            /* color: #142146; */
             color:#555657;
-
         }
     }
 `
@@ -117,18 +116,10 @@ S.DateWrapper=styled.div`
             
         }
         & .weekday.today{
-            /* background-color:#5487D3;
-            color: white; */
             color:#5487D3;
-            /* margin:0px 12.5px;
-            margin-bottom: 25px;
-            width:22px; 
-            height:22px;
-            border-radius: 50%;  */
         }
     }
 `
-
 // -------------CheckMyMind-----------------
 
 S.Container=styled.div`
@@ -195,7 +186,6 @@ S.ContentWrapper=styled.div`
         font-size: 14px;
         font-weight: 400;
         padding-top:5px;
-        /* word-break: break-all; */
         font-family: 'Pretandard-Regular';
         line-height:1.5;
     }
@@ -213,7 +203,6 @@ S.ButtonWrapper=styled.div`
         line-height: 44px;
     }
 `
-
 //-----------ModifyMyMind-------------
 
 S.PageContainer=styled.div`
@@ -228,7 +217,6 @@ S.PageContainer=styled.div`
         path{
             color:#555657;
         }
-        
     }
 `
 S.QuestionsWrapper=styled.div`
@@ -262,14 +250,11 @@ S.QuestionWrapper=styled.div`
         }
     }
     & p {
-        /* font-family: 'Pretandard-Regular'; */
         font-family: 'NanumSquareRound';
         font-size:16px;
         color:#142146;
-        
-     }
+    }
 `
-
 //------------DeleteMyMind-------------------
 
 S.DeletePageContainer=styled.div`

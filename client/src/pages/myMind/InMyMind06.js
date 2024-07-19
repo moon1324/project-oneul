@@ -3,7 +3,7 @@ import S from "./style"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCloudMoon} from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/button/style";
-import { Link,  useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import TitleStep from "./TitleStep";
 import {FormContext } from "./context/FormContext";
 import { useContext, useState } from "react";
@@ -11,21 +11,20 @@ import { useSelector } from "react-redux";
 
 const InMyMind06 = ({index}) => {
     
+    const currentUser=useSelector((state)=>state.login.currentUser)
+    const navigate = useNavigate();
+
     const today = {
-        year: new Date().getFullYear(), //오늘 연도
-        month: new Date().getMonth()+1,  //오늘 월
-        date: new Date().getDate(), //오늘 날짜
+        year: new Date().getFullYear(), 
+        month: new Date().getMonth()+1,  
+        date: new Date().getDate(), 
     }
     const createdAt=`${today.year}-${today.month}-${today.date}`;
 
-    const navigate = useNavigate();
-    
     const {state, actions} = useContext(FormContext);
     const [value, setValue] = useState(state.formData[index]||"");
     const [lastData,setLastData]=useState(false);
     const [alertMessage, setAlertMessage] = useState("");
-
-    const currentUser=useSelector((state)=>state.login.currentUser)
 
     const onChangeValue = (e) => {
         setValue(e.target.value);
@@ -47,11 +46,15 @@ const InMyMind06 = ({index}) => {
         let formData = state.formData;
     
         if (formData.every((data) => data && data.trim() !== "")) {    
+            
+            //MyMind 추가하기
             try {
+                const token = localStorage.getItem('token');
                 const response = await fetch("http://localhost:8000/myMind/post", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         userId:currentUser,
@@ -68,7 +71,7 @@ const InMyMind06 = ({index}) => {
             } catch(error){
                 console.error('error in fetch:', error);
             }
-            console.log("마음일지 작성이 완료되었습니다.")
+            // console.log("데이터 저장 성공")
             navigate("/")
             handleReset();
         }else {
@@ -102,7 +105,9 @@ const InMyMind06 = ({index}) => {
                 )}
                 
                 <S.SaveButtonWrapper>
-                    <Button id='goToSave' onClick={handleSubmit} size={"large"} border={"hoverIndigo"} variant={"indigo"} color={"white"}>제출</Button>
+                    <Button id='goToSave' onClick={handleSubmit} size={"large"} border={"hoverIndigo"} variant={"indigo"} color={"white"}>
+                        제출
+                    </Button>
                  </S.SaveButtonWrapper>
                  
              </S.Wrapper>

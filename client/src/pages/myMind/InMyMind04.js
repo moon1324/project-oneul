@@ -39,7 +39,11 @@ const InMyMind04 = ({index}) => {
                 </S.TextAreaWrapper>
                  
                 <S.SaveButtonWrapper>
-                    <Link to={'/myMind/inMyMind05'}><Button id='goToSave' onClick={handleSave} size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>저장</Button></Link>
+                    <Link to={'/myMind/inMyMind05'}>
+                        <Button id='goToSave' onClick={handleSave} size={"large"} border={"hoverSkyblue"} variant={"skyblue"} color={"white"}>
+                            저장
+                        </Button>
+                    </Link>
                 </S.SaveButtonWrapper>
             
              </S.Wrapper>

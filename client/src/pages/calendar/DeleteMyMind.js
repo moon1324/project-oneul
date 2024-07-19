@@ -1,47 +1,43 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import S from './style';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import Button from '../../components/button/style';
 
 const DeleteMyMind = ({visible,setVisible,date}) => {
 
     const navigate=useNavigate();
     const handleDelete = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8000/myMind/delete', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    createdAt:date
-                }),
-            });
-            if (!response.ok) {
-                throw new Error('데이터 삭제에 실패했습니다.');
-            }else{
-                console.log("데이터를 삭제하였습니다.")
-            }
-            
-            setVisible(false);
-            
+    
+    //마음일지 삭제하기
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:8000/myMind/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+             body: JSON.stringify({
+                createdAt:date
+            }),
+        });
+        if (!response.ok) {
+            throw new Error('데이터 삭제에 실패했습니다.');
+        }else{
+            console.log("데이터를 삭제 성공")
+        }
+        setVisible(false);
         } catch (error) {
             console.error('데이터 삭제 중 에러 발생:', error);
         }
     };
-
     const navigateToCalendar = () => {
         navigate(`/calendar`);
     };
 
-    
-   
     return (
     <>  
-        
-            {visible&&
+        {visible&&
             <S.DeletePageContainer>
                 <S.DeleteContainer>
                     <S.DeleteTitle>삭제</S.DeleteTitle>
@@ -56,69 +52,10 @@ const DeleteMyMind = ({visible,setVisible,date}) => {
                     </S.DeleteButtons>
                 </S.DeleteContainer>
             </S.DeletePageContainer>
-            }
-
-        </>
+        }
+    </>
     );
 };
 
 export default DeleteMyMind;
 
-
-
-//  <S.CheckMyMindContainer>
-            
-//                 <S.IconsWrapper>
-//                     <Link to={'/calendar/checkMyMind/modifyMyMind'}><FontAwesomeIcon icon={faPenToSquare} className='faPenToSquare'/></Link> 
-//                     <Link to={'/calendar/checkMyMind/deleteMyMind'}><FontAwesomeIcon icon={faTrashCan} className='faTrashCan'/></Link> 
-//                     <Link to={'/calendar'}><FontAwesomeIcon icon={faCircleXmark} className='faCircleXmark'/></Link> 
-//                 </S.IconsWrapper>
-                
-//                 <S.TitleWrapper>
-//                     나의 마음보기
-//                 </S.TitleWrapper>
-            
-//                 <S.ContentWrapper >
-//                     <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-//                     <div >오늘 내가 느낀 감정
-//                         <div className='answer'>{formDatas[0]}</div>
-//                     </div>
-//                 </S.ContentWrapper>
-
-//                 <S.ContentWrapper >
-//                     <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-//                     <div>감정에 대한 상황
-//                         <div className='answer'>{formDatas[1]}</div>
-//                     </div>
-//                 </S.ContentWrapper>
-
-//                 <S.ContentWrapper>
-//                     <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-//                     <div>내가 바라는 것
-//                         <div className='answer'>{formDatas[2]}</div>
-//                     </div>
-//                 </S.ContentWrapper>
-
-//                 <S.ContentWrapper>
-//                     <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-//                     <div>내가 남에게 듣고 싶은 말
-//                         <div className='answer'>{formDatas[3]} </div>
-//                     </div>
-//                 </S.ContentWrapper>
-
-//                 <S.ContentWrapper>
-//                     <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-//                     <div>내가 나에게 해주고 싶은 말
-//                         <div className='answer'> {formDatas[4]} </div>
-//                     </div>
-                        
-//                 </S.ContentWrapper>
-
-//                 <S.ContentWrapper>
-//                     <FontAwesomeIcon icon={faCloudMoon} className="cloudMoonIcon" />
-//                     <div>마음일지를 쓰고 난 후 나의 마음
-//                         <div className='answer'> {formDatas[5]} </div>
-//                     </div>
-//                 </S.ContentWrapper>
-
-//             </S.CheckMyMindContainer>

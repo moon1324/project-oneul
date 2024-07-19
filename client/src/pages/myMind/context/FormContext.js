@@ -1,11 +1,8 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState} from 'react';
 
 const FormContext = createContext({
     state:{formData:Array(6).fill('')},
-    actions:{updateFormData:()=>{},
-            resetFormData:()=>{},
-            findEmptyFieldIndex: () => -1,
-            },
+    actions:{updateFormData:()=>{}, resetFormData:()=>{}, findEmptyFieldIndex: () => -1,},
 });
 
 const FormProvider = ({ children }) => {
@@ -33,9 +30,7 @@ const FormProvider = ({ children }) => {
 
     const value = {
         state : {formData:formData},
-        actions :{updateFormData: updateFormData, 
-                  resetFormData:resetFormData,
-                  findEmptyFieldIndex:findEmptyFieldIndex}, 
+        actions :{updateFormData: updateFormData, resetFormData:resetFormData, findEmptyFieldIndex:findEmptyFieldIndex}, 
     }
 
     return (
