@@ -9,13 +9,13 @@ const OurDayButton = ({getTabStatus}) => {
     // 우리의 오늘 탭이 활성화될시 실행되는 함수
     function activateTabToOurToday() {
         setTab("ourToday")
-        return getTabStatus("ourToday")
+        getTabStatus("ourToday")
     }
 
     // 나의 오늘 탭이 활성화될시 실행되는 함수
     function activateTabToMyToday() {
         setTab("myToday")
-        return getTabStatus("myToday")
+        getTabStatus("myToday")
     }
 
     return (

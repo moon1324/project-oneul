@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import S from "./style";
 import SearchPosts from "./SearchPosts";
-import SearchResultMyMind from "./SearchResultMyMind";
 import { useLocation } from "react-router-dom";
 
 const Search = () => {
