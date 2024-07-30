@@ -179,7 +179,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
         }
     }
 
-    // 슬플 reaction 클릭시 유저의 이메일 정보를 받아 처리할 fetch 요청
+    // 슬픔 reaction 클릭시 유저의 이메일 정보를 받아 처리할 fetch 요청
     const handleUpdateSadReaction = async() => {
         if(post.sad.includes(currentUser.email)){
             const response = await fetch(`http://localhost:8000/ourToday/minusPostSadReaction`, {
@@ -274,23 +274,18 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
     // 게시글에 표시할 댓글의 수를 받아오는 fetch 요청
     useEffect(()=>{ 
         const getCommentCount = async () => {
+            // console.log(postId)
             try{
-                const response = await fetch(`http://localhost:8000/ourToday/checkCommentCount/${postId}`);
-                const {count} = await response.json();
-                setCommentCount(count);
+                const response = await fetch(`http://localhost:8000/ourToday//checkPostComment/${postId}`);
+                const comments = await response.json();
+                // console.log(comment.length)
+                setCommentCount(comments.length);
             }catch (error) {
                 console.error('Failed to fetch comment length', error);
             }
-            // if(tabActive === "myToday") {
-            //     const todayPosts = dayPosts.filter((dayPost) => currentUser.email === dayPost.userEmail);
-            //     return todayPosts
-            // }else if(tabActive === "ourToday"){
-            //     const todayPosts = dayPosts
-            //     return todayPosts
-            // }
         }
         getCommentCount()
-    }, [tabActive, ourTodayCommentUpdate])
+    }, [postId, tabActive, ourTodayCommentUpdate])
 
     // 각 댓글의 삭제 모달 확인 버튼 클릭시 삭제를 요청할 fetch
     const handleDeleteComment = async () => {
@@ -346,37 +341,40 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
                         </label>
                     </S.emotionWrapper>
                 </S.emotionContainer>
-                {/* handleWindowY()함수를 반환함으로써 함수의 실행결과가 S.commentWindow의 props로 반환된다.
-                    onMouseDown은 마우스를 누를때 이벤트를 설정해주는 것으로 onDragStart 함수를 실행해주어 drag가 가능해지도록 설정 */}
-                { showWindow && <S.commentWindow drag="y" onMouseDown={onDragStart} 
-                                    dragConstraints={{top: 0, bottom: 0}} 
-                                    animate={{ y: -45 }}
-                                    exit={{ y: 45 }}
-                                    transition={{
-                                        type: 'spring',
-                                    }}
-                                    onDragEnd={(info) => {
-                                    // y가 음수이면 위로, 양수이면 아래로
-
-                                    const offsetThreshold = 30;
-
-                                    const isOverOffsetThreshold = Math.abs(info.offsetY) > offsetThreshold;
-
-                                    if (!isOverOffsetThreshold) return;
-
-                                    activateCommentWindow();
-                                    }}>
-                    <CommentInsert post={post} showWindow={showWindow} setOurTodayCommentUpdate={setOurTodayCommentUpdate} ourTodayCommentUpdate={ourTodayCommentUpdate} getCommentLength={getCommentLength} commentLength={commentLength}/>
-                    <S.commentContainer>
-                        <CommentContainer post={post} showWindow={showWindow} 
-                            setOurTodayCommentUpdate={setOurTodayCommentUpdate} 
-                            ourTodayCommentUpdate={ourTodayCommentUpdate} 
-                            getCommentLength={getCommentLength}
-                            handleCommentModal={handleCommentModal}
-                        />
-                    </S.commentContainer> 
-                </S.commentWindow> }
             </S.reactionWrapper>
+                            {/* handleWindowY()함수를 반환함으로써 함수의 실행결과가 S.commentWindow의 props로 반환된다.
+                    onMouseDown은 마우스를 누를때 이벤트를 설정해주는 것으로 onDragStart 함수를 실행해주어 drag가 가능해지도록 설정 */}
+                { showWindow && 
+                    <S.commentContentContainer>
+                        <S.commentWindow drag="y" onMouseDown={onDragStart} 
+                                        dragConstraints={{top: 0, bottom: 0}} 
+                                        animate={{ y: -45 }}
+                                        exit={{ y: 45 }}
+                                        transition={{
+                                            type: 'spring',
+                                        }}
+                                        onDragEnd={(info) => {
+                                        // y가 음수이면 위로, 양수이면 아래로
+
+                                        const offsetThreshold = 30;
+
+                                        const isOverOffsetThreshold = Math.abs(info.offsetY) > offsetThreshold;
+
+                                        if (!isOverOffsetThreshold) return;
+
+                                        activateCommentWindow();
+                                        }}>
+                            <CommentInsert post={post} showWindow={showWindow} setOurTodayCommentUpdate={setOurTodayCommentUpdate} ourTodayCommentUpdate={ourTodayCommentUpdate} getCommentLength={getCommentLength} commentLength={commentLength}/>
+                            <S.commentContainer>
+                                <CommentContainer post={post} showWindow={showWindow} 
+                                    setOurTodayCommentUpdate={setOurTodayCommentUpdate} 
+                                    ourTodayCommentUpdate={ourTodayCommentUpdate} 
+                                    getCommentLength={getCommentLength}
+                                    handleCommentModal={handleCommentModal}
+                                />
+                            </S.commentContainer> 
+                        </S.commentWindow>
+                    </S.commentContentContainer>}
             {commentModalStatus && 
                 (<S.modalContainer ref={commentModalBackground} onClick={handleCommentBackgroundModal}>
                     <S.modalWrapper>

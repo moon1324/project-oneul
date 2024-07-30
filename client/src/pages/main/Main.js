@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from "react";
 import Banner from "../banner/Banner";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faHeartCircleCheck, faUsers } from "@fortawesome/free-solid-svg-icons";
 import S from "./style";
@@ -10,6 +10,7 @@ import OurTodayCardPost from "../ourToday/OurTodayCardPost";
 
 const Main = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const isLogin = useSelector((state) => state.login.isLogin);
     const currentUser = useSelector((state) => state.login.currentUser);
@@ -77,7 +78,7 @@ const Main = () => {
         }
         
         getBestPost().then(setPostData);
-    },[ourTodayUpdate])
+    },[location.path, ourTodayUpdate])
     console.log("dDDd",postData);
 
 

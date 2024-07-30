@@ -72,6 +72,27 @@ const getOurTodayPost = async(req, res) => {
     }
 }
 
+const getMyTodayPost = async(req, res) => {
+    try{
+        const { userEmail } = req.params;
+        // 전체 게시글을 조회하되 id의 내림차순으로 정렬시켜 불러옴
+        // 즉, 최신글 순으로 게시글 정보 데이터를 담는다.
+        const posts = await OurToday.find({userEmail: userEmail}).sort({"_id": -1});
+        // console.log(posts);
+        // 게시글이 존재한다면
+        if(posts){
+            return res.status(200).json(posts);
+        }else{
+            return res.status(404).json({
+                message: '게시글이 존재하지 않습니다.'
+            });
+        }
+    }catch(error){
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+}
 
 // 게시글 수정시 실행될 controller 함수
 const updateOurTodayPost = async(req, res) => {
@@ -341,27 +362,6 @@ const getOurTodayComment = async(req, res) => {
     }
 }
 
-// 댓글의 수를 조회할 controller
-const getCommentCount = async (req, res) => {
-    try{
-        const { postId } = req.params;
-        if (!postId) {
-            return res.status(400).json({ message: "postId is required" });
-        }else{
-            console.log("댓글 fetch요청")
-            console.log(postId);
-            const commentCount = await Comment.find({postId: postId}).count();
-            console.log("댓글 수 확인")
-            console.log("count :", commentCount);
-            return res.status(200).json({count: commentCount});
-        }
-    }catch(error){
-        return res.status(500).json({
-            message: error.message
-        });
-    }
-}
-
 // 댓글의 수정을 실행할 controller
 const updateOurTodayComment = async (req, res) => {
     try {
@@ -447,4 +447,4 @@ const getOurTodayBestPost = async(req, res) => {
     }
 }
 
-export { createPostOurToday, getOurTodayPost, updateOurTodayPost, deleteOurTodayPost, updateOurTodayPostHeartReaction, deleteOurTodayPostHeartReaction, updateOurTodayPostLikeReaction, deleteOurTodayPostLikeReaction, updateOurTodayPostSmileReaction, deleteOurTodayPostSmileReaction, updateOurTodayPostSadReaction, deleteOurTodayPostSadReaction, updateOurTodayPostAngryReaction, deleteOurTodayPostAngryReaction, createCommentOurToday, getOurTodayComment, getCommentCount, updateOurTodayComment, deleteOurTodayComment, getOurTodayBestPost};
+export { createPostOurToday, getOurTodayPost, getMyTodayPost, updateOurTodayPost, deleteOurTodayPost, updateOurTodayPostHeartReaction, deleteOurTodayPostHeartReaction, updateOurTodayPostLikeReaction, deleteOurTodayPostLikeReaction, updateOurTodayPostSmileReaction, deleteOurTodayPostSmileReaction, updateOurTodayPostSadReaction, deleteOurTodayPostSadReaction, updateOurTodayPostAngryReaction, deleteOurTodayPostAngryReaction, createCommentOurToday, getOurTodayComment, updateOurTodayComment, deleteOurTodayComment, getOurTodayBestPost};
