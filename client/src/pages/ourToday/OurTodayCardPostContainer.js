@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import S from './style';
 import { useSelector } from 'react-redux';
 import OurTodayCardPost from './OurTodayCardPost';
+import { useLocation } from 'react-router-dom';
 
 const OurTodayCardPostContainer = ({tabActive, setTabActive}) => {
     // 게시글 데이터 정보를 담기위한 상태관리
@@ -11,23 +12,25 @@ const OurTodayCardPostContainer = ({tabActive, setTabActive}) => {
     // currentUser 전역변수
     const currentUser = useSelector((state) => state.login.currentUser);
 
+    const location = useLocation();
+
     // 게시글의 데이터 정보를 불러올 fetch GET method
     const getPost = async () => {
-        const response = await fetch(`http://localhost:8000/ourToday/checkPost`);
-        const dayPosts = await response.json();
         if(tabActive === "myToday") {
-            const todayPosts = dayPosts.filter((dayPost) => currentUser.email === dayPost.userEmail);
-            return todayPosts
+            const response = await fetch(`http://localhost:8000/ourToday/checkMyPost/${currentUser.email}`);
+            const dayPosts = await response.json();
+            return dayPosts
         }else if(tabActive === "ourToday"){
-            const todayPosts = dayPosts
-            return todayPosts
+            const response = await fetch(`http://localhost:8000/ourToday/checkPost`);
+            const dayPosts = await response.json();
+            return dayPosts
         }
     }
             
     // getPost 함수의 side effect를 제어하고 getPost함수를 실행할 useEffect 함수
     useEffect(()=>{ 
         getPost().then(setPosts);
-    }, [tabActive, ourTodayUpdate])
+    }, [location.path, tabActive, ourTodayUpdate])
 
 
     return (

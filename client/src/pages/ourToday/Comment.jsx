@@ -43,7 +43,7 @@ const Comment = ({replyComment, showWindow, setOurTodayCommentUpdate,
                 }
         };
         fetchUserProfileImage();
-    }, [showWindow]);
+    }, [showWindow, ourTodayCommentUpdate]);
 
     // 댓글의 수정 요청을 위한 fetch의 PUT Method
     const handleUpdateComment = async () => {
@@ -105,7 +105,7 @@ const Comment = ({replyComment, showWindow, setOurTodayCommentUpdate,
             <li>
                         <S.commentUserInfoWrapper>
                             <S.commentThumbnailWrapper>
-                                <img src={todayCommentProfileImg} alt="profile-img" />
+                                <img src={todayCommentProfileImg || `${process.env.PUBLIC_URL}/global/images/default.png`} alt="profile-img" />
                             </S.commentThumbnailWrapper>
                             <S.commentNameAndDate>
                                 <S.commentUserName>{replyComment.commentUserNickName}</S.commentUserName>

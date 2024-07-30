@@ -52,6 +52,7 @@ const OurTodayCardPost = ({
 
     // 게시글의 게시자의 프로필 이미지를 불러올 fetch 요청
     useEffect(() => {
+        setTodayProfileImg("");
         const fetchUserProfileImage = async () => {
             try {
                     const response = await fetch(`http://localhost:8000/user/getProfile/${post.userEmail}`);
@@ -62,7 +63,7 @@ const OurTodayCardPost = ({
                 }
         };
         fetchUserProfileImage();
-    }, [tabActive, posts]);
+    }, [post.userEmail, tabActive]);
 
     
     // 게시글의 수정을 위한 fetch PUT method
@@ -123,7 +124,7 @@ const OurTodayCardPost = ({
                 <S.cardPostContainer>
                     <S.postProfileContainer>
                         <S.ThumbnailWrapper>
-                            <img src={todayProfileImg} alt="profile-img" />
+                            <img src={todayProfileImg || `${process.env.PUBLIC_URL}/global/images/default.png`} alt="profile-img" />
                         </S.ThumbnailWrapper>
                         <S.userNameWrapper>
                             {post.userNickname}
@@ -154,7 +155,6 @@ const OurTodayCardPost = ({
                                     {post.content}
                                 </S.postContentWrapper>
                             )}
-                        
                     </S.postContentContainer>
                     {!isPostEdit ? 
                         (<>

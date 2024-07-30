@@ -60,7 +60,12 @@ S.writingButton = styled.button`
     cursor: pointer;
 `;
 
+
 // =========================OurTodayCardPost==============================
+S.cardPostList = styled.li`
+    margin-bottom: 20px;
+`
+
 // 나의 오늘 및 우리의 오늘 각 게시글을 감싸는 Container
 S.cardPostContainer = styled.div`
     width: 320px;
@@ -156,6 +161,9 @@ S.postContentContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    & textarea:focus {
+        outline: none;
+    }
 `;
 
 // 게시글 본문 내용을 감싸는 wrapper
@@ -333,18 +341,27 @@ S.reactionCountWrapper = styled.div`
 `;
 
 
+// 댓글창(commentWindow)를 감쌀 container
+S.commentContentContainer = styled.div`
+    width: 360px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+`
 
 // 댓글 icon클릭시 나타날 댓글창
 S.commentWindow = styled(motion.div)`
-    width: 360px;
-    height: 350px;
+    width: 100%;
+    height: 50%;
     background-color: #fff;
-    border: 1px solid black;
+    border: 1px solid #BEC1C5;
     border-radius: 20px;
-    position: fixed;
-    bottom: 95px;
+    margin: 0 auto;
     overflow: scroll;
-    bottom: 16%;
     &::-webkit-scrollbar{
         width: 8px;
         border-radius: 10px
@@ -530,7 +547,7 @@ S.textWrapper = styled.div`
 S.writeForm = styled.form`
     ${flexCenterColumn};
     & textarea:focus {
-        border: none;
+        outline: none;
     }
 `
 
