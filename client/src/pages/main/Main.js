@@ -103,9 +103,9 @@ const Main = () => {
                                                     const formattedDate = `${todayObject.year}-${todayObject.month}-${todayObject.date}`;
                                                     const hasData = calendarData.some(some => some.createdAt === formattedDate);
                                                     if(hasData){
-                                                            return <FontAwesomeIcon icon={faHeartCircleCheck} key={i}/>    
+                                                            return <FontAwesomeIcon icon={faUsers} key={i}/>    
                                                     }else{
-                                                    return <FontAwesomeIcon icon={faUsers} key={i}/>
+                                                    return <FontAwesomeIcon icon={faHeartCircleCheck} key={i}/>
                                                     }
                                                 }
                                             })
