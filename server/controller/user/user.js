@@ -149,7 +149,7 @@ const signupUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-
+    console.log("프로필 이미지 수정", req.body)
     try {
         // Find the user by email
         const user = await User.findOne({ email: req.body.email });
@@ -176,11 +176,11 @@ const updateUser = async (req, res) => {
         }
         
         // Update the user's information in the database
-        await User.updateOne({ email: req.body.email },{ $set: updates });
-        
-        // Find the updated user data to send back (excluding password)
-        const updatedUser = await User.findOne({ email: req.body.email }).select('password');
-        
+        const update = await User.updateOne({ email: req.body.email },{ $set: updates });
+        console.log(update);
+        // Find the updated user data to send back (excluding password).select('password')
+        const updatedUser = await User.findOne({ email: req.body.email });
+        console.log(updatedUser)
         return res.status(200).json({
             updateSuccess: true,
             message: "User information updated successfully.",
