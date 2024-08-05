@@ -31,6 +31,7 @@ const MypageEditModify = () => {
     const [nameError, setNameError] = useState("");
     const [mobileError, setMobileError] = useState("");
     const [nicknameError, setNicknameError] = useState("");
+    const [changeProfileImg, setChangeProfileImg] = useState("");
     
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[!@#])[\da-zA-Z!@#]{8,}$/;
    
@@ -40,7 +41,28 @@ const MypageEditModify = () => {
         }
     }, [currentUser]);
 
-    const handleImageChange = (e) => {
+    // 프로필이미지를 받아 서버에 업로드한 후 경로를 리턴하는 함수
+    const uploadProfileImg = async (profileImgPath) => {
+        const blob = await fetch(profileImgPath).then((res) => res.blob());
+        const formData = new FormData();
+        formData.append("profileImg", blob, "profileImg.png");
+
+        const response = await fetch("http://localhost:8000/user/uploadProfileImg", {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const result = await response.json();
+            throw new Error(result.message || "Upload failed");
+        }
+
+        const data = await response.json();
+        console.log("Upload profile Img path: ", data.profileImg)
+        setChangeProfileImg(data.profileImg);
+    };
+
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
 
         if (file) {
@@ -62,7 +84,7 @@ const MypageEditModify = () => {
                     const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
                     const data = await response.json();
                     setProfileImg(data.profileImg);
-                    console.log(data);
+                    console.log(data.profileImg);
                 } catch (error) {
                     console.error("Failed to fetch user profile image", error);
                 }
@@ -73,7 +95,8 @@ const MypageEditModify = () => {
 
     const validatePassword = () => {
         const pwd = password || "";
-        if (!pwd.match(passwordRegex) && password===currentUser.password) {
+        // && password===currentUser.password
+        if (!pwd.match(passwordRegex)) {
             setPasswordError("pattern");
             return false;
         }
@@ -185,12 +208,17 @@ const MypageEditModify = () => {
 
 
     const onSubmit = async (data) => {
+        console.log("data 출력 : ", data);
         const isPasswordValid = validatePassword();
         const isPasswordCheckValid = validatePasswordCheck();
         const isNameValid = validateName();
         const isMobileValid = await validateMobile();
         const isNicknameValid = await validateNickname();
-
+        // default이미지가 아니면 uploadProfileImg실행
+        if (profileImg && profileImg.startsWith("data:image")) {
+            await uploadProfileImg(profileImg);
+            console.log("changeProfileImg 확인: ", changeProfileImg)
+        }
         if (isPasswordValid && isPasswordCheckValid && isNameValid && isMobileValid && isNicknameValid) {
             try{
                 const response  = await fetch("http://localhost:8000/user/update", {
@@ -204,7 +232,7 @@ const MypageEditModify = () => {
                         mobile : data.mobile,
                         name: data.name,
                         nickname : data.nickname,
-                        profileImg : data.profileImg,
+                        profileImg : changeProfileImg,
                         statusMessage : data.statusMessage,
                     }),
                 });
@@ -223,7 +251,7 @@ const MypageEditModify = () => {
     
 
     return (
-        <S.Form action="/user/upadate" onSubmit={handleSubmit(onSubmit)}>
+        <S.Form action="/user/update" onSubmit={handleSubmit(onSubmit)}>
             <S.PageTitle>
                 <h2>프로필 변경</h2>
             </S.PageTitle>   
