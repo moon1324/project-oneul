@@ -72,7 +72,7 @@ const CommentInsert = ({post, showWindow, setOurTodayCommentUpdate, ourTodayComm
             </S.commentCountWrapper>
             <S.commentInputContainer>
                 <S.commentThumbnailWrapper>
-                    <img src={todayProfileImg} alt="profile-img" />
+                    <img src={todayProfileImg || `${process.env.PUBLIC_URL}/global/images/default.png`} alt="profile-img" />
                 </S.commentThumbnailWrapper>
                 <S.commentInputWrapper>
                     <S.commentInput type='text' placeholder='다른사람과 소통해볼까요?' 

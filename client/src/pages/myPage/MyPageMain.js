@@ -16,6 +16,8 @@ const MyPageMain = () => {
     const [nickname, setNickname] = useState(null);
     const [statusMessage, setStatusMessage] = useState(null);
     const [profileImg, setProfileImg] = useState("");
+    const [calendarData, setCalendarData] = useState([]);
+    const [number1,setNumber1]=useState(0);
 
     const logoutApi = async () => {
         try {
@@ -54,6 +56,38 @@ const MyPageMain = () => {
         }
     }, [currentUser]);
 
+    useEffect(() => {
+        //마음일지 데이터 가져오기
+        const fetchData = async () => {
+          
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:8000/myMind/getCalendar`,{
+                  method: 'GET',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                  },
+                });
+                if (!response.ok) {
+                    throw new Error('데이터를 불러오는 데 실패했습니다.');
+                }
+                const datas = await response.json();
+                // console.log(datas);
+                // setCalendarData(datas); 
+                // console.log(calendarData);
+                // console.log(datas.length);
+                // return datas.length;
+                setNumber1(datas.length);
+            } catch (error) {
+                console.error('데이터를 불러오는 중 에러 발생:', error);
+            }
+        }
+        fetchData();
+        // setNumber1(fetchData()); 
+      }, [currentUser]);
+      
+      console.log(number1);
 
     const clearSession = () => {
         // 쿠키 클리어
@@ -94,7 +128,7 @@ const MyPageMain = () => {
                 <S.ProfileContentsWrapper>
                     <div className="totalMyminBox">
                         <p>누적된 나의 마음</p>
-                        <h3>10일</h3>
+                        <h3>{number1}일</h3>
                     </div>
                     <div className="border">
                         <div></div>
@@ -116,7 +150,7 @@ const MyPageMain = () => {
                 </S.ServiceWrapper>
                 <S.ServiceWrapper>
                     <Link to={'/myPage/privacyPolicy'}>
-                        <p>개인정보처리방침</p>
+                        <p>개인정보 처리 방침</p>
                         <FontAwesomeIcon icon={faAngleRight} />
                     </Link>
                 </S.ServiceWrapper>

@@ -50,8 +50,8 @@ S.cardPostContainer = styled.div`
     height: 320px;
     background-color: #fff;
     border-radius: 20px;
-    margin: 0 auto;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    margin: 0 auto 20px;
+    box-shadow: 0.1px 0.1px 0.1px rgba(0, 0, 0, 0.25);
     ${flexCenterColumn}
 `;
 
@@ -63,6 +63,9 @@ S.postProfileContainer = styled.div`
     display: flex;
     align-items: center;
 `;
+
+
+
 
 // 프로필 이미지를 감싸는 wrapper(in OurDay)
 S.ThumbnailWrapper = styled.div`
@@ -85,14 +88,215 @@ S.userNameWrapper = styled.div`
     margin-left: 20px;
 `;
 
+// 게시글의 수정 및 삭제 버튼을 담고 있는 container
+S.correctionButtonContainer = styled.div`
+    display: flex;
+    margin-left: auto;
+    margin-right: 10px;
+`
+
+// 게시글의 수정 및 삭제버튼을 바로 감싸고 있는 wrapper
+S.correctionButtonWrapper = styled.div`
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+// 수정 및 삭제 버튼을 스타일링한 styled component(button)
+S.correctionButton = styled.button`
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-size: 16px;
+        box-shadow: none;
+
+        & .pen path{
+            color : #142146;
+        }
+        & .pen:hover path{
+            color : #5f81f7;
+        }
+
+        & .trash path{
+            color: #142146;
+        }
+        & .trash:hover path{
+            color: #ec6863;
+        }
+        & .check path{
+            color: #142146;
+        }
+        & .exit path{
+            color: #142146;
+        }
+`
+
 // 게시글 본문 내용을 감싸는 wrapper(in OurDay)
 S.postContentWrapper = styled.div`
-    width: 100%;
-    height: 65%;
+    width: 300px;
+    height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
 `;
+
+S.postContentContainer = styled.div`
+    width : 100%;
+    height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & textarea:focus {
+        outline: none;
+    }
+`
+
+// 게시글의 본문 내용을 담고 있는 textarea
+S.todayPostText = styled.textarea`
+    width: 300px;
+    height: 180px;
+    font-family: 'Pretendard';
+    font-size: 15px;
+    border: none;
+    resize: none;
+`
+
+// 게시글 수정 상태시 버튼을 가지고 있는 container
+S.updateButtonContainer = styled.div`
+    width: 100%;
+    height: 15%;
+    display: flex;
+    align-items: center;
+`
+
+// 게시글 수정 상태시의 button을 바로 감싸고 있는 wrapper
+S.updateButtonWrapper =styled.div`
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+// 게시글의 수정 상태시 수정완료 버튼
+S.updateButton = styled.button`
+    border-radius: 20px;
+    border: none;
+    width: 100px;
+    height: 70%;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    background-color: #5487D3;
+    cursor: pointer;
+    font-size: 18px;
+    & .check path{
+        color: white;
+    }
+`
+// 게시글의 수정 상태시 수정취소 버튼
+S.cancelUpdateButton = styled.button`
+    border-radius: 20px;
+    border: none;
+    width: 100px;
+    height: 70%;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    background-color: #EE6161;
+    cursor: pointer;
+    font-size: 18px;
+    & .exit path{
+        color: white;
+    }
+`
+
+// *삭제 모달창 관련 styled component
+// modal 창의 관련 content를 담을 container
+S.modalContainer = styled.div`
+    width: 360px;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+`
+
+// 모달창을 직접 감싸는 wrapper
+S.modalWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 999;
+    top: 330px;
+    width: 320px;
+    height: 170px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+`
+
+// 모달창의 제목을 담을 h3
+S.modalTitle = styled.h3`
+    position: absolute;
+    top: 15px;
+    font-size: 20px;
+    font-weight: 600;
+`
+
+// 삭제 모달창의 자세한 설명을 감싸는 wrapper
+S.modalDescriptionWrapper = styled.div`
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+// 삭제 모달창의 내용을 직접 감싸는 p태그
+S.modalDescription = styled.p`
+    text-align: center;
+    color: #EE6161;
+`
+
+// 삭제 모달창의 취소와 확인 버튼을 담고있는 container
+S.modalButtonContainer = styled.div`
+    width : 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+`
+
+// 삭제 모달창의 버튼을 직접 감싸고 있는 wrapper
+S.modalButtonWrapper = styled.div`
+    width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+// 삭제 모달창의 취소 버튼
+S.modalCancelButton = styled.button`
+    background-color: #5487D3;
+    border: 2px #5487d3 solid;
+    width: 100px;
+    height: 44px;
+    color: #FFFFFF;
+    cursor: pointer;
+`
+
+// 삭제 모달창의 확인 버튼
+S.modalDeleteButton = styled.button`
+    background-color: #EE6161;
+    border: 2px #ee6161 solid;
+    width: 100px;
+    height: 44px;
+    color: #FFFFFF;
+    cursor: pointer;
+`
 
 // 게시글의 Reaction이 차지할 공간을 만드는 Container(in OurDay)
 S.reactionContainer = styled.div`
@@ -361,6 +565,124 @@ S.searchEmptyText = styled.p`
     font-size: 16px;
     color: #4d4e89;
     text-align: center;
+`;
+
+S.gap = styled.div`
+    width: 100%;
+    height: 70px;
+`
+
+// =========================Reaction==============================
+// Reaction(좋아요, 하트, 화남,... 댓글 등)을 감싸는 Wrapper
+S.reactionWrapper = styled.div`
+    width: 100%;
+    height: 15%;
+    ${flexCenter}
+`;
+
+
+// 댓글 icon을 담고 있는 Container
+S.commentIconContainer = styled.div`
+    width: 20%;
+    height: 20px;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    & .comment path{
+        color: #BEC1C5;
+        cursor: pointer;
+    }
+    & .comment:hover path{
+        color: #555657;
+        cursor: pointer;
+    }
+`;
+
+// 댓글 icon을 직접적으로 감싸는 wrapper
+S.commentIconWrapper = styled.div`
+    margin-left: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+S.commentCount = styled.div`
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+// emotion(좋아요, 하트, 화남, 슬픔 등)이 차지할 공간을 마련할 Container
+S.emotionContainer = styled.div`
+    width: 80%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+`;
+
+// emotion을 감싸는 Wrapper
+S.emotionWrapper = styled.ul`
+    display: flex;
+    list-style-type: none;
+    margin-left: auto;
+    font-size: 18px;
+    & .heart path{
+        color: #FF0000;
+        cursor: pointer;
+    }
+    & .thumbsUp path{
+        color: #0057FF;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    & .smile path{
+        color: #FDD608;
+        cursor: pointer;
+    }
+    & .sad path{
+        color: #0094FF;
+        cursor: pointer;
+    }
+    & .angry path{
+        color: #A50FEC;
+        cursor: pointer;
+    }
+`;   
+
+// emotion을 목록화해줄 list
+S.emotionList = styled.li`
+    display: flex;
+    margin-right: 5px;
+    padding: 0;
+`;
+
+// 유저가 클릭한 emotion의 수를 감싸는 wrapper
+S.reactionCountWrapper = styled.div`
+    width: 18px;
+    height: 18px;
+    text-align: center;
+`;
+
+
+
+// 댓글 icon클릭시 나타날 댓글창
+S.commentWindow = styled(motion.div)`
+    width: 360px;
+    height: 350px;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 20px;
+    position: fixed;
+    bottom: 95px;
+    overflow: scroll;
+    bottom: 16%;
+    &::-webkit-scrollbar{
+        width: 8px;
+        border-radius: 10px
+    }
 `;
 
 export default S;

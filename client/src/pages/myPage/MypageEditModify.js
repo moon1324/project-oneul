@@ -49,7 +49,7 @@ const MypageEditModify = () => {
                     const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
                     const data = await response.json();
                     setProfileImg(data.profileImg);
-                    console.log(data);
+                    console.log(data.profileImg);
                 } catch (error) {
                     console.error("Failed to fetch user profile image", error);
                 }
@@ -266,12 +266,17 @@ const MypageEditModify = () => {
     };
 
     const onSubmit = async (data) => {
+        console.log("data 출력 : ", data);
         const isPasswordValid = validatePassword();
         const isPasswordCheckValid = validatePasswordCheck();
         const isNameValid = validateName();
         const isMobileValid = await validateMobile();
         const isNicknameValid = await validateNickname();
-
+        // default이미지가 아니면 uploadProfileImg실행
+        if (profileImg && profileImg.startsWith("data:image")) {
+            await uploadProfileImg(profileImg);
+            console.log("changeProfileImg 확인: ", changeProfileImg);
+        }
         if (isPasswordValid && isPasswordCheckValid && isNameValid && isMobileValid && isNicknameValid) {
             try {
                 console.log(data);
@@ -305,7 +310,7 @@ const MypageEditModify = () => {
     };
 
     return (
-        <S.Form action="/user/upadate" onSubmit={handleSubmit(onSubmit)}>
+        <S.Form action="/user/update" onSubmit={handleSubmit(onSubmit)}>
             <S.PageTitle>
                 <h2>프로필 변경</h2>
             </S.PageTitle>

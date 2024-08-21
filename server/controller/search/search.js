@@ -1,4 +1,3 @@
-import MyMind from "../../models/myMindSchema.js";
 import OurToday from "../../models/ourTodaySchema.js";
 
 const searchKeyword = async (req, res) => {

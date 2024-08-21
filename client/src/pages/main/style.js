@@ -34,6 +34,7 @@ const S = {}
 // Box writing mymind
 
     S.BoxWritingMymind = styled.div`
+        height: 140px; 
         position: relative;
         border-radius: 1.25rem;
         background: linear-gradient(#5587D3, #C080BC);
