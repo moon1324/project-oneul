@@ -8,6 +8,7 @@ import { FormProvider } from "./pages/myMind/context/FormContext";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, setUserStatus } from "./modules/logIn";
+import { API_URL } from "./api/Api";
 
 function App() {
     const currentUser = useSelector((state) => state.login.currentUser);
@@ -17,7 +18,7 @@ function App() {
     // 최초 1번 토큰의 여부 검증
     useEffect(() => {
         const isAuthenticate = async () => {
-            const response = await fetch("http://localhost:8000/user/auth", {
+            const response = await fetch(`${API_URL}/user/auth`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,

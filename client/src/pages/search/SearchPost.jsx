@@ -7,6 +7,7 @@ import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from "react-redux";
 import useTextarea from "../../hooks/useTextarea";
 import Reaction from "../ourToday/Reaction";
+import { API_URL } from "../../api/Api";
 
 
 const SearchPost = ({ searchPosts, searchPost, setSearchUpdate, searchUpdate }) => {
@@ -53,7 +54,7 @@ const SearchPost = ({ searchPosts, searchPost, setSearchUpdate, searchUpdate }) 
         const fetchUserProfileImage = async () => {
             setTodayProfileImg("");
             try {
-                const response = await fetch(`http://localhost:8000/user/getProfile/${searchPost.userEmail}`);
+                const response = await fetch(`${API_URL}/user/getProfile/${searchPost.userEmail}`);
                 const data = await response.json();
                 setTodayProfileImg(data.profileImg);
             } catch (error) {
@@ -66,7 +67,7 @@ const SearchPost = ({ searchPosts, searchPost, setSearchUpdate, searchUpdate }) 
     const handleDeletePost = async () => {
         console.log(postId)
         try {
-            const response = await fetch(`http://localhost:8000/ourToday/delete`, {
+            const response = await fetch(`${API_URL}/ourToday/delete`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,7 +92,7 @@ const SearchPost = ({ searchPosts, searchPost, setSearchUpdate, searchUpdate }) 
     const handleUpdatePost = async () => {
         // console.log(postValue)
         try {
-            const response = await fetch(`http://localhost:8000/ourToday/update`, {
+            const response = await fetch(`${API_URL}/ourToday/update`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { API_URL } from "../../api/Api";
 
 const SignUpStep5 = () => {
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ const SignUpStep5 = () => {
         const formData = new FormData();
         formData.append("profileImg", blob, "profileImg.png");
 
-        const response = await fetch("http://localhost:8000/user/uploadProfileImg", {
+        const response = await fetch(`${API_URL}/user/uploadProfileImg`, {
             method: "POST",
             body: formData,
         });
@@ -46,7 +47,7 @@ const SignUpStep5 = () => {
 
     // 회원가입 로직 실행 함수
     const signUpUser = async (profileImg) => {
-        const response = await fetch("http://localhost:8000/user/signup", {
+        const response = await fetch(`${API_URL}/user/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

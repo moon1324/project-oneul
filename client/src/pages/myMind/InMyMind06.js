@@ -8,6 +8,7 @@ import TitleStep from "./TitleStep";
 import {FormContext } from "./context/FormContext";
 import { useContext, useState } from "react";
 import { useSelector } from "react-redux";
+import { API_URL } from "../../api/Api";
 
 const InMyMind06 = ({index}) => {
     
@@ -50,7 +51,7 @@ const InMyMind06 = ({index}) => {
             //MyMind 추가하기
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch("http://localhost:8000/myMind/post", {
+                const response = await fetch(`${API_URL}/myMind/post`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

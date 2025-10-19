@@ -6,6 +6,7 @@ import useInput from "../../hooks/useInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { API_URL } from "../../api/Api";
 
 const SearchInput = () => {
     const navigate = useNavigate();
@@ -57,7 +58,7 @@ const SearchInput = () => {
         const fetchUserProfileImage = async () => {
             if (currentUser && currentUser.email) {
                 try {
-                    const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
+                    const response = await fetch(`${API_URL}/user/getProfile/${currentUser.email}`);
                     const data = await response.json();
                     setProfileImg(data.profileImg);
                 } catch (error) {

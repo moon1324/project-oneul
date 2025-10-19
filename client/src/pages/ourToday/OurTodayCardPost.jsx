@@ -6,6 +6,7 @@ import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import Reaction from './Reaction';
 import useTextarea from '../../hooks/useTextarea';
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
+import { API_URL } from '../../api/Api';
 
 const OurTodayCardPost = ({
     posts, post, tabActive, setTabActive,
@@ -55,7 +56,7 @@ const OurTodayCardPost = ({
         setTodayProfileImg("");
         const fetchUserProfileImage = async () => {
             try {
-                    const response = await fetch(`http://localhost:8000/user/getProfile/${post.userEmail}`);
+                    const response = await fetch(`${API_URL}/user/getProfile/${post.userEmail}`);
                     const data = await response.json();
                     setTodayProfileImg(data.profileImg);
                 } catch (error) {
@@ -70,7 +71,7 @@ const OurTodayCardPost = ({
     const handleUpdatePost = async () => {
         // console.log(postValue)
         try {
-            const response = await fetch(`http://localhost:8000/ourToday/update`, {
+            const response = await fetch(`${API_URL}/ourToday/update`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -96,7 +97,7 @@ const OurTodayCardPost = ({
     const handleDeletePost = async () => {
         console.log(postId)
         try {
-            const response = await fetch(`http://localhost:8000/ourToday/delete`, {
+            const response = await fetch(`${API_URL}ourToday/delete`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

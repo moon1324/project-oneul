@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import S from './style';
 import Comment from './Comment';
+import { API_URL } from '../../api/Api';
 
 const CommentContainer = ({post, showWindow, setOurTodayCommentUpdate, 
     ourTodayCommentUpdate, getCommentLength,
@@ -14,7 +15,7 @@ const CommentContainer = ({post, showWindow, setOurTodayCommentUpdate,
     // 댓글 데이터 정보를 얻기 위한 fetch get method
     useEffect(()=>{ 
         const getComment = async () => {
-            const response = await fetch(`http://localhost:8000/ourToday/checkPostComment/${postId}`);
+            const response = await fetch(`${API_URL}/ourToday/checkPostComment/${postId}`);
             const dayComments = await response.json();
             return dayComments
         }

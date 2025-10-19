@@ -5,6 +5,7 @@ import {faAngleRight, faUserPen} from '@fortawesome/free-solid-svg-icons'
 import S from './style';
 import {useDispatch, useSelector} from 'react-redux'
 import { setUserLogout } from '../../modules/logIn';
+import { API_URL } from "../../api/Api";
 
 const MyPageMain = () => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const MyPageMain = () => {
 
     const logoutApi = async () => {
         try {
-            const response = await fetch("http://localhost:8000/user/logout", {
+            const response = await fetch(`${API_URL}/user/logout`, {
                 method: 'POST',
             });
 
@@ -41,7 +42,7 @@ const MyPageMain = () => {
         const fetchUserProfileImage = async () => {
             if (currentUser && currentUser.email) {
                 try {
-                    const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
+                    const response = await fetch(`${API_URL}/user/getProfile/${currentUser.email}`);
                     const data = await response.json();
                     setProfileImg(data.profileImg);
                 } catch (error) {
@@ -62,7 +63,7 @@ const MyPageMain = () => {
           
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:8000/myMind/getCalendar`,{
+                const response = await fetch(`${API_URL}/myMind/getCalendar`,{
                   method: 'GET',
                   headers: {
                     'Content-Type': 'application/json',

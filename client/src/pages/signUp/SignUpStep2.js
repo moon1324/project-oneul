@@ -8,6 +8,7 @@ import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import useInput from "../../hooks/useInput";
+import { API_URL } from "../../api/Api";
 
 const SignUpStep2 = () => {
     const navigate = useNavigate();
@@ -36,7 +37,7 @@ const SignUpStep2 = () => {
     // 전화번호 중복체크
     const checkMobileDuplicate = async (mobile) => {
         try {
-            const response = await fetch("http://localhost:8000/user/checkMobile", {
+            const response = await fetch(`${API_URL}/user/checkMobile`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import { faCircleXmark, faTrashCan, faPenToSquare } from "@fortawesome/free-regu
 import S from "./style";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import DeleteMyMind from "./DeleteMyMind";
+import { API_URL } from "../../api/Api";
 
 const CheckMyMind = () => {
     const [datas, setDatas] = useState([]);
@@ -18,7 +19,7 @@ const CheckMyMind = () => {
             //쿼리스트링으로 받은 날짜와 일치하는 마음일지 가져오기
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch(`http://localhost:8000/myMind/getMyMind?date=${date}`, {
+                const response = await fetch(`${API_URL}/myMind/getMyMind?date=${date}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

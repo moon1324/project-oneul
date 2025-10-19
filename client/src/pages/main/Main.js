@@ -7,6 +7,7 @@ import S from "./style";
 import BannerMain from "../banner/BannerMain";
 import { useSelector } from "react-redux";
 import OurTodayCardPost from "../ourToday/OurTodayCardPost";
+import { API_URL } from "../../api/Api";
 
 const Main = () => {
     const navigate = useNavigate();
@@ -44,7 +45,7 @@ const Main = () => {
         const fetchData = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:8000/myMind/getCalendar`,{
+                const response = await fetch(`${API_URL}/myMind/getCalendar`,{
                   method: 'GET',
                   headers: {
                     'Content-Type': 'application/json',
@@ -72,7 +73,7 @@ const Main = () => {
 
     useEffect(()=>{
         const getBestPost = async() => {
-            const response = await fetch(`http://localhost:8000/ourToday/checkBestPost`);
+            const response = await fetch(`${API_URL}/ourToday/checkBestPost`);
             const dayBestPost = await response.json();
             return dayBestPost; 
         }

@@ -8,6 +8,7 @@ import Input from "../../components/input/style";
 import OneulButton from "../../components/button/OneulButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { API_URL } from "../../api/Api";
 
 const LogIn = () => {
     const navigate = useNavigate();
@@ -36,7 +37,7 @@ const LogIn = () => {
     const onSubmit = async (data) => {
         try {
             // const response = await fetch("http://localhost:8000/user/login", {
-            const response = await fetch("http://localhost:8000/user/passportLogin", {
+            const response = await fetch(`${API_URL}/user/passportLogin`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
