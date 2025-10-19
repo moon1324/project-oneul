@@ -3,6 +3,7 @@ import S from "./style";
 import EmptyPostAlarm from "./EmptyPostAlarm";
 import SearchPost from "./SearchPost";
 import { useLocation } from "react-router-dom";
+import { API_URL } from "../../api/Api";
 
 const SearchPosts = () => {
     const [searchPosts, setSearchPosts] = useState([]);
@@ -17,7 +18,7 @@ const SearchPosts = () => {
     useEffect(() => {
         const getPosts = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/search?value=${searchValue}`);
+                const response = await fetch(`${API_URL}/search?value=${searchValue}`);
                 const data = await response.json();
                 setSearchPosts(data);
                 console.log(searchPosts);

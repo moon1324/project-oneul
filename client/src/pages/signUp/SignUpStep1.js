@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { API_URL } from "../../api/Api";
 
 const SignUpStep1 = () => {
     const navigate = useNavigate();
@@ -32,7 +33,7 @@ const SignUpStep1 = () => {
     // 이메일 중복체크
     const checkEmailDuplicate = async (email) => {
         try {
-            const response = await fetch("http://localhost:8000/user/checkEmail", {
+            const response = await fetch(`${API_URL}/user/checkEmail`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

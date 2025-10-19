@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faPenToSquare, faTrashCan, faX } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import useInput from '../../hooks/useInput';
+import { API_URL } from '../../api/Api';
 
 const Comment = ({replyComment, showWindow, setOurTodayCommentUpdate, 
     ourTodayCommentUpdate, handleCommentModal
@@ -35,7 +36,7 @@ const Comment = ({replyComment, showWindow, setOurTodayCommentUpdate,
     useEffect(() => {
         const fetchUserProfileImage = async () => {
             try {
-                    const response = await fetch(`http://localhost:8000/user/getProfile/${replyComment.commentUser}`);
+                    const response = await fetch(`${API_URL}user/getProfile/${replyComment.commentUser}`);
                     const data = await response.json();
                     setTodayCommentProfileImg(data.profileImg);
                 } catch (error) {
@@ -49,7 +50,7 @@ const Comment = ({replyComment, showWindow, setOurTodayCommentUpdate,
     const handleUpdateComment = async () => {
         // console.log(commentValue)
         try {
-            const response = await fetch(`http://localhost:8000/ourToday/updateComment`, {
+            const response = await fetch(`${API_URL}/ourToday/updateComment`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

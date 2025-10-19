@@ -5,6 +5,7 @@ import { faHeartCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import {} from "@fortawesome/free-regular-svg-icons"
 import Button from "../../components/button/style";
 import {useNavigate} from "react-router-dom";
+import { API_URL } from "../../api/Api";
 
 const MyMindHome = () => {
     
@@ -26,7 +27,7 @@ const MyMindHome = () => {
             //오늘 날짜 마음일지 가져오기
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:8000/myMind/getTodayExistence?date=${checkToday}`, {
+                const response = await fetch(`${API_URL}/myMind/getTodayExistence?date=${checkToday}`, {
                   method: 'GET',
                   headers: {
                     'Content-Type': 'application/json',

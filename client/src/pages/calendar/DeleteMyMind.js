@@ -2,6 +2,7 @@ import React from 'react';
 import S from './style';
 import {useNavigate } from 'react-router-dom';
 import Button from '../../components/button/style';
+import { API_URL } from '../../api/Api';
 
 const DeleteMyMind = ({visible,setVisible,date}) => {
 
@@ -11,7 +12,7 @@ const DeleteMyMind = ({visible,setVisible,date}) => {
     //마음일지 삭제하기
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8000/myMind/delete', {
+        const response = await fetch(`${API_URL}/myMind/delete`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

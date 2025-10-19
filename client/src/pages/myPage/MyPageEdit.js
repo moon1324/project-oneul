@@ -7,6 +7,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
 import {useForm} from 'react-hook-form';
 import { useDispatch, useSelector } from "react-redux";
+import { API_URL } from '../../api/Api';
 
 const MyPageEdit = () => {
 
@@ -29,7 +30,7 @@ const MyPageEdit = () => {
         const fetchUserProfileImage = async () => {
             if (currentUser && currentUser.email) {
                 try {
-                    const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
+                    const response = await fetch(`${API_URL}/user/getProfile/${currentUser.email}`);
                     const data = await response.json();
                     setProfileImg(data.profileImg);
                     console.log(data);

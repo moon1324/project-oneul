@@ -6,6 +6,7 @@ import { faCloudMoon } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../../components/button/style";
 import { useSelector } from "react-redux";
+import { API_URL } from "../../api/Api";
 
 const ModifyMyMind = () => {
     const currentUser = useSelector((state) => state.login.currentUser);
@@ -20,7 +21,7 @@ const ModifyMyMind = () => {
             //마음일지 가져오기
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch(`http://localhost:8000/myMind/getMyMind?date=${date}`, {
+                const response = await fetch(`${API_URL}/myMind/getMyMind?date=${date}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -52,7 +53,7 @@ const ModifyMyMind = () => {
         //마음일지 수정하기
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`http://localhost:8000/myMind/update?date=${date}`, {
+            const response = await fetch(`${API_URL}/myMind/update?date=${date}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

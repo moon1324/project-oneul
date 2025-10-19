@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import useInput from "../../hooks/useInput";
+import { API_URL } from "../../api/Api";
 
 const MypageEditModify = () => {
     const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const MypageEditModify = () => {
         const fetchUserProfileImage = async () => {
             if (currentUser && currentUser.email) {
                 try {
-                    const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
+                    const response = await fetch(`${API_URL}/user/getProfile/${currentUser.email}`);
                     const data = await response.json();
                     setProfileImg(data.profileImg);
                     console.log(data.profileImg);
@@ -275,7 +276,7 @@ const MypageEditModify = () => {
         // default이미지가 아니면 uploadProfileImg실행
         if (profileImg && profileImg.startsWith("data:image")) {
             await uploadProfileImg(profileImg);
-            console.log("changeProfileImg 확인: ", changeProfileImg);
+            console.log("changeProfileImg 확인: ", profileImg);
         }
         if (isPasswordValid && isPasswordCheckValid && isNameValid && isMobileValid && isNicknameValid) {
             try {

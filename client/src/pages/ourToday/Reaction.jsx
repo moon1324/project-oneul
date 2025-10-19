@@ -6,6 +6,7 @@ import S from './style';
 import CommentInsert from './CommentInsert';
 import { useSelector } from 'react-redux';
 import CommentContainer from './CommentContainer';
+import { API_URL } from '../../api/Api';
 
 // {comments, isCommentUpdate, setIsCommentUpdate}
 const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpdate}) => {
@@ -65,7 +66,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
     const handleUpdateHeartReaction = async() => {
         console.log(post.heart)
         if(post.heart.includes(currentUser.email)){
-            const response = await fetch(`http://localhost:8000/ourToday/minusPostHeartReaction`, {
+            const response = await fetch(`${API_URL}/ourToday/minusPostHeartReaction`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -82,7 +83,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
                 console.error('Failed to update post');
             }
         }else{
-            const response = await fetch(`http://localhost:8000/ourToday/plusPostHeartReaction`, {
+            const response = await fetch(`${API_URL}/ourToday/plusPostHeartReaction`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,7 +105,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
     // Like 리액션 클릭시 클릭한 유저의 이메일을 추가 또는 삭제할 fetch요청
     const handleUpdateLikeReaction = async() => {
         if(post.like.includes(currentUser.email)){
-            const response = await fetch(`http://localhost:8000/ourToday/minusPostLikeReaction`, {
+            const response = await fetch(`${API_URL}/ourToday/minusPostLikeReaction`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -121,7 +122,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
                 console.error('Failed to update post');
             }
         }else{
-            const response = await fetch(`http://localhost:8000/ourToday/plusPostLikeReaction`, {
+            const response = await fetch(`${API_URL}/ourToday/plusPostLikeReaction`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -143,7 +144,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
     // 웃는 표정 reaction 클릭시 유저의 이메일 정보를 받아 처리할 fetch요청
     const handleUpdateSmileReaction = async() => {
         if(post.smile.includes(currentUser.email)){
-            const response = await fetch(`http://localhost:8000/ourToday/minusPostSmileReaction`, {
+            const response = await fetch(`${API_URL}/ourToday/minusPostSmileReaction`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -160,7 +161,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
                 console.error('Failed to update post');
             }
         }else{
-            const response = await fetch(`http://localhost:8000/ourToday/plusPostSmileReaction`, {
+            const response = await fetch(`${API_URL}/ourToday/plusPostSmileReaction`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -182,7 +183,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
     // 슬픔 reaction 클릭시 유저의 이메일 정보를 받아 처리할 fetch 요청
     const handleUpdateSadReaction = async() => {
         if(post.sad.includes(currentUser.email)){
-            const response = await fetch(`http://localhost:8000/ourToday/minusPostSadReaction`, {
+            const response = await fetch(`${API_URL}/ourToday/minusPostSadReaction`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -199,7 +200,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
                 console.error('Failed to update post');
             }
         }else{
-            const response = await fetch(`http://localhost:8000/ourToday/plusPostSadReaction`, {
+            const response = await fetch(`${API_URL}/ourToday/plusPostSadReaction`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -221,7 +222,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
     // 화남 reaction 클릭시 유저의 이메일 정보를 받아 처리할 fetch 요청
     const handleUpdateAngryReaction = async() => {
         if(post.angry.includes(currentUser.email)){
-            const response = await fetch(`http://localhost:8000/ourToday/minusPostAngryReaction`, {
+            const response = await fetch(`${API_URL}/ourToday/minusPostAngryReaction`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -238,7 +239,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
                 console.error('Failed to update post');
             }
         }else{
-            const response = await fetch(`http://localhost:8000/ourToday/plusPostAngryReaction`, {
+            const response = await fetch(`${API_URL}/ourToday/plusPostAngryReaction`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -276,7 +277,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
         const getCommentCount = async () => {
             // console.log(postId)
             try{
-                const response = await fetch(`http://localhost:8000/ourToday//checkPostComment/${postId}`);
+                const response = await fetch(`${API_URL}/ourToday/checkPostComment/${postId}`);
                 const comments = await response.json();
                 // console.log(comment.length)
                 setCommentCount(comments.length);
@@ -291,7 +292,7 @@ const Reaction = ({post, tabActive, setTabActive, setOurTodayUpdate, ourTodayUpd
     const handleDeleteComment = async () => {
         console.log(commentIdToDelete)
         try {
-            const response = await fetch(`http://localhost:8000/ourToday/deleteComment`, {
+            const response = await fetch(`${API_URL}/ourToday/deleteComment`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

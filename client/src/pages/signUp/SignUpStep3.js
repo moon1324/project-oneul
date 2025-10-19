@@ -8,6 +8,7 @@ import { updateSignUpData, resetSignUpData } from "../../modules/signUp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import useInput from "../../hooks/useInput";
+import { API_URL } from "../../api/Api";
 
 const SignUpNickname = () => {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ const SignUpNickname = () => {
     // 닉네임 중복체크
     const checkNicknameDuplicate = async (nickname) => {
         try {
-            const response = await fetch("http://localhost:8000/user/checkNickname", {
+            const response = await fetch(`${API_URL}/user/checkNickname`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

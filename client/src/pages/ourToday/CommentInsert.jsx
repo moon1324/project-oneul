@@ -4,6 +4,7 @@ import useInput from '../../hooks/useInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
+import { API_URL } from '../../api/Api';
 
 const CommentInsert = ({post, showWindow, setOurTodayCommentUpdate, ourTodayCommentUpdate, commentLength}) => {
     // 댓글 입력창의 입력 input을 관리하기 위한 훅함수
@@ -24,7 +25,7 @@ const CommentInsert = ({post, showWindow, setOurTodayCommentUpdate, ourTodayComm
     const createComment = async () => {
         console.log(value);
         try {
-            const response = await fetch(`http://localhost:8000/ourToday/writeComment`, {
+            const response = await fetch(`${API_URL}/ourToday/writeComment`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ const CommentInsert = ({post, showWindow, setOurTodayCommentUpdate, ourTodayComm
     useEffect(() => {
         const fetchUserProfileImage = async () => {
             try {
-                    const response = await fetch(`http://localhost:8000/user/getProfile/${currentUser.email}`);
+                    const response = await fetch(`${API_URL}/user/getProfile/${currentUser.email}`);
                     const data = await response.json();
                     setTodayProfileImg(data.profileImg);
                 } catch (error) {

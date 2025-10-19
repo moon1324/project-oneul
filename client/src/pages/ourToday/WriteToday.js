@@ -4,6 +4,7 @@ import useTextarea from '../../hooks/useTextarea';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { API_URL } from '../../api/Api';
 
 const WriteToday = () => {
     const navigate = useNavigate()
@@ -16,7 +17,7 @@ const WriteToday = () => {
         console.log(data);
         console.log(currentUser.profileImg);
         try {
-            const response = await fetch("http://localhost:8000/ourToday/write", {
+            const response = await fetch(`${API_URL}/ourToday/write`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

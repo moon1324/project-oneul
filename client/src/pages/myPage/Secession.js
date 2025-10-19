@@ -6,6 +6,7 @@ import S from './style'
 import {useNavigate} from 'react-router-dom'
 import {useDispatch,useSelector} from "react-redux"
 import {deleteUser} from '../../modules/logIn'
+import { API_URL } from '../../api/Api';
 
 const Secession = () => {
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Secession = () => {
                 throw new Error('No authentication token found');
             }
     
-            const response = await fetch('http://localhost:8000/user/delete', {
+            const response = await fetch(`${API_URL}/user/delete`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}` // JWT 토큰을 헤더에 포함

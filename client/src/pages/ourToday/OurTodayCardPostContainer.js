@@ -3,6 +3,7 @@ import S from './style';
 import { useSelector } from 'react-redux';
 import OurTodayCardPost from './OurTodayCardPost';
 import { useLocation } from 'react-router-dom';
+import { API_URL } from '../../api/Api';
 
 const OurTodayCardPostContainer = ({tabActive, setTabActive}) => {
     // 게시글 데이터 정보를 담기위한 상태관리
@@ -17,11 +18,11 @@ const OurTodayCardPostContainer = ({tabActive, setTabActive}) => {
     // 게시글의 데이터 정보를 불러올 fetch GET method
     const getPost = async () => {
         if(tabActive === "myToday") {
-            const response = await fetch(`http://localhost:8000/ourToday/checkMyPost/${currentUser.email}`);
+            const response = await fetch(`${API_URL}/ourToday/checkMyPost/${currentUser.email}`);
             const dayPosts = await response.json();
             return dayPosts
         }else if(tabActive === "ourToday"){
-            const response = await fetch(`http://localhost:8000/ourToday/checkPost`);
+            const response = await fetch(`${API_URL}/ourToday/checkPost`);
             const dayPosts = await response.json();
             return dayPosts
         }

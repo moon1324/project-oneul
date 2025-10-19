@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import classNames from "classnames/bind";
 import S from './style';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../api/Api';
 
 const cx = classNames.bind(S);
 
@@ -28,7 +29,7 @@ const CalendarHome = () => {
         
           try {
               const token = localStorage.getItem('token');
-              const response = await fetch(`http://localhost:8000/myMind/getCalendar`,{
+              const response = await fetch(`${API_URL}/myMind/getCalendar`,{
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json',
