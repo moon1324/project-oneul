@@ -97,7 +97,7 @@ const OurTodayCardPost = ({
     const handleDeletePost = async () => {
         console.log(postId)
         try {
-            const response = await fetch(`${API_URL}ourToday/delete`, {
+            const response = await fetch(`${API_URL}/ourToday/delete`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
