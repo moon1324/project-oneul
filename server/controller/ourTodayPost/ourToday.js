@@ -427,6 +427,10 @@ const getOurTodayBestPost = async(req, res) => {
                     // (즉 최신글 순으로 정렬)
                     _id: -1
                 }
+            },
+            {
+                // 상위 1개만 가져오기
+                $limit: 1
             }
         ]);
 
@@ -434,7 +438,7 @@ const getOurTodayBestPost = async(req, res) => {
 
         // 만일 bestPost가 존재한다면
         if (bestPost.length > 0) {
-            return res.status(200).json(bestPost);
+            return res.status(200).json(bestPost[0]);
         } else {
             return res.status(404).json({
                 message: '게시글이 존재하지 않습니다.'

@@ -18,7 +18,7 @@ const Main = () => {
     
     const [data, setData] = useState([]);
     const [calendarData, setCalendarData] = useState([]);
-    const [postData, setPostData] = useState([]);
+    const [postData, setPostData] = useState(null);
     // 게시글의 정보가 update됨을 관리할 상태 관리
     const [ourTodayUpdate, setOurTodayUpdate] = useState(false);
 
@@ -75,10 +75,14 @@ const Main = () => {
         const getBestPost = async() => {
             const response = await fetch(`${API_URL}/ourToday/checkBestPost`);
             const dayBestPost = await response.json();
-            return dayBestPost; 
+            if (dayBestPost.message === '게시글이 존재하지 않습니다.') {
+                setPostData(null);
+            } else if (dayBestPost) {
+                setPostData(dayBestPost);
+            }
         }
         
-        getBestPost().then(setPostData);
+        getBestPost();
     },[location.path, ourTodayUpdate])
     console.log("dDDd",postData);
 
@@ -172,18 +176,14 @@ const Main = () => {
                         </Link>
                     </div>
                     <div className="body">
-                        { postData && postData.map((post, i) =>{
-                            if(i === 0){
-                                 return <OurTodayCardPost 
-                                 post={post}
-                                 key={i}
-                                 posts={postData} 
-                                 ourTodayUpdate={ourTodayUpdate}
-                                 setOurTodayUpdate={setOurTodayUpdate}
-                                 />
-                            }
-                        })
-                        }
+                        {postData && (
+                            <OurTodayCardPost
+                                post={postData}
+                                posts={[postData]} // 필요하다면 배열 형태로 넘기기
+                                ourTodayUpdate={ourTodayUpdate}
+                                setOurTodayUpdate={setOurTodayUpdate}
+                            />
+                        )}
                     </div>
                 </S.BoxForOurToday>
             </S.Wrapper>
