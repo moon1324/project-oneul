@@ -6,7 +6,7 @@ import User from "../models/userSchema.js";
 import dotenv from "dotenv";
 
 dotenv.config();
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY || "mySecretKey";
 
 // passport 인증 기능 설정
 // username, password
@@ -30,7 +30,7 @@ const passportVerify = async (email, password, done) => {
         }
         // 비밀번호가 같다면 유저 데이터를 객체로 전송
         return done(null, user);
-    } catch {
+    } catch (error) {
         console.error(error);
         done(error);
     }

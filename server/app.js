@@ -1,10 +1,10 @@
+import dotenv from "dotenv";
 import express from "express";
 import session from 'express-session'
 import connect from "./connect/connect.js";
 import bodyParser from "body-parser";
 import cors from "cors";
 import rootRouter from "./routes/rootRouter.js";
-import dotenv from "dotenv";
 import passport from "passport";
 import { initializePassport } from "./auth/auth.js";
 import morgan from 'morgan';
@@ -14,8 +14,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 // .env 파일에서 환경변수 불러오기
 dotenv.config();
 const { PORT } = process.env;
-
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY || "mySecretKey";
 
 // MongoDB 연결
 connect();
@@ -79,7 +78,7 @@ app.use("/images", express.static("images"));
 
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.SECRET_KEY,
+    secretOrKey: SECRET_KEY,
 };
 
 passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
